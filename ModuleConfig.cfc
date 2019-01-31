@@ -66,7 +66,7 @@ component {
         }
 
         if (!wirebox.getInstance('filesystem').isWindows()) {
-            cfexecute( name = 'chmod +x "#executablePath#"', timeout=10);
+            cfexecute(name='chmod +x "#executablePath#"' timeout=10);
         }
     }
 
