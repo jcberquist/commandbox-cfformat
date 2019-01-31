@@ -28,6 +28,8 @@ component {
     function ensureExecutableExists(executablePath, downloadURL) {
         if (fileExists(executablePath)) return;
 
+        directoryCreate(getDirectoryFromPath(executablePath), true, true);
+
         var job = wirebox.getInstance('InteractiveJob');
         job.start(
             'cftokens executable [#executablePath.listLast('/')#] not found.  Please wait for a moment while it is downloaded.'
@@ -61,6 +63,10 @@ component {
                 fileDelete(executablePath);
             }
             job.error(dumplog = true);
+        }
+
+        if (!wirebox.getInstance('filesystem').isWindows()) {
+            cfexecute( name = 'chmod +x "#executablePath#"', timeout=10);
         }
     }
 
