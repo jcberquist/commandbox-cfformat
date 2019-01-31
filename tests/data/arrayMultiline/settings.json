@@ -1,0 +1,11 @@
+[
+    {
+        "array.multiline.element_count": 4,
+        "array.multiline.min_length": 1
+    },
+    {
+        "array.multiline.element_count": 4,
+        "array.multiline.min_length": 1,
+        "array.multiline.leading_comma": true
+    }
+]

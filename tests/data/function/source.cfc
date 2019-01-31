@@ -1,0 +1,5 @@
+//
+component {
+public any function test(required string testString key=true ) {
+return testString;}
+}

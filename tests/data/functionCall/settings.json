@@ -1,0 +1,8 @@
+[
+    {
+        "function_call.padding": true
+    },
+    {
+        "function_call.multiline.min_length": 1
+    }
+]

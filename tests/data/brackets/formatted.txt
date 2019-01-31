@@ -1,0 +1,5 @@
+a['key'] = 10;
+b[c] = true;
+~
+a[ 'key' ] = 10;
+b[ c ] = true;

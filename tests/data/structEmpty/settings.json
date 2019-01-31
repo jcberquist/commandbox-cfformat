@@ -1,0 +1,8 @@
+[
+    {
+        "struct.empty_padding": true
+    },
+    {
+        "struct.empty_padding": false
+    }
+]

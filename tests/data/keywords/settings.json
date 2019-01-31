@@ -1,0 +1,11 @@
+[
+    {},
+    {
+        "keywords.block_to_keyword_spacing": "newline",
+        "keywords.empty_group_spacing": false,
+        "keywords.group_to_block_spacing": "newline",
+        "keywords.padding_inside_group": false,
+        "keywords.spacing_to_block": "newline",
+        "keywords.spacing_to_group": false
+    }
+]
