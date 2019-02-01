@@ -4,7 +4,7 @@ isWindows = createObject( 'java', 'java.lang.System' )
     .getProperty( 'os.name' )
     .lcase()
     .contains( 'win' );
-binary = isWindows ? 'cftokens.exe' : 'cftokens';
+binary = isWindows ? 'cftokens.exe' : 'cftokens_osx';
 cftokensVersion = deserializeJSON( fileRead( expandPath( '/box.json' ) ) ).cftokens;
 
 // generate token json files

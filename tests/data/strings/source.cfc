@@ -1,5 +1,5 @@
 //
 a = "test";
-b = "";
+b = """";
 http url="example.com";
 d = "ab'cd";

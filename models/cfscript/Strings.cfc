@@ -30,6 +30,7 @@ component {
                 var fragment = token[1];
                 if (element.type == 'string-double' && quote == '''') {
                     fragment = fragment.replace('''', '''''', 'all');
+                    fragment = fragment.replace('""', '"', 'all');
                 }
                 formatted &= fragment;
             } else {
