@@ -108,12 +108,12 @@ component accessors="true" {
                 formattedText &= settings.lf;
                 formattedText &= repeatString('    ', indent - 1);
                 continue;
-            } else if (cftokens.peekText(chr(10))) {
+            } else if (cftokens.peekNewline()) {
                 // consume newline
                 cftokens.next(false);
                 formattedText &= settings.lf;
                 cftokens.consumeWhitespace();
-                if (cftokens.peekText(chr(10))) {
+                if (cftokens.peekNewline()) {
                     // only allow two consecutive newlines
                     formattedText &= settings.lf;
                     cftokens.consumeWhitespace(true);

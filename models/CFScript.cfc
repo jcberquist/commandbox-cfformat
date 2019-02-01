@@ -90,12 +90,12 @@ component accessors="true" {
             if (handledByPrinter) continue;
 
             // check for newline
-            if (cftokens.peekText(chr(10))) {
+            if (cftokens.peekNewline()) {
                 // consume newline and following whitespace
                 cftokens.next(false);
                 cftokens.consumeWhitespace();
                 formattedText &= settings.lf;
-                if (!cftokens.peekText(chr(10))) {
+                if (!cftokens.peekNewline()) {
                     formattedText &= cfformat.indentTo(indent, settings);
                 }
                 columnOffset = indent * settings.indent_size;

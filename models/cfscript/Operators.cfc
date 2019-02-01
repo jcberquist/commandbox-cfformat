@@ -28,7 +28,7 @@ component {
                 var spacer = settings['binary_operators.padding'] ? ' ' : '';
                 var token = cftokens.next(whitespace = false);
                 cftokens.consumeWhiteSpace();
-                return spacer & token[1] & (cftokens.peekText(chr(10)) ? '' : spacer);
+                return spacer & token[1] & (cftokens.peekNewline() ? '' : spacer);
             }
         }
 
@@ -37,7 +37,7 @@ component {
                 var spacer = ' ';
                 var token = cftokens.next(whitespace = false);
                 cftokens.consumeWhiteSpace();
-                return spacer & token[1] & (cftokens.peekText(chr(10)) ? '' : spacer);
+                return spacer & token[1] & (cftokens.peekNewline() ? '' : spacer);
             }
         }
 

@@ -37,7 +37,7 @@ component {
         if (!isArray(token) || token[1].trim() != '') {
             previousTokenIndex = index;
             previousTextTokenIndex = index;
-        } else if (token[1] == chr(10)) {
+        } else if (token[1].trim() == '' && token[1].endswith(chr(10))) {
             previousTokenIndex = index;
         }
 
@@ -83,6 +83,16 @@ component {
     boolean function peekScopes(scopes, textOnly = false) {
         var i = textOnly ? nextTextTokenIndex : nextTokenIndex;
         return i <= tokens.len() && isArray(tokens[i]) && tokenMatches(tokens[i], scopes);
+    }
+
+    boolean function peekNewline(textOnly = false) {
+        var i = textOnly ? nextTextTokenIndex : nextTokenIndex;
+        return (
+            i <= tokens.len() &&
+            isArray(tokens[i]) &&
+            tokens[i][1].trim() == '' &&
+            tokens[i][1].endswith(chr(10))
+        );
     }
 
     boolean function peekScopeStartsWith(scopeString, textOnly = false) {
@@ -168,7 +178,7 @@ component {
     function collectExpr() {
         var tokens = [];
         while (hasNext()) {
-            if (peekText(chr(10)) || peekText(';')) {
+            if (peekNewline() || peekText(';')) {
                 break;
             }
             tokens.append(next());
@@ -184,7 +194,11 @@ component {
             isArray(tokens[nextTextTokenIndex]) &&
             tokens[nextTextTokenIndex][1].trim() == ''
         ) {
-            if (tokens[nextTextTokenIndex][1] == chr(10) && !nextTokenIndex) {
+            if (
+                tokens[nextTextTokenIndex][1].trim() == '' &&
+                tokens[nextTextTokenIndex][1].endswith(chr(10)) &&
+                !nextTokenIndex
+            ) {
                 nextTokenIndex = nextTextTokenIndex;
             }
             nextTextTokenIndex++;

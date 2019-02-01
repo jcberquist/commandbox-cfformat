@@ -80,7 +80,7 @@ component accessors="true" {
         );
         formattedText &= endTagTxt;
 
-        if (!cftokens.peekText(chr(10))) {
+        if (!cftokens.peekNewline()) {
             cftokens.consumeWhitespace();
             formattedText &= settings.lf & cfformat.indentTo(indent, settings);
         }

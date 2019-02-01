@@ -76,11 +76,11 @@ component {
             formatted &= settings.lf & cfformat.indentTo(indent, settings) & '*/';
         }
 
-        if (cftokens.peekText(chr(10))) {
+        if (cftokens.peekNewline()) {
             formatted &= settings.lf;
             cftokens.next(false);
         }
-        if (!cftokens.peekText(chr(10))) {
+        if (!cftokens.peekNewline()) {
             cftokens.consumeWhiteSpace();
             formatted &= cfformat.indentTo(indent, settings);
         }
