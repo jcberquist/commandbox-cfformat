@@ -1,22 +1,22 @@
 {
-    "author": "John Berquist",
-    "bugs": "https://github.com/jcberquist/commandbox-cfformat/issues",
-    "cftokens": "v0.1.0",
-    "devDependencies": {
-        "testbox": "^2.8.0+191"
+    "author":"John Berquist",
+    "bugs":"https://github.com/jcberquist/commandbox-cfformat/issues",
+    "cftokens":"v0.1.0",
+    "devDependencies":{
+        "testbox":"^2.8.0+191"
     },
-    "homepage": "https://github.com/jcberquist/commandbox-cfformat",
-    "installPaths": {
-        "testbox": "testbox"
+    "homepage":"https://github.com/jcberquist/commandbox-cfformat",
+    "installPaths":{
+        "testbox":"testbox/"
     },
-    "license": [
+    "license":[
         {
-            "URL": "http://opensource.org/licenses/MIT",
-            "type": "MIT"
+            "type":"MIT",
+            "URL":"http://opensource.org/licenses/MIT"
         }
     ],
-    "location": "jcberquist/commandbox-cfformat#v0.1.0",
-    "slug": "commandbox-cfformat",
-    "type": "commandbox-modules",
-    "version": "0.1.0"
+    "location":"jcberquist/commandbox-cfformat#v0.1.0",
+    "slug":"commandbox-cfformat",
+    "type":"commandbox-modules",
+    "version":"0.1.0"
 }
