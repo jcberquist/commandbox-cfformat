@@ -9,7 +9,7 @@ component extends=tests.FormatBaseSpec {
                 runTests(loadData('functionCallAnonFunction'));
             });
             it('special cases single struct or array parameters', function() {
-                runTests(loadData('functionCallStructOrArray'), true);
+                runTests(loadData('functionCallStructOrArray'));
             });
         });
     }
