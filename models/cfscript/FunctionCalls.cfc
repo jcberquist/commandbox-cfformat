@@ -42,36 +42,44 @@ component {
         var tokenArrays = element.delimited_elements.map((tokens) => cfformat.cftokens(tokens));
 
         var anonFuncs = tokenArrays
-            .map((cftokens) => {
-                var token = cftokens.peek(true);
+            .map((_cftokens) => {
+                var token = _cftokens.peek(true);
                 return !isNull(token) && (
-                    isArray(token) ? cftokens.tokenMatches(token, anonFuncScopes) : token.type == 'function-parameters'
+                    isArray(token) ? _cftokens.tokenMatches(token, anonFuncScopes) : token.type == 'function-parameters'
                 );
             })
             .toList();
 
-        var printedElements = [];
-        var anonFuncPrint = false;
+        var structOrArray = tokenArrays
+            .map((_cftokens) => {
+                var token = _cftokens.peek(true);
+                return !isNull(token) &&
+                    isStruct(token) && ['struct', 'array'].find(token.type);
+            })
+            .toList();
 
-        // special case anonymous function arguments
-        if (anonFuncs == 'true') {
+        var printedElements = [];
+        var inlinePrint = false;
+
+        // special case anonymous function arguments and single struct or array params
+        if (anonFuncs == 'true' || structOrArray == 'true') {
             printedElements.append(cfformat.cfscript.print(tokenArrays[1], settings, indent).trim());
-            anonFuncPrint = true;
+            inlinePrint = true;
         } else if (anonFuncs == 'true,false') {
             printedElements.append(cfformat.cfscript.print(tokenArrays[2], settings, indent + 1).trim());
             var anonFuncIndent = indent + 1;
             if (!printedElements[1].find(chr(10))) {
                 anonFuncIndent--;
-                anonFuncPrint = true;
+                inlinePrint = true;
             }
             printedElements.prepend(cfformat.cfscript.print(tokenArrays[1], settings, anonFuncIndent).trim());
-            anonFuncPrint = true;
+            inlinePrint = true;
         } else if (anonFuncs == 'false,true') {
             printedElements.append(cfformat.cfscript.print(tokenArrays[1], settings, indent + 1).trim());
             var anonFuncIndent = indent + 1;
             if (!printedElements[1].find(chr(10))) {
                 anonFuncIndent--;
-                anonFuncPrint = true;
+                inlinePrint = true;
             }
             printedElements.append(cfformat.cfscript.print(tokenArrays[2], settings, anonFuncIndent).trim());
         } else {
@@ -88,7 +96,7 @@ component {
         var delimiter = ', ';
         var formatted = '(' & spacer & printedElements.tolist(delimiter) & spacer & ')';
 
-        if (anonFuncPrint) return formatted;
+        if (inlinePrint) return formatted;
 
         if (
             (

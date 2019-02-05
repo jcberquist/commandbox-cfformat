@@ -1,0 +1,8 @@
+[
+    {
+        "struct.multiline.element_count": 1, 
+        "struct.multiline.min_length": 1,
+        "array.multiline.element_count": 1, 
+        "array.multiline.min_length": 1
+    }
+]

@@ -8,6 +8,9 @@ component extends=tests.FormatBaseSpec {
             it('special cases anonymous function parameters', function() {
                 runTests(loadData('functionCallAnonFunction'));
             });
+            it('special cases single struct or array parameters', function() {
+                runTests(loadData('functionCallStructOrArray'), true);
+            });
         });
     }
 
