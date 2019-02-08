@@ -16,6 +16,7 @@
         }
     ],
     "location":"jcberquist/commandbox-cfformat#v0.3.1",
+    "name": "cfformat",
     "shortDescription":"A CommandBox module for formatting CFML component files.",
     "slug":"commandbox-cfformat",
     "type":"commandbox-modules",
