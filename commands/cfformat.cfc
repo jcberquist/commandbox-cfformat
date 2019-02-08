@@ -48,14 +48,14 @@ component accessors="true" {
         if (fileExists(fullPath)) {
             formatFile(
                 fullPath,
-                userSettings,
+                userSettings.settings,
                 overwrite,
                 timeit
             );
         } else if (directoryExists(fullPath)) {
             formatDirectory(
                 fullPath,
-                userSettings,
+                userSettings.settings,
                 overwrite,
                 timeit
             );
