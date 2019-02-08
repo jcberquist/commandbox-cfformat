@@ -1,10 +1,11 @@
 /**
- * Formats script and tag components
- * .
- * {code:bash}
- * cfformat path/to/MyComponent.cfc
- * {code}
- **/
+* Formats script and tag components
+*
+* {code:bash}
+* cfformat path/to/MyComponent.cfc
+* {code}
+*
+*/
 component accessors="true" {
 
     property cfformat inject="CFFormat@commandbox-cfformat";
@@ -31,8 +32,15 @@ component accessors="true" {
         if (isNull(userSettings)) return;
 
         if (settings) {
-            userSettings.append(cfformat.getDefaultSettings(), false);
-            print.line(userSettings);
+            userSettings.settings.append(cfformat.getDefaultSettings(), false);
+            if (userSettings.sources.len()) {
+                print.line('User setting sources:');
+                for (var source in userSettings.sources) {
+                    print.indentedGreenLine(source);
+                }
+                print.line().toConsole();
+            }
+            print.line(userSettings.settings);
             return;
         }
 
@@ -59,7 +67,8 @@ component accessors="true" {
     function getUserSettings(inlineSettingsPath) {
         var userSettingsPaths = [configService.getSetting('cfformat.settings', ''), inlineSettingsPath];
 
-        var userSettings = {};
+        var userSettings = {sources: [], settings: {}};
+
         for (var path in userSettingsPaths) {
             if (path.len()) {
                 var fullPath = resolvePath(path);
@@ -67,7 +76,8 @@ component accessors="true" {
                     print.redLine(fullPath & ' does not exist.');
                     return;
                 }
-                userSettings.append(deserializeJSON(fileRead(fullPath)));
+                userSettings.sources.append(fullPath);
+                userSettings.settings.append(deserializeJSON(fileRead(fullPath)));
             }
         }
         return userSettings;
