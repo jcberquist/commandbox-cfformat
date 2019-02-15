@@ -22,6 +22,8 @@ component {
 
         if (element.type == 'string-double' && settings['strings.single_quote']) {
             quote = '''';
+        } else if (element.type == 'string-single' && !settings['strings.single_quote']) {
+            quote = '"';
         }
 
         var formatted = '';
