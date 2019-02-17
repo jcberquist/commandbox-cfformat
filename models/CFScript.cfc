@@ -42,13 +42,12 @@ component accessors="true" {
 
     function print(
         cftokens,
-        settings = {},
+        settings,
         indent = 0,
         columnOffset = indent * settings.indent_size,
         stopAt = []
     ) {
         var formattedText = '';
-        settings.append(cfformat.getDefaultSettings(), false);
 
         if (stopAt.len() && !isArray(stopAt[1])) {
             stopAt = [stopAt];

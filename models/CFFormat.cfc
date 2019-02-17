@@ -23,10 +23,13 @@ component accessors="true" {
         return this;
     }
 
+    function mergedSettings(settings) {
+        return duplicate(defaultSettings).append(settings);
+    }
+
     function formatFile(fullFilePath, settings = {}) {
         var tokens = tokenizeFile(fullFilePath);
-        settings.append(defaultSettings, false);
-        return format(tokens, settings);
+        return format(tokens, mergedSettings(settings));
     }
 
     function formatDirectory(
@@ -42,7 +45,7 @@ component accessors="true" {
             return r;
         }, {});
 
-        settings.append(defaultSettings, false);
+        settings = mergedSettings(settings);
 
         while (!fileMap.isEmpty()) {
             fileMap.each(function(src, target) {

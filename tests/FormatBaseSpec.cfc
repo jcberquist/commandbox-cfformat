@@ -6,8 +6,7 @@ component extends=testbox.system.BaseSpec {
     function runTests(data, debugFormat = false) {
         var cfformat = new models.CFFormat('', expandPath('/data/'));
         data.settings.each(function(settings, index) {
-            settings.append(cfformat.getDefaultSettings(), false);
-            var formatted = cfformat.format(data.tokens, settings);
+            var formatted = cfformat.format(data.tokens, cfformat.mergedSettings(settings));
             if (debugFormat) {
                 debug(serializeJSON(data.formatted[index]).replace(' ', '~', 'all'));
                 debug(serializeJSON(formatted).replace(' ', '~', 'all'));
