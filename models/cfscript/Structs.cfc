@@ -52,9 +52,9 @@ component {
         var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
         if (settings['struct.multiline.leading_comma']) {
             var formattedText = (
-                '{' & 
-                elementNewLine & 
-                repeatString(' ', delimiter.len()) & 
+                '{' &
+                elementNewLine &
+                repeatString(' ', delimiter.len()) &
                 printedElements.tolist(elementNewLine & delimiter)
             );
         } else {

@@ -53,8 +53,11 @@ component {
         var structOrArray = tokenArrays
             .map((_cftokens) => {
                 var token = _cftokens.peek(true);
-                return !isNull(token) &&
-                    isStruct(token) && ['struct', 'array'].find(token.type);
+                return (
+                    !isNull(token) &&
+                    isStruct(token) &&
+                    ['struct', 'array'].find(token.type)
+                );
             })
             .toList();
 
