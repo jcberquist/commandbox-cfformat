@@ -27,7 +27,7 @@
     "keywords.spacing_to_group": true,
     "max_columns": 120,
     "parentheses.padding": false,
-    "strings.single_quote": true,
+    "strings.quote": "single",
     "struct.empty_padding": false,
     "struct.multiline.element_count": 4,
     "struct.multiline.leading_comma": false,

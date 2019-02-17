@@ -20,8 +20,18 @@ component {
         var element = cftokens.next(false);
         var quote = element.type.startswith('string-double') ? '"' : '''';
 
-        if (element.type == 'string-double' && settings['strings.single_quote']) {
+        if (
+            element.type == 'string-double' &&
+            !isNull(settings['strings.quote']) &&
+            settings['strings.quote'] == 'single'
+        ) {
             quote = '''';
+        } else if (
+            element.type == 'string-single' &&
+            !isNull(settings['strings.quote']) &&
+            settings['strings.quote'] == 'double'
+        ) {
+            quote = '"';
         }
 
         var formatted = '';
@@ -29,8 +39,9 @@ component {
             if (isArray(token)) {
                 var fragment = token[1];
                 if (element.type == 'string-double' && quote == '''') {
-                    fragment = fragment.replace('''', '''''', 'all');
-                    fragment = fragment.replace('""', '"', 'all');
+                    fragment = fragment.replace('''', '''''', 'all').replace('""', '"', 'all');
+                } else if (element.type == 'string-single' && quote == '"') {
+                    fragment = fragment.replace('"', '""', 'all').replace('''''', '''', 'all');
                 }
                 formatted &= fragment;
             } else {

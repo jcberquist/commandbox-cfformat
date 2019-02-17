@@ -1,6 +1,9 @@
 [
     {},
     {
-        "strings.single_quote": false
+        "strings.quote": "double"
+    },
+    {
+        "strings.quote": null
     }
 ]
