@@ -17,7 +17,15 @@ component accessors="true" {
         var element = cftokens.next(false);
 
         var lines = element.elements
-            .map((t) => t[1])
+            .map((t) => {
+                if (isArray(t)) return t[1];
+                return print(
+                    cfformat.cftokens([t]),
+                    settings,
+                    indent,
+                    columnOffset
+                );
+            })
             .toList('')
             .trim()
             .listToArray(chr(10));
