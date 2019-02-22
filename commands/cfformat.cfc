@@ -3,6 +3,7 @@
 *
 * {code:bash}
 * cfformat path/to/MyComponent.cfc
+* cfformat path/to/mycomponents/
 * {code}
 *
 */
@@ -21,18 +22,17 @@ component accessors="true" {
     * @settings dump cfformat settings to the console
     */
     function run(
-        string path,
+        string path = '',
         string settingsPath = '',
         boolean overwrite = false,
         boolean timeit = false,
         boolean settings = false
     ) {
-        var userSettings = getUserSettings(settingsPath);
+        var userSettings = getUserSettings(path, settingsPath);
 
         if (isNull(userSettings)) return;
 
         if (settings) {
-            userSettings.settings.append(cfformat.getDefaultSettings(), false);
             if (userSettings.sources.len()) {
                 print.line('User setting sources:');
                 for (var source in userSettings.sources) {
@@ -40,7 +40,13 @@ component accessors="true" {
                 }
                 print.line().toConsole();
             }
-            print.line(userSettings.settings);
+            var fullSettings = cfformat.mergedSettings(userSettings.settings);
+            print.line(fullSettings);
+            return;
+        }
+
+        if (!path.len()) {
+            command('cfformat help').run();
             return;
         }
 
@@ -64,22 +70,40 @@ component accessors="true" {
         }
     }
 
-    function getUserSettings(inlineSettingsPath) {
-        var userSettingsPaths = [configService.getSetting('cfformat.settings', ''), inlineSettingsPath];
-
+    function getUserSettings(path, inlineSettingsPath) {
         var userSettings = {sources: [], settings: {}};
 
-        for (var path in userSettingsPaths) {
-            if (path.len()) {
-                var fullPath = resolvePath(path);
-                if (!fileExists(fullPath)) {
-                    print.redLine(fullPath & ' does not exist.');
-                    return;
-                }
+        var addSettings = function(path, fail = false) {
+            var fullPath = resolvePath(path);
+            if (userSettings.sources.find(fullPath)) return;
+            if (fileExists(fullPath)) {
                 userSettings.sources.append(fullPath);
                 userSettings.settings.append(deserializeJSON(fileRead(fullPath)));
+            } else if (fail) {
+                print.redLine(fullPath & ' does not exist.');
+                return;
             }
         }
+
+        addSettings(configService.getSetting('cfformat.settings', '~/.cfformat.json'));
+
+        if (path.len()) {
+            var formatDir = getDirectoryFromPath(resolvePath(path)).replace('\', '/', 'all');
+            while (formatDir.listLen('/') > 0) {
+                if (fileExists(formatDir & '/.cfformat.json')) {
+                    addSettings(formatDir & '/.cfformat.json');
+                    break;
+                } else if (directoryExists(formatDir & '/.git/')) {
+                    break;
+                }
+                formatDir = formatDir.listDeleteAt(formatDir.listLen('/'), '/');
+            }
+        }
+
+        if (inlineSettingsPath.len()) {
+            addSettings(inlineSettingsPath, true);
+        }
+
         return userSettings;
     }
 

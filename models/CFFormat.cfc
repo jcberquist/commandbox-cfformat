@@ -6,7 +6,7 @@ component accessors="true" {
 
     function init(required string binFolder, required string dataFolder) {
         variables.dataFolder = arguments.dataFolder;
-        variables.defaultSettings = deserializeJSON(fileRead(dataFolder & '/cfformat.json'));
+        variables.defaultSettings = deserializeJSON(fileRead(dataFolder & '.cfformat.json'));
 
         var isWindows = createObject('java', 'java.lang.System')
             .getProperty('os.name')
