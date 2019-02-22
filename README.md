@@ -17,26 +17,31 @@ To see the settings used for formatting, use the `--settings` flag. When that is
 
 ```bash
 cfformat --settings
+# or
+cfformat /some/path --settings
+# or
+cfformat path/to/my.cfc /path/to/.cfformat.json --settings
 ```
+The following order is used to resolve the settings used for formatting:
 
-If you want to overwrite the default settings, you can create a JSON file with your overrides, save it in a convenient place, and set the path to it in the CommandBox config:
+1. Base settings
+2. A `.cfformat.json` file in your home directory
+3. A `.cfformat.json` file found in the directory where formatting will be performed, or a parent directory thereof. Parent directories will be searched for a `.cfformat.json` file recursively until one is found or the root directory is reached. If a folder contains a `.git` directory that will also halt the search.
+4. A path to a settings file passed into the command
+
+These settings will be merged together starting with the base settings and then merging each level on top.
+
+If you want to place a settings file in a directory other than your home directory (for number 2 above) you can set the `cfformat.settings` config setting to a different path:
 
 ```bash
-cfformat --settings > /path/to/settings.json
-# edit those settings
-# Note: the settings are merged with the defaults
-# so your override file does not need to keep any
-# settings that match the default settings
-config set cfformat.settings=/path/to/settings.json
+config set cfformat.settings=/path/to/.cfformat.json
 ```
 
-You can also specify a settings file to use inline when running `cfformat`:
+Specifying a settings file to use inline when running `cfformat` is done as follows:
 
 ```bash
-cfformat path/to/my.cfc path/to/settings.json
+cfformat path/to/my.cfc /path/to/.cfformat.json
 ```
-
-_Note: The settings printed to the console via the `--settings` flag are the final settings that will be used after merging together the settings sources. Warning: how settings are handled is subject to change._
 
 ## Syntect
 
