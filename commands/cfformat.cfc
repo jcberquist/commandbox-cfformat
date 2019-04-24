@@ -3,7 +3,6 @@
 *
 * {code:bash}
 * cfformat path/to/MyComponent.cfc
-* cfformat path/to/mycomponents/
 * {code}
 *
 */
@@ -20,19 +19,22 @@ component accessors="true" {
     * @overwrite overwrite file in place
     * @timeit print the time formatting took to the console
     * @settings dump cfformat settings to the console
+    * @watch watch flies in the directory for changes
     */
     function run(
         string path = '',
         string settingsPath = '',
         boolean overwrite = false,
         boolean timeit = false,
-        boolean settings = false
+        boolean settings = false,
+        boolean watch = false
     ) {
-        var userSettings = getUserSettings(path, settingsPath);
+        var userSettings = getUserSettings(settingsPath);
 
         if (isNull(userSettings)) return;
 
         if (settings) {
+            userSettings.settings.append(cfformat.getDefaultSettings(), false);
             if (userSettings.sources.len()) {
                 print.line('User setting sources:');
                 for (var source in userSettings.sources) {
@@ -40,70 +42,65 @@ component accessors="true" {
                 }
                 print.line().toConsole();
             }
-            var fullSettings = cfformat.mergedSettings(userSettings.settings);
-            print.line(fullSettings);
-            return;
-        }
-
-        if (!path.len()) {
-            command('cfformat help').run();
+            print.line(userSettings.settings);
             return;
         }
 
         var fullPath = resolvePath(path);
-        if (fileExists(fullPath)) {
-            formatFile(
-                fullPath,
-                userSettings.settings,
-                overwrite,
-                timeit
-            );
-        } else if (directoryExists(fullPath)) {
-            formatDirectory(
-                fullPath,
-                userSettings.settings,
-                overwrite,
-                timeit
-            );
+        if ( arguments.watch ) {
+            var processorCount = createObject( "java", "java.lang.Runtime" ).getRuntime().availableProcessors();
+            this.watch()
+                .paths( "**.cfc" )
+                .inDirectory( fullPath )
+                .onChange( function( files ) {
+                    var allFiles = files.added.append( files.changed, true );
+                    allFiles.each( function( filePath ) {
+                        var formatCommand = command( "cfformat" )
+                            .params( path = filePath )
+                            .flags( "overwrite" )
+                            .params( settingsPath = settingsPath )
+                            .run();
+                    }, true, processorCount );
+                    print.line( "Formatting complete!" ).toConsole();
+                } )
+                .start();
         } else {
-            print.redLine(fullPath & ' is not a valid file or directory.');
+            if (fileExists(fullPath)) {
+                formatFile(
+                    fullPath,
+                    userSettings.settings,
+                    overwrite,
+                    timeit
+                );
+            } else if (directoryExists(fullPath)) {
+                formatDirectory(
+                    fullPath,
+                    userSettings.settings,
+                    overwrite,
+                    timeit
+                );
+            } else {
+                print.redLine(fullPath & ' is not a valid file or directory.');
+            }
         }
     }
 
-    function getUserSettings(path, inlineSettingsPath) {
+    function getUserSettings(inlineSettingsPath) {
+        var userSettingsPaths = [configService.getSetting('cfformat.settings', ''), inlineSettingsPath];
+
         var userSettings = {sources: [], settings: {}};
 
-        var addSettings = function(path, fail = false) {
-            var fullPath = resolvePath(path);
-            if (userSettings.sources.find(fullPath)) return;
-            if (fileExists(fullPath)) {
+        for (var path in userSettingsPaths) {
+            if (path.len()) {
+                var fullPath = resolvePath(path);
+                if (!fileExists(fullPath)) {
+                    print.redLine(fullPath & ' does not exist.');
+                    return;
+                }
                 userSettings.sources.append(fullPath);
                 userSettings.settings.append(deserializeJSON(fileRead(fullPath)));
-            } else if (fail) {
-                print.redLine(fullPath & ' does not exist.');
-                return;
             }
         }
-
-        addSettings(configService.getSetting('cfformat.settings', '~/.cfformat.json'));
-
-        if (path.len()) {
-            var formatDir = getDirectoryFromPath(resolvePath(path)).replace('\', '/', 'all');
-            while (formatDir.listLen('/') > 0) {
-                if (fileExists(formatDir & '/.cfformat.json')) {
-                    addSettings(formatDir & '/.cfformat.json');
-                    break;
-                } else if (directoryExists(formatDir & '/.git/')) {
-                    break;
-                }
-                formatDir = formatDir.listDeleteAt(formatDir.listLen('/'), '/');
-            }
-        }
-
-        if (inlineSettingsPath.len()) {
-            addSettings(inlineSettingsPath, true);
-        }
-
         return userSettings;
     }
 
