@@ -20,13 +20,15 @@ component accessors="true" {
     * @overwrite overwrite file in place
     * @timeit print the time formatting took to the console
     * @settings dump cfformat settings to the console
+    * @watch enter into a watch mode on the path and format any files changed
     */
     function run(
         string path = '',
         string settingsPath = '',
         boolean overwrite = false,
         boolean timeit = false,
-        boolean settings = false
+        boolean settings = false,
+        boolean watch = false
     ) {
         var userSettings = getUserSettings(path, settingsPath);
 
@@ -51,22 +53,41 @@ component accessors="true" {
         }
 
         var fullPath = resolvePath(path);
-        if (fileExists(fullPath)) {
-            formatFile(
-                fullPath,
-                userSettings.settings,
-                overwrite,
-                timeit
-            );
-        } else if (directoryExists(fullPath)) {
-            formatDirectory(
-                fullPath,
-                userSettings.settings,
-                overwrite,
-                timeit
-            );
+        if ( arguments.watch ) {
+            var processorCount = createObject( "java", "java.lang.Runtime" ).getRuntime().availableProcessors();
+            this.watch()
+                .paths( "**.cfc" )
+                .inDirectory( fullPath )
+                .onChange( function( files ) {
+                    var allFiles = files.added.append( files.changed, true );
+                    allFiles.each( function( filePath ) {
+                        var formatCommand = command( "cfformat" )
+                            .params( path = filePath )
+                            .flags( "overwrite" )
+                            .params( settingsPath = settingsPath )
+                            .run();
+                    }, true, processorCount );
+                    print.line( "Formatting complete!" ).toConsole();
+                } )
+                .start();
         } else {
-            print.redLine(fullPath & ' is not a valid file or directory.');
+            if (fileExists(fullPath)) {
+                formatFile(
+                    fullPath,
+                    userSettings.settings,
+                    overwrite,
+                    timeit
+                );
+            } else if (directoryExists(fullPath)) {
+                formatDirectory(
+                    fullPath,
+                    userSettings.settings,
+                    overwrite,
+                    timeit
+                );
+            } else {
+                print.redLine(fullPath & ' is not a valid file or directory.');
+            }
         }
     }
 
