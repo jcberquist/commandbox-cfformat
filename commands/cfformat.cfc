@@ -47,7 +47,7 @@ component accessors="true" {
             return;
         }
 
-        if (!path.len()) {
+        if (!path.len() && !watch) {
             command('cfformat help').run();
             return;
         }
