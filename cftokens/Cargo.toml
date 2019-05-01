@@ -8,3 +8,4 @@ syntect = { path = "./lib/syntect" }
 serde = "1.0"
 serde_json = "1.0"
 walkdir = "2.0"
+md5 = "0.6.1"

@@ -6,6 +6,7 @@ extern crate serde;
 #[macro_use]
 extern crate serde_json;
 extern crate walkdir;
+extern crate md5;
 
 pub mod scopes;
 
@@ -315,16 +316,14 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
 }
 
 
-pub fn tokenize_file(path: String) -> String {
-    let ss = SyntaxSet::load_defaults_newlines();
+pub fn tokenize_file(ss: &SyntaxSet, path: String) -> String {
     match tokenize(&ss, path) {
         Ok(json) => json,
         Err(e) => e
     }
 }
 
-pub fn tokenize_dir(src_path: String, target_path: String) -> String {
-    let ss = SyntaxSet::load_defaults_newlines();
+pub fn tokenize_dir(ss: &SyntaxSet, src_path: String, target_path: String) -> String {
     let walker = WalkDir::new(&src_path).into_iter();
     let mut output = Vec::new();
 
@@ -332,21 +331,56 @@ pub fn tokenize_dir(src_path: String, target_path: String) -> String {
         let entry = entry.unwrap();
         if entry.file_type().is_file() {
             let entry_path = entry.path().to_str().unwrap();
-            let target_path = entry_path.replace(&src_path, &target_path);
+            let output_path = entry_path.replace(&src_path, &target_path);
             match tokenize(&ss, entry_path.to_string()) {
                 Ok(json) => {
-                    let target_file_path = target_path.replace(".cfc", ".json");
-                    write_to_file(&target_file_path, &json);
-                    output.push((entry_path.to_string(), target_file_path));
+                    let output_file_path = output_path.replace(".cfc", ".json");
+                    write_to_file(&output_file_path, &json);
+                    output.push((entry_path.to_string(), output_file_path));
                 },
                 Err(e) => {
                     eprintln!("{}", e);
-                    let target_file_path = target_path.replace(".cfc", ".error");
-                    write_to_file(&target_file_path, &e);
+                    let output_file_path = output_path.replace(".cfc", ".error");
+                    write_to_file(&output_file_path, &e);
                 }
             }
         }
     }
 
     format!("{}", json!(output))
+}
+
+pub fn tokenize_manifest(ss: &SyntaxSet, src_path: String) -> String {
+    let base_path = Path::new(&src_path).parent().unwrap();
+    let mut output = Vec::new();
+
+    let f = File::open(&src_path).unwrap();
+    let reader = BufReader::new(f);
+
+    for line in reader.lines() {
+        let path = line.unwrap();
+        let hash = &format!("{:x}", md5::compute(path.as_bytes()))[..8];
+        let target_path = base_path.join(hash);
+
+        if path.ends_with(".cfc") {
+            let mut output_file_path = target_path.to_str().unwrap().to_string();
+            match tokenize(&ss, path.to_string()) {
+                Ok(json) => {
+                    output_file_path.push_str(".json");
+                    write_to_file(&output_file_path, &json);
+                    output.push(format!("{}", json!(vec![path, output_file_path])));
+                },
+                Err(e) => {
+                    eprintln!("{}", e);
+                    output_file_path.push_str(".error");
+                    write_to_file(&output_file_path, &e);
+                }
+            }
+        } else {
+            let json = tokenize_dir(&ss, path.to_string(), target_path.join("").to_str().unwrap().to_string());
+            output.push(json);
+        }
+    }
+
+    output.join("\n")
 }
