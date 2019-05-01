@@ -220,7 +220,7 @@ fn write_to_file(path_string: &String, json: &String) {
     }
 }
 
-pub fn tokenize(ss: &SyntaxSet, path: String) -> String {
+pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
     let syntax = ss.find_syntax_by_name("CFML").unwrap();
     let punctuation_selector = ScopeSelector::from_str("punctuation").unwrap();
 
@@ -235,7 +235,7 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> String {
     }
 
     let mut state = ParseState::new(syntax);
-    let f = File::open(path).unwrap();
+    let f = File::open(&path).unwrap();
 
     let mut reader = BufReader::new(f);
     let mut line = String::new();
@@ -274,7 +274,7 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> String {
 
                     for ds in delimited_scopes.iter() {
                         if scope_string.ends_with(ds.start) {
-                            let mut de = DelimitedElement::new(ds.name, &base_scope_string, ds.delimiter, ds.end);
+                            let de = DelimitedElement::new(ds.name, &base_scope_string, ds.delimiter, ds.end);
                             token_stack.push(Elements::DelimitedElement(de));
                             matched = true;
                             break;
@@ -286,7 +286,7 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> String {
 
                     for cs in container_scopes.iter() {
                         if scope_string.ends_with(cs.start) {
-                            let mut e = Element::new(cs.name, &s, &base_scope_string, cs.end);
+                            let e = Element::new(cs.name, &s, &base_scope_string, cs.end);
                             token_stack.push(Elements::Element(e));
                             matched = true;
                             break;
@@ -307,13 +307,20 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> String {
         line.clear();
     }
 
-    format!("{}", json!(token_stack.last().unwrap()))
+    if token_stack.len() != 1 {
+        return Err(format!("Unable to parse {}", path))
+    }
+
+    Ok(format!("{}", json!(token_stack.last().unwrap())))
 }
 
 
 pub fn tokenize_file(path: String) -> String {
     let ss = SyntaxSet::load_defaults_newlines();
-    tokenize(&ss, path)
+    match tokenize(&ss, path) {
+        Ok(json) => json,
+        Err(e) => e
+    }
 }
 
 pub fn tokenize_dir(src_path: String, target_path: String) -> String {
@@ -325,10 +332,19 @@ pub fn tokenize_dir(src_path: String, target_path: String) -> String {
         let entry = entry.unwrap();
         if entry.file_type().is_file() {
             let entry_path = entry.path().to_str().unwrap();
-            let target_file_path = entry_path.replace(&src_path, &target_path).replace(".cfc", ".json");
-            let json = tokenize(&ss, entry_path.to_string());
-            write_to_file(&target_file_path, &json);
-            output.push((entry_path.to_string(), target_file_path))
+            let target_path = entry_path.replace(&src_path, &target_path);
+            match tokenize(&ss, entry_path.to_string()) {
+                Ok(json) => {
+                    let target_file_path = target_path.replace(".cfc", ".json");
+                    write_to_file(&target_file_path, &json);
+                    output.push((entry_path.to_string(), target_file_path));
+                },
+                Err(e) => {
+                    eprintln!("{}", e);
+                    let target_file_path = target_path.replace(".cfc", ".error");
+                    write_to_file(&target_file_path, &e);
+                }
+            }
         }
     }
 
