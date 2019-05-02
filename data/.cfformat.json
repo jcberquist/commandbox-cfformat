@@ -34,5 +34,6 @@
     "struct.multiline.leading_comma": false,
     "struct.multiline.min_length": 40,
     "struct.padding": false,
+    "struct.separator": ":",
     "tab_indent": false
 }

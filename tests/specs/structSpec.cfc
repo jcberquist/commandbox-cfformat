@@ -8,6 +8,9 @@ component extends=tests.FormatBaseSpec {
             it('spaces structs', function() {
                 runTests(loadData('structSpacing'));
             });
+            it('normalizes the struct separator', function() {
+                runTests(loadData('structSeparator'));
+            });
             it('splits structs onto multiple lines', function() {
                 runTests(loadData('structMultiline'));
             });
