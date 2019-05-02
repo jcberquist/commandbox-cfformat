@@ -6,9 +6,9 @@ http url
 ="www.google.com" result = "res";
 
 cfhttp() {
-    cfhttpparam( type="formfield", name="test", value="value" )
+    cfhttpparam( type="formfield", name="test", value='value' )
 }
 
 http {
-    httpparam type="formfield" name="test" value="value";
+    httpparam type='formfield' name="test" value="value";
 }

@@ -28,6 +28,7 @@
     "max_columns": 120,
     "parentheses.padding": false,
     "strings.quote": "single",
+    "strings.attributes.quote": "double",
     "struct.empty_padding": false,
     "struct.multiline.element_count": 4,
     "struct.multiline.leading_comma": false,
