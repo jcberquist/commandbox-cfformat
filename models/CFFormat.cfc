@@ -41,7 +41,7 @@ component accessors="true" {
         tokenizeDirectory(fullSrcPath, fullTempPath);
         var fileArray = directoryList(fullSrcPath, true, 'path', '*.cfc');
         var fileMap = fileArray.reduce((r, f) => {
-            r[f] = f.replace(fullSrcPath, fullTempPath).reReplace('.cfc$', '.json');
+            r[f] = f.replace(fullSrcPath, fullTempPath).reReplace('.cfc$', '');
             return r;
         }, {});
 
@@ -49,31 +49,38 @@ component accessors="true" {
 
         while (!fileMap.isEmpty()) {
             fileMap.each(function(src, target) {
-                if (fileExists(target)) {
-                    var tokenJSON = fileRead(target);
+                var success = true;
+                var message = '';
+
+                if (fileExists(target & '.json')) {
+                    var tokenJSON = fileRead(target & '.json');
                     if (!isJSON(tokenJSON)) {
                         // file exists, but hasn't had JSON written out to it yet
                         return;
                     }
                     var tokens = deserializeJSON(tokenJSON);
-                    var success = true;
                     try {
                         var formatted = format(tokens, settings);
                         fileWrite(src, formatted, 'utf-8');
                     } catch (any e) {
                         success = false;
-                        throw(target & ' ' & e.message);
-                    } finally {
-                        fileMap.delete(src);
-                        if (!isNull(callback)) {
-                            callback(
-                                src,
-                                success,
-                                fileArray.len() - fileMap.count(),
-                                fileArray.len()
-                            );
-                        }
+                        message = e.message;
                     }
+                } else if (fileExists(target & '.error')) {
+                    success = false;
+                    message = fileRead(target & '.error');
+                } else {
+                    return;
+                }
+
+                fileMap.delete(src);
+                if (!isNull(callback)) {
+                    callback(
+                        message.len() ? message : src,
+                        success,
+                        fileArray.len() - fileMap.count(),
+                        fileArray.len()
+                    );
                 }
             });
         }
@@ -105,11 +112,13 @@ component accessors="true" {
     function tokenizeFile(fullFilePath) {
         var tokens = '';
         cfexecute(name=executable arguments='"#fullFilePath#"' variable='tokens' timeout=10);
+        if (!isJSON(tokens)) {
+            throw(tokens);
+        }
         return deserializeJSON(tokens);
     }
 
     function tokenizeDirectory(fullSrcPath, fullTempPath) {
-        var result = '';
         cfexecute(name=executable arguments='"#fullSrcPath#" "#fullTempPath#"');
     }
 
