@@ -112,9 +112,15 @@ impl Element {
         // special string handling
         if element_type.contains("string") {
             let mut string_type = String::from(element_type);
-            if (scope_string.contains("meta.tag") && !scope_string.contains("meta.tag.cfml source.cfml.script") ) ||
-               scope_string.contains("meta.class.declaration") ||
-               (scope_string.contains("meta.function.declaration") && !scope_string.contains("meta.parameter")) {
+            let script_count = scope_string.matches("source.cfml.script").count();
+            if (
+                scope_string.contains("meta.tag") &&
+                !scope_string.contains("meta.tag.cfml source.cfml.script") &&
+                script_count < 2
+            ) ||
+               (scope_string.contains("meta.class.declaration") && script_count < 2) ||
+               (
+                scope_string.contains("meta.function.declaration") && !scope_string.contains("meta.parameter")) {
                 string_type.push_str("-tag");
             }
             Element {
