@@ -365,7 +365,7 @@ pub fn tokenize_manifest(ss: &SyntaxSet, src_path: String) -> String {
 
     for line in reader.lines() {
         let path = line.unwrap();
-        let hash = &format!("{:x}", md5::compute(path.as_bytes()))[..8];
+        let hash = &format!("{:x}", md5::compute(path.as_bytes()));
         let target_path = base_path.join(hash);
 
         if path.ends_with(".cfc") {

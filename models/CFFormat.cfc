@@ -102,7 +102,7 @@ component accessors="true" {
 
         var fileMap = {};
         for (var path in paths) {
-            var hashKey = hash(path, 'md5', 'utf-8').left(8).lcase();
+            var hashKey = hash(path, 'md5', 'utf-8').lcase();
             fileMap[path] = fullTempPath & hashKey;
         }
 
