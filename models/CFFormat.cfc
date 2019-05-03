@@ -88,6 +88,65 @@ component accessors="true" {
         directoryDelete(fullTempPath, true);
     }
 
+    function formatFiles(
+        paths,
+        fullTempPath,
+        pathSettings,
+        callback
+    ) {
+        directoryCreate(fullTempPath, true);
+
+        var fullManifestPath = fullTempPath & 'manifest.txt';
+        fileWrite(fullManifestPath, paths.toList(defaultSettings.lf), 'utf-8');
+        tokenizeManifest(fullManifestPath);
+
+        var fileMap = {};
+        for (var path in paths) {
+            var hashKey = hash(path, 'md5', 'utf-8').left(8).lcase();
+            fileMap[path] = fullTempPath & hashKey;
+        }
+
+        while (!fileMap.isEmpty()) {
+            fileMap.each(function(src, target) {
+                var success = true;
+                var message = '';
+
+                if (fileExists(target & '.json')) {
+                    var tokenJSON = fileRead(target & '.json');
+                    if (!isJSON(tokenJSON)) {
+                        // file exists, but hasn't had JSON written out to it yet
+                        return;
+                    }
+                    var tokens = deserializeJSON(tokenJSON);
+                    try {
+                        var formatted = format(tokens, mergedSettings(pathSettings[src]));
+                        fileWrite(src, formatted, 'utf-8');
+                    } catch (any e) {
+                        success = false;
+                        message = e.message;
+                    }
+                } else if (fileExists(target & '.error')) {
+                    success = false;
+                    message = fileRead(target & '.error');
+                } else {
+                    return;
+                }
+
+                fileMap.delete(src);
+                if (!isNull(callback)) {
+                    callback(
+                        message.len() ? message : src,
+                        success,
+                        paths.len() - fileMap.count(),
+                        paths.len()
+                    );
+                }
+            });
+        }
+
+        directoryDelete(fullTempPath, true);
+    }
+
     function cftokens(tokens) {
         return new CFTokens(tokens);
     }
@@ -120,6 +179,10 @@ component accessors="true" {
 
     function tokenizeDirectory(fullSrcPath, fullTempPath) {
         cfexecute(name=executable arguments='"#fullSrcPath#" "#fullTempPath#"');
+    }
+
+    function tokenizeManifest(fullManifestPath) {
+        cfexecute(name=executable arguments='"#fullManifestPath#"');
     }
 
     function postProcess(tokens) {

@@ -374,7 +374,7 @@ pub fn tokenize_manifest(ss: &SyntaxSet, src_path: String) -> String {
                 Ok(json) => {
                     output_file_path.push_str(".json");
                     write_to_file(&output_file_path, &json);
-                    output.push(format!("{}", json!(vec![path, output_file_path])));
+                    output.push((path, output_file_path));
                 },
                 Err(e) => {
                     eprintln!("{}", e);
@@ -383,10 +383,9 @@ pub fn tokenize_manifest(ss: &SyntaxSet, src_path: String) -> String {
                 }
             }
         } else {
-            let json = tokenize_dir(&ss, path.to_string(), target_path.join("").to_str().unwrap().to_string());
-            output.push(json);
+            eprintln!("{} is not a valid path.", path);
         }
     }
 
-    output.join("\n")
+    format!("{}", json!(output))
 }
