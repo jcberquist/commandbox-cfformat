@@ -296,7 +296,7 @@ component accessors="true" {
     function printSettings(settings, paths) {
         var userSettings = {};
 
-        if (paths.len() == 1 && settings.sources[paths[1]].len()) {
+        if (paths.len() && settings.sources[paths[1]].len()) {
             userSettings = settings.paths[paths[1]];
             print.line('User setting sources:');
             for (var source in settings.sources[paths[1]]) {
