@@ -14,7 +14,7 @@ component {
         cfformat.cfscript.registerElement('function-call', this);
         cfformat.cfscript.register('support.function.', this);
 
-        variables.builtins = deserializeJSON(fileRead(cfformat.getDataFolder() & 'functions.json')).reduce((r, f) => {
+        variables.builtins = deserializeJSON(fileRead(cfformat.getRootFolder() & 'data/functions.json')).reduce((r, f) => {
             r[f.lcase()] = f;
             return r;
         }, {});

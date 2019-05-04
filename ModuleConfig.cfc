@@ -10,14 +10,13 @@ component {
         var fullModulePath = modulePath.replace('\', '/', 'all') & (modulePath.endswith('/') ? '' : '/');
         var cftokensVersion = deserializeJSON(fileRead(fullModulePath & 'box.json')).cftokens;
         var binFolder = fullModulePath & 'bin/#cftokensVersion#/';
-        var dataFolder = fullModulePath & 'data/';
         var executable = wirebox.getInstance('filesystem').isWindows() ? 'cftokens.exe' : 'cftokens_osx';
 
         binder
             .map('cfformat@commandbox-cfformat')
             .to('#moduleMapping#.models.CFFormat')
             .asSingleton()
-            .initWith(binFolder, dataFolder);
+            .initWith(binFolder, fullModulePath);
 
         ensureExecutableExists(
             binFolder & executable,
