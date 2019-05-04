@@ -40,58 +40,21 @@ component accessors="true" {
     ) {
         tokenizeDirectory(fullSrcPath, fullTempPath);
         var fileArray = directoryList(fullSrcPath, true, 'path', '*.cfc');
-        var fileMap = fileArray.reduce((r, f) => {
-            r[f] = f.replace(fullSrcPath, fullTempPath).reReplace('.cfc$', '');
-            return r;
-        }, {});
-
-        settings = mergedSettings(settings);
-
-        while (!fileMap.isEmpty()) {
-            fileMap.each(function(src, target) {
-                var success = true;
-                var message = '';
-
-                if (fileExists(target & '.json')) {
-                    var tokenJSON = fileRead(target & '.json');
-                    if (!isJSON(tokenJSON)) {
-                        // file exists, but hasn't had JSON written out to it yet
-                        return;
-                    }
-                    var tokens = deserializeJSON(tokenJSON);
-                    try {
-                        var formatted = format(tokens, settings);
-                        fileWrite(src, formatted, 'utf-8');
-                    } catch (any e) {
-                        success = false;
-                        message = e.message;
-                    }
-                } else if (fileExists(target & '.error')) {
-                    success = false;
-                    message = fileRead(target & '.error');
-                } else {
-                    return;
-                }
-
-                fileMap.delete(src);
-                if (!isNull(callback)) {
-                    callback(
-                        message.len() ? message : src,
-                        success,
-                        fileArray.len() - fileMap.count(),
-                        fileArray.len()
-                    );
-                }
-            });
+        var settingsMap = {};
+        var fileMap = {};
+        for (var path in fileArray) {
+            fileMap[path] = path.replace(fullSrcPath, fullTempPath).left(-4);
+            settingsMap[path] = settings;
         }
 
+        formatFileMap(fileMap, settingsMap, callback);
         directoryDelete(fullTempPath, true);
     }
 
     function formatFiles(
         paths,
         fullTempPath,
-        settings,
+        settingsMap,
         callback
     ) {
         directoryCreate(fullTempPath, true);
@@ -106,6 +69,12 @@ component accessors="true" {
             fileMap[path] = fullTempPath & hashKey;
         }
 
+        formatFileMap(fileMap, settingsMap, callback);
+        directoryDelete(fullTempPath, true);
+    }
+
+    function formatFileMap(fileMap, settingsMap, callback) {
+        var fileCount = fileMap.count();
         while (!fileMap.isEmpty()) {
             fileMap.each(function(src, target) {
                 var success = true;
@@ -119,7 +88,7 @@ component accessors="true" {
                     }
                     var tokens = deserializeJSON(tokenJSON);
                     try {
-                        var formatted = format(tokens, mergedSettings(settings[src]));
+                        var formatted = format(tokens, mergedSettings(settingsMap[src]));
                         fileWrite(src, formatted, 'utf-8');
                     } catch (any e) {
                         success = false;
@@ -137,14 +106,12 @@ component accessors="true" {
                     callback(
                         message.len() ? message : src,
                         success,
-                        paths.len() - fileMap.count(),
-                        paths.len()
+                        fileCount - fileMap.count(),
+                        fileCount
                     );
                 }
             });
         }
-
-        directoryDelete(fullTempPath, true);
     }
 
     function cftokens(tokens) {
