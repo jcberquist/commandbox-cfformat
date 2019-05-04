@@ -118,8 +118,30 @@ component accessors="true" {
 
     function resolveFilePaths(fullPath, pathType) {
         if (pathType == 'file') return [fullPath];
-        if (pathType == 'dir') fullPath &= '**';
-        return globber(fullPath).matches().filter((m) => m.lcase().endswith('.cfc'));
+
+        if (pathType == 'dir') {
+            var pathGlobs = [fullPath & '**.cfc'];
+        } else {
+            var pathGlobs = fullPath
+                .listToArray(chr(10) & ',')
+                .map((p) => {
+                    var glob = resolvePath(p.trim());
+                    if (directoryExists(glob)) glob &= '**.cfc';
+                    return glob;
+                });
+        }
+
+        var paths = [];
+        pathGlobs.each((g) => {
+            globber(g)
+                .matches()
+                .each((m) => {
+                    if (m.lcase().endswith('.cfc') && !paths.find(m)) {
+                        paths.append(m);
+                    }
+                })
+        });
+        return paths;
     }
 
     function resolveSettings(paths, inlineSettingsPath) {
