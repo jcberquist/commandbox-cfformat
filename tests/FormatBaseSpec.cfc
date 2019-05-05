@@ -4,7 +4,7 @@ component extends=testbox.system.BaseSpec {
     }
 
     function runTests(data, debugFormat = false) {
-        var cfformat = new models.CFFormat('', expandPath('/data/'));
+        var cfformat = new models.CFFormat('', expandPath('/'));
         data.settings.each(function(settings, index) {
             var formatted = cfformat.format(data.tokens, cfformat.mergedSettings(settings));
             if (debugFormat) {

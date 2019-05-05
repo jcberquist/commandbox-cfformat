@@ -8,6 +8,9 @@ component extends=tests.FormatBaseSpec {
             it('formats script component properties', function() {
                 runTests(loadData('scriptProperty'));
             });
+            it('formats script params', function() {
+                runTests(loadData('scriptParam'));
+            });
         });
     }
 

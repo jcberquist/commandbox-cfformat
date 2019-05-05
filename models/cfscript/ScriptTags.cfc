@@ -2,6 +2,7 @@ component {
 
     property cfformat;
 
+    variables.attrStart = {scopes: [['entity.other.attribute-name']], elements: []};
     variables.attrEnd = {scopes: [['punctuation.terminator.statement']], elements: ['block']};
 
     function init(cfformat) {
@@ -35,6 +36,13 @@ component {
             while (attr_tokens.hasNext() && !attr_tokens.peekScopeStartsWith('entity.other.attribute-name')) {
                 formattedText &= ' ' & attr_tokens.next(false)[1];
             }
+        }
+
+        // special cfparam handling
+        if (formattedText == 'param') {
+            var preAttrTokens = attr_tokens.collectTo(argumentCollection = attrStart);
+            var preAttrTxt = cfformat.cfscript.print(preAttrTokens, settings, indent).trim();
+            if (preAttrTxt.len()) formattedText &= ' ' & preAttrTxt;
         }
 
         var attributesTxt = cfformat.cfscript.attributes.printAttributes(
