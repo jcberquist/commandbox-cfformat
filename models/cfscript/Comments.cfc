@@ -18,7 +18,7 @@ component {
         indent,
         columnOffset
     ) {
-        if (cftokens.peekScopes(lineCommentStart)) {
+        if (peekLineComment(cftokens)) {
             // grab the `//`
             var token = cftokens.next(whitespace = false);
 
@@ -86,6 +86,10 @@ component {
         }
 
         return formatted;
+    }
+
+    function peekLineComment(cftokens) {
+        return cftokens.peekScopes(lineCommentStart);
     }
 
 }

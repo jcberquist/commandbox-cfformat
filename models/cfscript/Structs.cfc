@@ -29,41 +29,37 @@ component {
 
         if (!cftokens.peekElement('struct')) return;
 
-        var printedElements = cftokens
-            .next(false)
-            .delimited_elements.map((tokens) => {
-                return cfformat.cfscript.print(cfformat.cftokens(tokens), settings, indent + 1).trim();
-            });
+        var printedElements = cfformat.delimited.printElements(cftokens.next(false), settings, indent);
 
-        if (printedElements.len() == 1 && printedElements[1].trim() == '') {
+        if (printedElements.printed.len() == 1 && printedElements.printed[1].trim() == '') {
             return settings['struct.empty_padding'] ? '{ }' : '{}';
         }
 
         var spacer = settings['struct.padding'] ? ' ' : '';
         var delimiter = ', ';
-        var formatted = '{' & spacer & printedElements.tolist(delimiter) & spacer & '}';
-        if (
-            (
-                printedElements.len() < settings['struct.multiline.element_count'] ||
-                formatted.len() <= settings['struct.multiline.min_length']
-            ) &&
-            !formatted.find(chr(10)) &&
-            columnOffset + formatted.len() <= settings.max_columns
-        ) {
-            return formatted;
+
+        if (printedElements.endingComments.isEmpty()) {
+            var formatted = '{' & spacer & printedElements.printed.tolist(delimiter) & spacer & '}';
+            if (
+                (
+                    printedElements.printed.len() < settings['struct.multiline.element_count'] ||
+                    formatted.len() <= settings['struct.multiline.min_length']
+                ) &&
+                !formatted.find(chr(10)) &&
+                columnOffset + formatted.len() <= settings.max_columns
+            ) {
+                return formatted;
+            }
         }
 
-        var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
-        if (settings['struct.multiline.leading_comma']) {
-            var formattedText = (
-                '{' &
-                elementNewLine &
-                repeatString(' ', delimiter.len()) &
-                printedElements.tolist(elementNewLine & delimiter)
-            );
-        } else {
-            var formattedText = '{' & elementNewLine & printedElements.tolist(',' & elementNewLine);
-        }
+        var formattedText = '{';
+        formattedText &= cfformat.delimited.joinElements(
+            'struct',
+            printedElements,
+            delimiter,
+            settings,
+            indent
+        );
         formattedText &= settings.lf & cfformat.indentTo(indent, settings) & '}';
         return formattedText;
     }

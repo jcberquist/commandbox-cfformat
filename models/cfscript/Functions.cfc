@@ -128,22 +128,19 @@ component {
         indent,
         columnOffset
     ) {
-        var printedElements = element.delimited_elements.map((tokens) => {
-            return cfformat.cfscript.print(cfformat.cftokens(tokens), settings, indent + 1).trim();
-        });
+        var printedElements = cfformat.delimited.printElements(element, settings, indent);
 
-
-        if (printedElements.len() == 1 && printedElements[1].trim() == '') {
+        if (printedElements.printed.len() == 1 && printedElements.printed[1].trim() == '') {
             return settings['function_declaration.empty_padding'] ? '( )' : '()';
         }
 
         var spacer = settings['function_declaration.padding'] ? ' ' : '';
         var delimiter = ', ';
-        var formatted = '(' & spacer & printedElements.tolist(delimiter) & spacer & ')';
+        var formatted = '(' & spacer & printedElements.printed.tolist(delimiter) & spacer & ')';
 
         if (
             (
-                printedElements.len() < settings['function_declaration.multiline.element_count'] ||
+                printedElements.printed.len() < settings['function_declaration.multiline.element_count'] ||
                 formatted.len() <= settings['function_declaration.multiline.min_length']
             ) &&
             !formatted.find(chr(10)) &&
@@ -152,14 +149,14 @@ component {
             return formatted;
         }
 
-        var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
-        if (settings['function_declaration.multiline.leading_comma']) {
-            var formattedText = '(' & elementNewLine & repeatString(' ', delimiter.len()) & printedElements.tolist(
-                elementNewLine & delimiter
-            );
-        } else {
-            var formattedText = '(' & elementNewLine & printedElements.tolist(',' & elementNewLine);
-        }
+        var formattedText = '(';
+        formattedText &= cfformat.delimited.joinElements(
+            'function_declaration',
+            printedElements,
+            delimiter,
+            settings,
+            indent
+        );
         formattedText &= settings.lf & cfformat.indentTo(indent, settings) & ')';
         return formattedText;
     }

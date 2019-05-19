@@ -17,6 +17,9 @@ component extends=tests.FormatBaseSpec {
             it('splits arrays onto multiple lines with max col', function() {
                 runTests(loadData('arrayMultilineMaxCol'));
             });
+            it('preserves line comments', function() {
+                runTests(loadData('arrayWithComments'));
+            });
         });
     }
 

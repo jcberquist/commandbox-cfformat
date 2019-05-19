@@ -18,6 +18,7 @@ component accessors="true" {
 
         this.cfscript = new CFScript(this);
         this.cftags = new CFTags(this);
+        this.delimited = new Delimited(this);
         this.cfscript.construct();
         this.cftags.construct();
         return this;

@@ -5,6 +5,9 @@ component extends=tests.FormatBaseSpec {
             it('formats component methods', function() {
                 runTests(loadData('function'));
             });
+            it('preserves line comments', function() {
+                runTests(loadData('functionArgsWithComments'));
+            });
         });
     }
 

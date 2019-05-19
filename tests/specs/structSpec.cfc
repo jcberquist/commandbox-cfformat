@@ -20,6 +20,9 @@ component extends=tests.FormatBaseSpec {
             it('splits structs onto multiple lines with max col', function() {
                 runTests(loadData('structMultilineMaxCol'));
             });
+            it('preserves line comments', function() {
+                runTests(loadData('structWithComments'));
+            });
         });
     }
 
