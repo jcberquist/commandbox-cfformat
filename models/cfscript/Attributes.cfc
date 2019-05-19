@@ -47,7 +47,7 @@ component {
                 attributeStrings.append(attr);
             } else {
                 break;
-            };
+            }
         }
 
         if (!attributeStrings.len()) {

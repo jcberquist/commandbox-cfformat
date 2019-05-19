@@ -47,9 +47,8 @@ component {
 
         var blockTxt = cfformat.cfscript.blocks.print(cftokens, settings, indent);
         blockTxt = blockTxt.insert(settings.lf, 1);
-        blockTxt = blockTxt.insert(settings.lf, blockTxt.len() - 1);
+        blockTxt = blockTxt.insert(settings.lf, blockTxt.len() - 2);
         formattedText &= blockTxt;
-
 
         return formattedText;
     }

@@ -25,7 +25,7 @@ component {
     ) {
         if (cftokens.peekScopes(forSemicolon)) {
             cftokens.next(whitespace = false);
-            cftokens.consumeWhiteSpace(true);
+            cftokens.consumeWhitespace(true);
             var spacer = settings['for_loop_semicolons.padding'] ? ' ' : '';
             return ';' & spacer;
         }
@@ -60,7 +60,7 @@ component {
         // print it with a following whitespace unless
         // next token after it is a semicolon
         var keyword = cftokens.next(whitespace = false);
-        cftokens.consumeWhiteSpace(true);
+        cftokens.consumeWhitespace(true);
         if (!cftokens.peekText(';', true)) {
             return keyword[1] & ' ';
         }
@@ -93,7 +93,7 @@ component {
             ].find(keyword)
         ) {
             formatted &= settings['keywords.spacing_to_group'] ? ' ' : '';
-            cftokens.consumeWhiteSpace(true);
+            cftokens.consumeWhitespace(true);
             var groupFormatted = cfformat.cfscript.groups.print(
                 cftokens,
                 settings,
@@ -143,7 +143,7 @@ component {
                 }
                 formatted &= blockFormatted;
             } else if (!cftokens.tokenMatches(keywordToken, ['meta.do-while.cfml', 'keyword.control.loop.cfml'])) {
-                cftokens.consumeWhiteSpace(true);
+                cftokens.consumeWhitespace(true);
                 var tokens = cftokens.collectExpr();
                 var statement = cfformat.cfscript.print(tokens, settings, indent + 1);
                 if (columnOffset + formatted.len() + statement.len() > settings.max_columns) {
@@ -160,7 +160,7 @@ component {
         if (['if', 'else if'].find(keyword)) {
             var nextToken = cftokens.peek(true);
             if (!isNull(nextToken) && isArray(nextToken) && ['else if', 'else'].find(nextToken[1])) {
-                cftokens.consumeWhiteSpace(true);
+                formatted = formatted.rtrim();
                 if (settings['keywords.block_to_keyword_spacing'] == 'spaced') {
                     formatted &= ' ';
                 } else if (settings['keywords.block_to_keyword_spacing'] == 'newline') {
@@ -176,7 +176,7 @@ component {
         } else if (['do', 'try', 'catch'].find(keyword)) {
             var nextToken = cftokens.peek(true);
             if (!isNull(nextToken) && ['while', 'catch', 'finally'].find(nextToken[1])) {
-                cftokens.consumeWhiteSpace(true);
+                formatted = formatted.rtrim();
                 if (settings['keywords.block_to_keyword_spacing'] == 'spaced') {
                     formatted &= ' ';
                 } else if (settings['keywords.block_to_keyword_spacing'] == 'newline') {
@@ -228,7 +228,7 @@ component {
 
         // check for a case block
         if (cftokens.peekElement('block')) {
-            cftokens.consumeWhiteSpace(true);
+            cftokens.consumeWhitespace(true);
             var caseBody = cfformat.cfscript.blocks.print(
                 cftokens,
                 settings,

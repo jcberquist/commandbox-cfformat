@@ -25,14 +25,26 @@ component {
             )
             .trim();
 
-        if (!blockFormatted.len()) {
-            return '{' & settings.lf & cfformat.indentTo(indent, settings) & '}';
+        var newlineIndent = settings.lf & cfformat.indentTo(indent, settings);
+
+        var formatted = '{';
+        if (blockFormatted.len()) {
+            formatted &= settings.lf & cfformat.indentTo(indent + 1, settings);
+            formatted &= blockFormatted;
+        }
+        formatted &= newlineIndent & '}' & settings.lf;
+
+        if (cftokens.peekNewline()) {
+            cftokens.next(false);
         }
 
-        return '{' & settings.lf & cfformat.indentTo(indent + 1, settings) & blockFormatted & settings.lf & cfformat.indentTo(
-            indent,
-            settings
-        ) & '}';
+        cftokens.consumeWhitespace(false);
+
+        if (!cftokens.peekNewline()) {
+            formatted &= cfformat.indentTo(indent, settings);
+        }
+
+        return formatted;
     }
 
 }
