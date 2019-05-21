@@ -1,0 +1,119 @@
+{
+    "array.empty_padding": {
+        "type": "boolean"
+    },
+    "array.multiline.element_count": {
+        "type": "integer"
+    },
+    "array.multiline.leading_comma": {
+        "type": "boolean"
+    },
+    "array.multiline.min_length": {
+        "type": "integer"
+    },
+    "array.padding": {
+        "type": "boolean"
+    },
+    "binary_operators.padding": {
+        "type": "boolean"
+    },
+    "brackets.padding": {
+        "type": "boolean"
+    },
+    "for_loop_semicolons.padding": {
+        "type": "boolean"
+    },
+    "function_call.empty_padding": {
+        "type": "boolean"
+    },
+    "function_call.multiline.element_count": {
+        "type": "integer"
+    },
+    "function_call.multiline.leading_comma": {
+        "type": "boolean"
+    },
+    "function_call.multiline.min_length": {
+        "type": "integer"
+    },
+    "function_call.padding": {
+        "type": "boolean"
+    },
+    "function_declaration.empty_padding": {
+        "type": "boolean"
+    },
+    "function_declaration.group_to_block_spacing": {
+        "type": "string",
+        "values": ["spaced", "compact", "newline"]
+    },
+    "function_declaration.multiline.element_count": {
+        "type": "integer"
+    },
+    "function_declaration.multiline.leading_comma": {
+        "type": "boolean"
+    },
+    "function_declaration.multiline.min_length": {
+        "type": "integer"
+    },
+    "function_declaration.padding": {
+        "type": "boolean"
+    },
+    "indent_size": {
+        "type": "integer"
+    },
+    "keywords.block_to_keyword_spacing": {
+        "type": "string",
+        "values": ["spaced", "compact", "newline"]
+    },
+    "keywords.empty_group_spacing": {
+        "type": "boolean"
+    },
+    "keywords.group_to_block_spacing": {
+        "type": "string",
+        "values": ["spaced", "compact", "newline"]
+    },
+    "keywords.padding_inside_group": {
+        "type": "boolean"
+    },
+    "keywords.spacing_to_block": {
+        "type": "string",
+        "values": ["spaced", "compact", "newline"]
+    },
+    "keywords.spacing_to_group": {
+        "type": "boolean"
+    },
+    "max_columns": {
+        "type": "integer"
+    },
+    "parentheses.padding": {
+        "type": "boolean"
+    },
+    "strings.attributes.quote": {
+        "type": "string",
+        "values": ["single", "double", null]
+    },
+    "strings.quote": {
+        "type": "string",
+        "values": ["single", "double", null]
+    },
+    "struct.empty_padding": {
+        "type": "boolean"
+    },
+    "struct.multiline.element_count": {
+        "type": "integer"
+    },
+    "struct.multiline.leading_comma": {
+        "type": "boolean"
+    },
+    "struct.multiline.min_length": {
+        "type": "integer"
+    },
+    "struct.padding": {
+        "type": "boolean"
+    },
+    "struct.separator": {
+        "type": "struct-key-value"
+    },
+    "tab_indent": {
+        "type": "boolean"
+    }
+}

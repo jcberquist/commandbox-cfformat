@@ -1,0 +1,154 @@
+{
+    "array.empty_padding": {
+        "code": "myArray = [];",
+        "description": "When true, empty arrays are padded with a space."
+    },
+    "array.multiline.element_count": {
+        "description": "When an array has this number of elements or more, print it onto multiple lines."
+    },
+    "array.multiline.leading_comma": {
+        "code": "myArray = [1,2,3,4];",
+        "description": "Whether to use a leading comma when an array is printed on multiple lines.",
+        "settings": {
+            "array.multiline.min_length": 1
+        }
+    },
+    "array.multiline.min_length": {
+        "description": "No matter how many elements an array has, if it is shorter than this length, keep it on one line."
+    },
+    "array.padding": {
+        "code": "myArray = [1,2];",
+        "description": "When true, non-empty arrays are padded with spaces."
+    },
+    "binary_operators.padding": {
+        "code": "a=1+2;",
+        "description": "Whether to pad binary operators with spaces."
+    },
+    "brackets.padding": {
+        "code": "a['mykey'][1]=7;",
+        "description": "When true, bracketed accessors are padded with spaces."
+    },
+    "for_loop_semicolons.padding": {
+        "code": "for(var i=0;i<10;i++){}",
+        "description": "When true, insert a space after for loop semicolons."
+    },
+    "function_call.empty_padding": {
+        "code": "myFunc();",
+        "description": "When true, function calls with no arguments are padded with a space."
+    },
+    "function_call.multiline.element_count": {
+        "description": "When a function call has this number of arguments, split them onto multiple lines."
+    },
+    "function_call.multiline.leading_comma": {
+        "code": "myFunc(1,2,3,4);",
+        "description": "Whether to use a leading comma when function call arguments are printed on multiple lines.",
+        "settings": {
+            "function_call.multiline.min_length": 1
+        }
+    },
+    "function_call.multiline.min_length": {
+        "description": "No matter how many arguments a function call has, if they can be printed inline in this many columns or less, keep them on one line."
+    },
+    "function_call.padding": {
+        "code": "myFunc(1,2);",
+        "description": "Whether to pad function call arguments with spaces."
+    },
+    "function_declaration.empty_padding": {
+        "code": "function() {}",
+        "description": "When true, pad function declarations that have no parameters with a space."
+    },
+    "function_declaration.group_to_block_spacing": {
+        "code": "function() {}",
+        "description": "How to space from the function parameters to the function block."
+    },
+    "function_declaration.multiline.element_count": {
+        "description": "When a function declaration has this number of parameters, split them onto multiple lines."
+    },
+    "function_declaration.multiline.leading_comma": {
+        "code": "function(a,b,c,d) {}",
+        "description": "Whether to use a leading comma when function declaration parameters are printed on multiple lines.",
+        "settings": {
+            "function_declaration.multiline.min_length": 1
+        }
+    },
+    "function_declaration.multiline.min_length": {
+        "description": "No matter how many arguments a function call has, if they can be printed in this many columns or less, keep them on one line."
+    },
+    "function_declaration.padding": {
+        "code": "function(a,b) {}",
+        "description": "Whether to pad non-empty function calls with spaces."
+    },
+    "indent_size": {
+        "code": "do {myFunc();}",
+        "description": "Each indent level or tab is equivalent to this many spaces.",
+        "sample_values": [4, 2]
+    },
+    "keywords.block_to_keyword_spacing": {
+        "code": "if(true){}else{}",
+        "description": "Spacing for keywords following a block."
+    },
+    "keywords.empty_group_spacing": {
+        "code": "if(){}",
+        "description": "Whether to pad empty keyword groups."
+    },
+    "keywords.group_to_block_spacing": {
+        "code": "if(true){}else{}",
+        "description": "Spacing from a keyword group to the following block."
+    },
+    "keywords.padding_inside_group": {
+        "code": "if(true){}",
+        "description": "Whether to pad inside non-empty keyword groups."
+    },
+    "keywords.spacing_to_block": {
+        "code": "do{}",
+        "description": "Spacing from a keyword to the following block."
+    },
+    "keywords.spacing_to_group": {
+        "code": "if(true){}",
+        "description": "Whether to space a keyword from following group."
+    },
+    "max_columns": {
+        "description": "When rendering a delimited item (struct, array, function call, function declaration parameters), this is the maximum number of columns to render on one line before splitting the elements onto multiple lines."
+    },
+    "parentheses.padding": {
+        "code": "a=(1+2);",
+        "description": "Whether to pad the contents of a group."
+    },
+    "strings.attributes.quote": {
+        "code": "http url='www.google.com';\nparam name=\"key\";",
+        "description": "Whether to use a single or double quote for attribute values. If set to null, leaves attribute value quotes as they are found."
+    },
+    "strings.quote": {
+        "code": "a=\"One\";\nb='Two';",
+        "description": "Whether to use a single or double quote for strings. If set to null, leaves string quotes as they are found."
+    },
+    "struct.empty_padding": {
+        "code": "myStruct={};",
+        "description": "When true, non-empty structs are padded with spaces."
+    },
+    "struct.multiline.element_count": {
+        "description": "When a struct has this number of elements or more, print it onto multiple lines."
+    },
+    "struct.multiline.leading_comma": {
+        "code": "myStruct={a:1,b:2,c:3,d:4};",
+        "description": "Whether to use a leading comma when an struct is printed on multiple lines.",
+        "settings": {
+            "struct.multiline.min_length": 1
+        }
+    },
+    "struct.multiline.min_length": {
+        "description": "No matter how many elements an struct has, if it is shorter than this length, keep it on one line."
+    },
+    "struct.padding": {
+        "code": "myStruct={a:1,b:2};",
+        "description": "Whether to pad non-empty structs with spaces."
+    },
+    "struct.separator": {
+        "code": "myStruct={a:1,b:2};",
+        "description": "The key value separator to use in structs - it must contain either a single `:` or `=` and be no more than 3 characters in length.",
+        "sample_values": [": ", " = ", " : ", "="]
+    },
+    "tab_indent": {
+        "description": "Whether to indent using tab characters or not."
+    }
+}
