@@ -15,7 +15,8 @@ component accessors="true" {
         'ScriptTags',
         'Functions',
         'CFComponent',
-        'Attributes'
+        'Attributes',
+        'Semicolons'
     ];
 
     function init(cfformat) {
