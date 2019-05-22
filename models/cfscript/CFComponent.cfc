@@ -45,10 +45,10 @@ component {
             formattedText = formattedText & ' ';
         }
 
-        var blockTxt = cfformat.cfscript.blocks.print(cftokens, settings, indent);
+        var blockTxt = cfformat.cfscript.blocks.print(cftokens, settings, indent).rtrim();
         blockTxt = blockTxt.insert(settings.lf, 1);
-        blockTxt = blockTxt.insert(settings.lf, blockTxt.len() - 2);
-        formattedText &= blockTxt;
+        blockTxt = blockTxt.insert(settings.lf, blockTxt.len() - 1);
+        formattedText &= blockTxt & settings.lf;
 
         return formattedText;
     }
