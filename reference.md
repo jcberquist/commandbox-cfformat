@@ -51,6 +51,32 @@ myArray = [
 ];
 ```
 
+## array.multiline.leading_comma.padding
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to insert a space after leading commas when an array is printed on multiple lines.
+
+```cfc
+// array.multiline.leading_comma.padding: true
+myArray = [
+      1
+    , 2
+    , 3
+    , 4
+];
+
+// array.multiline.leading_comma.padding: false
+myArray = [
+     1
+    ,2
+    ,3
+    ,4
+];
+```
+
 ## array.multiline.min_length
 
 Type: _integer_
@@ -121,11 +147,9 @@ When true, insert a space after for loop semicolons.
 for (var i = 0; i < 10; i++) {
 }
 
-
 // for_loop_semicolons.padding: false
 for (var i = 0;i < 10;i++) {
 }
-
 ```
 
 ## function_call.empty_padding
@@ -179,6 +203,32 @@ myFunc(
 );
 ```
 
+## function_call.multiline.leading_comma.padding
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to insert a space after leading commas when function call arguments are printed on multiple lines.
+
+```cfc
+// function_call.multiline.leading_comma.padding: true
+myFunc(
+      1
+    , 2
+    , 3
+    , 4
+);
+
+// function_call.multiline.leading_comma.padding: false
+myFunc(
+     1
+    ,2
+    ,3
+    ,4
+);
+```
+
 ## function_call.multiline.min_length
 
 Type: _integer_
@@ -217,11 +267,9 @@ When true, pad function declarations that have no parameters with a space.
 function( ) {
 }
 
-
 // function_declaration.empty_padding: false
 function() {
 }
-
 ```
 
 ## function_declaration.group_to_block_spacing
@@ -237,17 +285,14 @@ How to space from the function parameters to the function block.
 function() {
 }
 
-
 // function_declaration.group_to_block_spacing: "compact"
 function(){
 }
-
 
 // function_declaration.group_to_block_spacing: "newline"
 function()
 {
 }
-
 ```
 
 ## function_declaration.multiline.element_count
@@ -277,7 +322,6 @@ function(
 ) {
 }
 
-
 // function_declaration.multiline.leading_comma: false
 function(
     a,
@@ -286,7 +330,34 @@ function(
     d
 ) {
 }
+```
 
+## function_declaration.multiline.leading_comma.padding
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to insert a space after leading commas when function declaration parameters are printed on multiple lines.
+
+```cfc
+// function_declaration.multiline.leading_comma.padding: true
+function(
+      a
+    , b
+    , c
+    , d
+) {
+}
+
+// function_declaration.multiline.leading_comma.padding: false
+function(
+     a
+    ,b
+    ,c
+    ,d
+) {
+}
 ```
 
 ## function_declaration.multiline.min_length
@@ -295,7 +366,7 @@ Type: _integer_
 
 Default: **40**
 
-No matter how many arguments a function call has, if they can be printed in this many columns or less, keep them on one line.
+No matter how many parameters a function declaration has, if they can be printed in this many columns or less, keep them on one line.
 
 
 ## function_declaration.padding
@@ -311,11 +382,9 @@ Whether to pad non-empty function calls with spaces.
 function( a, b ) {
 }
 
-
 // function_declaration.padding: false
 function(a, b) {
 }
-
 ```
 
 ## indent_size
@@ -332,12 +401,10 @@ do {
     myFunc();
 }
 
-
 // indent_size: 2
 do {
   myFunc();
 }
-
 ```
 
 ## keywords.block_to_keyword_spacing
@@ -354,19 +421,16 @@ if (true) {
 } else {
 }
 
-
 // keywords.block_to_keyword_spacing: "compact"
 if (true) {
 }else {
 }
-
 
 // keywords.block_to_keyword_spacing: "newline"
 if (true) {
 }
 else {
 }
-
 ```
 
 ## keywords.empty_group_spacing
@@ -382,11 +446,9 @@ Whether to pad empty keyword groups.
 if ( ) {
 }
 
-
 // keywords.empty_group_spacing: false
 if () {
 }
-
 ```
 
 ## keywords.group_to_block_spacing
@@ -403,19 +465,16 @@ if (true) {
 } else {
 }
 
-
 // keywords.group_to_block_spacing: "compact"
 if (true){
 } else {
 }
-
 
 // keywords.group_to_block_spacing: "newline"
 if (true)
 {
 } else {
 }
-
 ```
 
 ## keywords.padding_inside_group
@@ -431,11 +490,9 @@ Whether to pad inside non-empty keyword groups.
 if ( true ) {
 }
 
-
 // keywords.padding_inside_group: false
 if (true) {
 }
-
 ```
 
 ## keywords.spacing_to_block
@@ -451,17 +508,14 @@ Spacing from a keyword to the following block.
 do {
 }
 
-
 // keywords.spacing_to_block: "compact"
 do{
 }
-
 
 // keywords.spacing_to_block: "newline"
 do
 {
 }
-
 ```
 
 ## keywords.spacing_to_group
@@ -477,11 +531,9 @@ Whether to space a keyword from following group.
 if (true) {
 }
 
-
 // keywords.spacing_to_group: false
 if(true) {
 }
-
 ```
 
 ## max_columns
@@ -601,6 +653,32 @@ myStruct = {
     b: 2,
     c: 3,
     d: 4
+};
+```
+
+## struct.multiline.leading_comma.padding
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to insert a space after leading commas when an struct is printed on multiple lines.
+
+```cfc
+// struct.multiline.leading_comma.padding: true
+myStruct = {
+      a: 1
+    , b: 2
+    , c: 3
+    , d: 4
+};
+
+// struct.multiline.leading_comma.padding: false
+myStruct = {
+     a: 1
+    ,b: 2
+    ,c: 3
+    ,d: 4
 };
 ```
 

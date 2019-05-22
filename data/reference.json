@@ -13,6 +13,14 @@
             "array.multiline.min_length": 1
         }
     },
+    "array.multiline.leading_comma.padding": {
+        "code": "myArray = [1,2,3,4];",
+        "description": "Whether to insert a space after leading commas when an array is printed on multiple lines.",
+        "settings": {
+            "array.multiline.min_length": 1,
+            "array.multiline.leading_comma": true
+        }
+    },
     "array.multiline.min_length": {
         "description": "No matter how many elements an array has, if it is shorter than this length, keep it on one line."
     },
@@ -46,6 +54,14 @@
             "function_call.multiline.min_length": 1
         }
     },
+    "function_call.multiline.leading_comma.padding": {
+        "code": "myFunc(1,2,3,4);",
+        "description": "Whether to insert a space after leading commas when function call arguments are printed on multiple lines.",
+        "settings": {
+            "function_call.multiline.min_length": 1,
+            "function_call.multiline.leading_comma": true
+        }
+    },
     "function_call.multiline.min_length": {
         "description": "No matter how many arguments a function call has, if they can be printed inline in this many columns or less, keep them on one line."
     },
@@ -71,8 +87,16 @@
             "function_declaration.multiline.min_length": 1
         }
     },
+    "function_declaration.multiline.leading_comma.padding": {
+        "code": "function(a,b,c,d) {}",
+        "description": "Whether to insert a space after leading commas when function declaration parameters are printed on multiple lines.",
+        "settings": {
+            "function_declaration.multiline.min_length": 1,
+            "function_declaration.multiline.leading_comma": true
+        }
+    },
     "function_declaration.multiline.min_length": {
-        "description": "No matter how many arguments a function call has, if they can be printed in this many columns or less, keep them on one line."
+        "description": "No matter how many parameters a function declaration has, if they can be printed in this many columns or less, keep them on one line."
     },
     "function_declaration.padding": {
         "code": "function(a,b) {}",
@@ -134,6 +158,14 @@
         "description": "Whether to use a leading comma when an struct is printed on multiple lines.",
         "settings": {
             "struct.multiline.min_length": 1
+        }
+    },
+    "struct.multiline.leading_comma.padding": {
+        "code": "myStruct={a:1,b:2,c:3,d:4};",
+        "description": "Whether to insert a space after leading commas when an struct is printed on multiple lines.",
+        "settings": {
+            "struct.multiline.min_length": 1,
+            "struct.multiline.leading_comma": true
         }
     },
     "struct.multiline.min_length": {

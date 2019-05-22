@@ -2,5 +2,10 @@
     {
         "struct.multiline.element_count": 4,
         "struct.multiline.min_length": 1
+    },
+    {
+        "struct.multiline.leading_comma": true,
+        "struct.multiline.leading_comma.padding": false,
+        "struct.multiline.min_length": 1
     }
 ]

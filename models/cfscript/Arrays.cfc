@@ -41,7 +41,6 @@ component {
         formattedText &= cfformat.delimited.joinElements(
             'array',
             printedElements,
-            delimiter,
             settings,
             indent
         );

@@ -60,7 +60,6 @@ component {
         formattedText &= cfformat.delimited.joinElements(
             'struct',
             printedElements,
-            delimiter,
             settings,
             indent
         );

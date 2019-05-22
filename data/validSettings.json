@@ -8,6 +8,9 @@
     "array.multiline.leading_comma": {
         "type": "boolean"
     },
+    "array.multiline.leading_comma.padding": {
+        "type": "boolean"
+    },
     "array.multiline.min_length": {
         "type": "integer"
     },
@@ -32,6 +35,9 @@
     "function_call.multiline.leading_comma": {
         "type": "boolean"
     },
+    "function_call.multiline.leading_comma.padding": {
+        "type": "boolean"
+    },
     "function_call.multiline.min_length": {
         "type": "integer"
     },
@@ -49,6 +55,9 @@
         "type": "integer"
     },
     "function_declaration.multiline.leading_comma": {
+        "type": "boolean"
+    },
+    "function_declaration.multiline.leading_comma.padding": {
         "type": "boolean"
     },
     "function_declaration.multiline.min_length": {
@@ -102,6 +111,9 @@
         "type": "integer"
     },
     "struct.multiline.leading_comma": {
+        "type": "boolean"
+    },
+    "struct.multiline.leading_comma.padding": {
         "type": "boolean"
     },
     "struct.multiline.min_length": {

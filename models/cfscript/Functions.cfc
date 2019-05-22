@@ -153,7 +153,6 @@ component {
         formattedText &= cfformat.delimited.joinElements(
             'function_declaration',
             printedElements,
-            delimiter,
             settings,
             indent
         );

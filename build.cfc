@@ -144,7 +144,7 @@ component accessors="true" {
                     var tokens = deserializeJSON(fileRead(tokensDir & setting & '.json'));
                     var formatted = cfformat.format(tokens, cfformat.mergedSettings(reference[setting].settings));
                     samples.append(
-                        formatted.reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#')
+                        formatted.reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#').trim()
                     );
                 }
 

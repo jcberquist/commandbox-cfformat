@@ -44,7 +44,6 @@ component accessors="true" {
     function joinElements(
         type,
         printedElements,
-        delimiter,
         settings,
         indent
     ) {
@@ -52,6 +51,7 @@ component accessors="true" {
         var formattedText = elementNewLine;
 
         if (settings['#type#.multiline.leading_comma']) {
+            var delimiter = settings['#type#.multiline.leading_comma.padding'] ? ', ' : ',';
             formattedText &= repeatString(' ', delimiter.len());
             formattedText &= printedElements.printed.tolist(elementNewLine & delimiter);
         } else {
