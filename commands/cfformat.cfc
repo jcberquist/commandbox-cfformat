@@ -94,7 +94,8 @@ component accessors="true" {
             .paths('**.cfc')
             .inDirectory(fullPath)
             .onChange((files) => {
-                var allFiles = files.added.append(files.changed, true).map((p) => fullPath & p);
+                // files could contain absolute paths
+                var allFiles = files.added.append(files.changed, true).map((p) => fileExists(p) ? p : fullPath & p);
                 var userSettings = resolveSettings(allFiles, settingsPath);
                 if (allFiles.len() == 1) {
                     formatFile(
