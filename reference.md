@@ -565,9 +565,9 @@ a = (1 + 2);
 
 Type: _string_
 
-Values: ["single", **"double"**]
+Values: ["single", **"double"**, ""]
 
-Whether to use a single or double quote for attribute values. If set to null, leaves attribute value quotes as they are found.
+Whether to use a single or double quote for attribute values. If set to an empty string, leaves attribute value quotes as they are found.
 
 ```cfc
 // strings.attributes.quote: "single"
@@ -578,7 +578,7 @@ param name='key';
 http url="www.google.com";
 param name="key";
 
-// strings.attributes.quote: null
+// strings.attributes.quote: ""
 http url='www.google.com';
 param name="key";
 ```
@@ -587,9 +587,9 @@ param name="key";
 
 Type: _string_
 
-Values: [**"single"**, "double"]
+Values: [**"single"**, "double", ""]
 
-Whether to use a single or double quote for strings. If set to null, leaves string quotes as they are found.
+Whether to use a single or double quote for strings. If set to an empty string, leaves string quotes as they are found.
 
 ```cfc
 // strings.quote: "single"
@@ -600,7 +600,7 @@ b = 'Two';
 a = "One";
 b = "Two";
 
-// strings.quote: null
+// strings.quote: ""
 a = "One";
 b = 'Two';
 ```

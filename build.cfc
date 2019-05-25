@@ -2,6 +2,7 @@ component accessors="true" {
 
     property tempDir inject="tempDir@constants";
     property filesystem inject="filesystem";
+    property JSONService inject="JSONService";
 
     function run() {
         syntect();
@@ -99,24 +100,22 @@ component accessors="true" {
         fileWrite(dir & name & '/source.cfc', '//' & chr(10));
     }
 
-    function reference() {
+    function examples() {
         var dir = resolvePath('./');
 
         var binary = filesystem.isWindows() ? 'cftokens.exe' : 'cftokens_osx';
         var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
         var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
-        var defaultSettings = deserializeJSON(fileRead(dir & '.cfformat.json'));
-        var validSettings = deserializeJSON(fileRead(dir & 'data/validSettings.json'));
         var reference = deserializeJSON(fileRead(dir & 'data/reference.json'));
         var refDir = tempDir & '/' & createUUID() & '/';
-        var codeDir = refDir & 'samples/';
+        var codeDir = refDir & 'examples/';
         var tokensDir = refDir & 'tokens/';
 
         directoryCreate(codeDir, true, true);
 
         for (var setting in reference) {
-            if (reference[setting].keyExists('code')) {
-                fileWrite(codeDir & setting & '.cfc', '//' & chr(10) & reference[setting].code);
+            if (reference[setting].keyExists('example')) {
+                fileWrite(codeDir & setting & '.cfc', '//' & chr(10) & reference[setting].example.code);
             }
         }
 
@@ -127,44 +126,56 @@ component accessors="true" {
             timeout=10
         );
 
-        // generate formatting samples
+        // generate examples
         var cfformat = new models.CFFormat('', dir);
+        var examples = {};
         for (var setting in reference) {
-            if (reference[setting].keyExists('code')) {
-                var samples = [];
-                var values = reference[setting].keyExists('sample_values') ? reference[setting].sample_values : [];
-                if (validSettings[setting].keyExists('values')) {
-                    values = validSettings[setting].values;
-                } else if (validSettings[setting].type == 'boolean') {
+            if (reference[setting].keyExists('example')) {
+                var output = [];
+                var values = reference[setting].example.keyExists('values') ? reference[setting].example.values : [];
+                if (reference[setting].keyExists('values')) {
+                    values = reference[setting].values;
+                } else if (reference[setting].type == 'boolean') {
                     values = [true, false];
                 }
 
                 for (var v in values) {
-                    reference[setting].settings[setting] = isNull(v) ? nullValue() : v;
+                    reference[setting].example.settings[setting] = v;
                     var tokens = deserializeJSON(fileRead(tokensDir & setting & '.json'));
-                    var formatted = cfformat.format(tokens, cfformat.mergedSettings(reference[setting].settings));
-                    samples.append(
+                    var formatted = cfformat.format(
+                        tokens,
+                        cfformat.mergedSettings(reference[setting].example.settings)
+                    );
+                    output.append(
                         formatted.reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#').trim()
                     );
                 }
 
-                reference[setting].code = samples.toList(lf & lf);
+                examples[setting] = output.toList(lf & lf);
             }
         }
 
-        directoryDelete(refDir, true);
+        JSONService.writeJSONFile(dir & 'data/examples.json', examples);
+    }
 
+    function reference() {
+        var dir = resolvePath('./');
+
+        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
+        var defaultSettings = deserializeJSON(fileRead(dir & '.cfformat.json'));
+        var reference = deserializeJSON(fileRead(dir & 'data/reference.json'));
+        var examples = deserializeJSON(fileRead(dir & 'data/examples.json'));
         var markdown = ['## Settings Reference'];
 
         for (var setting in reference) {
             var md = '#### ' & setting & lf;
 
-            if (validSettings[setting].type != 'struct-key-value') {
-                md &= lf & 'Type: _#validSettings[setting].type#_' & lf;
+            if (reference[setting].type != 'struct-key-value') {
+                md &= lf & 'Type: _#reference[setting].type#_' & lf;
             }
 
-            if (validSettings[setting].type == 'string') {
-                var md_values = validSettings[setting].values
+            if (reference[setting].type == 'string') {
+                var md_values = reference[setting].values
                     .map((v) => {
                         return defaultSettings[setting] == v ? '**#serializeJSON(v)#**' : serializeJSON(v);
                     })
@@ -177,8 +188,8 @@ component accessors="true" {
             if (reference[setting].description.len()) {
                 md &= lf & reference[setting].description & lf;
             }
-            if (reference[setting].keyExists('code')) {
-                md &= lf & '```cfc' & lf & reference[setting].code & lf & '```';
+            if (examples.keyExists(setting)) {
+                md &= lf & '```cfc' & lf & examples[setting] & lf & '```';
             }
             markdown.append(md);
         }
