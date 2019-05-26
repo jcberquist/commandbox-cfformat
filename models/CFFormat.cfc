@@ -2,11 +2,13 @@ component accessors="true" {
 
     property rootFolder;
     property defaultSettings;
+    property reference;
     property executable;
 
     function init(required string binFolder, required string rootFolder) {
         variables.rootFolder = arguments.rootFolder;
         variables.defaultSettings = deserializeJSON(fileRead(rootFolder & '.cfformat.json'));
+        variables.reference = deserializeJSON(fileRead(rootFolder & 'data/reference.json'));
 
         var isWindows = createObject('java', 'java.lang.System')
             .getProperty('os.name')
@@ -24,8 +26,48 @@ component accessors="true" {
         return this;
     }
 
-    function mergedSettings(settings) {
-        return duplicate(defaultSettings).append(settings);
+    function mergedSettings(userSettings) {
+        var merged = duplicate(defaultSettings);
+
+        var validationError = function(message) {
+            throw(type = 'CFFormat.settings.validation', message = message);
+        }
+
+        for (var key in userSettings) {
+            if (!reference.keyExists(key)) {
+                validationError('[#key#] is not a valid setting name.');
+            }
+
+            var setting = reference[key];
+            var invalidSetting = 'Setting [#key#] to [#userSettings[key]#] is not valid. ';
+
+            switch (setting.type) {
+                case 'boolean':
+                    if (![true, false].find(userSettings[key])) {
+                        validationError(invalidSetting & 'Valid options are [true,false].');
+                    }
+                    break;
+                case 'string':
+                    if (!setting.values.find(userSettings[key])) {
+                        validationError(invalidSetting & 'Valid options are #serializeJSON(setting.values)#.');
+                    }
+                    break;
+                case 'integer':
+                    if (!isValid('integer', userSettings[key]) || userSettings[key] < 0) {
+                        validationError(invalidSetting & '[#key#] must be a positive integer.');
+                    }
+                    break;
+                case 'struct-key-value':
+                    if (![':', '='].find(userSettings[key].trim()) || userSettings[key].len() > 3) {
+                        validationError(
+                            invalidSetting & '[#key#] must contain either a single `:` or `=` and be no more than 3 characters in length.'
+                        );
+                    }
+                    break;
+            }
+            merged[key] = userSettings[key];
+        }
+        return merged;
     }
 
     function formatFile(fullFilePath, settings = {}) {

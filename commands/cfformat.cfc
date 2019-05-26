@@ -313,7 +313,11 @@ component accessors="true" {
             }
         }
 
-        print.line(cfformat.mergedSettings(userSettings));
+        try {
+            print.line(cfformat.mergedSettings(userSettings));
+        } catch (CFFormat.settings.validation e) {
+            print.redLine(e.message);
+        }
     }
 
 }
