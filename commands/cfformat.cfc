@@ -17,6 +17,8 @@ component accessors="true" {
     /**
     * @path component or directory path
     * @settingsPath path to a JSON settings file
+    * @settingInfo pass a setting name to get reference information about it
+    * @settingInfo.optionsUDF settingNames
     * @overwrite overwrite file in place
     * @timeit print the time formatting took to the console
     * @settings dump cfformat settings to the console
@@ -25,12 +27,27 @@ component accessors="true" {
     function run(
         string path = '',
         string settingsPath = '',
+        string settingInfo = '',
         boolean overwrite = false,
         boolean timeit = false,
         boolean settings = false,
         boolean watch = false
     ) {
         var fullPath = resolvePath(path);
+
+        if (settingInfo.len()) {
+            var reference = cfformat.getReference();
+            var examples = cfformat.getExamples();
+            if (reference.keyExists(settingInfo)) {
+                print.BoldLine(settingInfo);
+                print.line(reference[settingInfo].description);
+                if (examples.keyExists(settingInfo)) {
+                    print.line();
+                    print.line(examples[settingInfo]);
+                }
+            }
+            return;
+        }
 
         if (arguments.watch) {
             watchDirectory(fullPath, settingsPath);
@@ -318,6 +335,13 @@ component accessors="true" {
         } catch (CFFormat.settings.validation e) {
             print.redLine(e.message);
         }
+    }
+
+    array function settingNames() {
+        return cfformat
+            .getReference()
+            .keyArray()
+            .sort('text');
     }
 
 }

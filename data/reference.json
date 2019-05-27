@@ -183,7 +183,7 @@
     "keywords.group_to_block_spacing": {
         "description": "Spacing from a keyword group to the following block.",
         "example": {
-            "code": "if(true){}else{}"
+            "code": "if(true){}"
         },
         "type": "string",
         "values": ["spaced", "compact", "newline"]

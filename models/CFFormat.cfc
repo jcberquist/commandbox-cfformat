@@ -3,12 +3,14 @@ component accessors="true" {
     property rootFolder;
     property defaultSettings;
     property reference;
+    property examples;
     property executable;
 
     function init(required string binFolder, required string rootFolder) {
         variables.rootFolder = arguments.rootFolder;
         variables.defaultSettings = deserializeJSON(fileRead(rootFolder & '.cfformat.json'));
         variables.reference = deserializeJSON(fileRead(rootFolder & 'data/reference.json'));
+        variables.examples = deserializeJSON(fileRead(rootFolder & 'data/examples.json'));
 
         var isWindows = createObject('java', 'java.lang.System')
             .getProperty('os.name')

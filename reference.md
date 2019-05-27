@@ -462,18 +462,15 @@ Spacing from a keyword group to the following block.
 ```cfc
 // keywords.group_to_block_spacing: "spaced"
 if (true) {
-} else {
 }
 
 // keywords.group_to_block_spacing: "compact"
 if (true){
-} else {
 }
 
 // keywords.group_to_block_spacing: "newline"
 if (true)
 {
-} else {
 }
 ```
 
