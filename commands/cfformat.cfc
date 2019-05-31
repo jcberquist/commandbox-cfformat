@@ -6,6 +6,29 @@
 * cfformat path/to/mycomponents/
 * {code}
 *
+* Use the --watch flag with a directory to have it watch that directory
+* for component changes and format them.
+*
+* {code:bash}
+* cfformat ./ --watch
+* {code}
+*
+* Call it with the --settings flag to dump the formatting settings to the console.
+* If a file path is specified as well, it will show the settings that will be used
+* to format that particular file, based on your configured setting sources.
+*
+* {code:bash}
+* cfformat --settings
+* cfformat --settings > ~/.cfformat.json
+* cfformat path/to/MyComponent.cfc --settings
+* {code}
+*
+* Call it with `settingInfo` and a setting name or prefix to see reference
+* information for those settings
+*
+* {code:bash}
+* cfformat settingInfo=array
+* {code}
 */
 component accessors="true" {
 
@@ -17,7 +40,7 @@ component accessors="true" {
     /**
     * @path component or directory path
     * @settingsPath path to a JSON settings file
-    * @settingInfo pass a setting name to get reference information about it
+    * @settingInfo pass a setting name or prefix to get reference information
     * @settingInfo.optionsUDF settingNames
     * @overwrite overwrite file in place
     * @timeit print the time formatting took to the console
@@ -36,14 +59,26 @@ component accessors="true" {
         var fullPath = resolvePath(path);
 
         if (settingInfo.len()) {
+            var defaultSettings = cfformat.getDefaultSettings();
             var reference = cfformat.getReference();
             var examples = cfformat.getExamples();
-            if (reference.keyExists(settingInfo)) {
-                print.BoldLine(settingInfo);
-                print.line(reference[settingInfo].description);
-                if (examples.keyExists(settingInfo)) {
+
+            var info = reference
+                .keyArray()
+                .sort('text')
+                .filter((k) => k.startswith(settingInfo))
+                .map((k) => {
+                    return {setting: k, reference: reference[k]}
+                });
+
+            for (var ref in info) {
+                print.BoldOnGrey93Line(' #ref.setting# ');
+                print.line(ref.reference.description);
+                print.text('Default: ')
+                print.blueLine(defaultSettings[ref.setting]);
+                if (examples.keyExists(ref.setting)) {
                     print.line();
-                    print.line(examples[settingInfo]);
+                    print.line(examples[ref.setting]);
                 }
             }
             return;
