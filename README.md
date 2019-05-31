@@ -11,9 +11,15 @@ If it is passed a component path it will, by default, print the formatted compon
 
 When passed a directory, `cfformat` always overwrites component files in place, and so it will ask for confirmation before proceeding. Here you can use the `--overwrite` flag to skip this confirmation check.
 
+`cfformat` can also be called with a directory path and the `--watch` flag. When this is done, `cfformat` will use CommandBox's built in support for file watching to watch that directory for component changes, and will perform formatting passes on those files.
+
+```bash
+cfformat ./ --watch
+```
+
 ## Settings
 
-To see the settings used for formatting, use the `--settings` flag. When that is present the `cfformat` command will just dump to the console the settings it will use to format, and not perform any formatting:
+To see the settings used for formatting, use the `--settings` flag. When that is present the `cfformat` command will just dump the settings it will use to format to the console, and not perform any formatting:
 
 ```bash
 cfformat --settings
@@ -41,6 +47,13 @@ Specifying a settings file to use inline when running `cfformat` is done as foll
 
 ```bash
 cfformat path/to/my.cfc /path/to/.cfformat.json
+```
+
+For more information on the settings used and what they do please see the [reference](reference.md). You can also print reference information to the console using the `settingInfo` argument. `settingInfo` can be passed either a full setting name, or just a prefix:
+
+```bash
+cfformat settingInfo=array.padding
+cfformat settingInfo=array
 ```
 
 ## Syntect
