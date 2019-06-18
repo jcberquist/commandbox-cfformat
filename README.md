@@ -49,7 +49,7 @@ Specifying a settings file to use inline when running `cfformat` is done as foll
 cfformat path/to/my.cfc /path/to/.cfformat.json
 ```
 
-For more information on the settings used and what they do please see the [reference](reference.md). You can also print reference information to the console using the `settingInfo` argument. `settingInfo` can be passed either a full setting name, or just a prefix:
+For more information on the settings used and what they do please see the [reference](https://github.com/jcberquist/commandbox-cfformat/blob/master/reference.md). You can also print reference information to the console using the `settingInfo` argument. `settingInfo` can be passed either a full setting name, or just a prefix:
 
 ```bash
 cfformat settingInfo=array.padding
