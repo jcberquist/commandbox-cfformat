@@ -13,5 +13,20 @@
         "array.multiline.min_length": 1,
         "array.multiline.leading_comma": true,
         "array.multiline.leading_comma.padding": false
+    },
+    {
+        "array.multiline.element_count": 4,
+        "array.multiline.min_length": 1,
+        "array.multiline.leading_comma": true,
+        "array.multiline.leading_comma.padding": false,
+        "array.multiline.leading_comma.tab": true
+    },
+    {
+        "array.multiline.element_count": 4,
+        "array.multiline.min_length": 1,
+        "array.multiline.leading_comma": true,
+        "array.multiline.leading_comma.padding": false,
+        "array.multiline.leading_comma.tab": true,
+		"tab_indent": true
     }
 ]

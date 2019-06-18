@@ -25,10 +25,14 @@ component {
 
         for (var scope in binaryOperators) {
             if (cftokens.peekScopes([scope])) {
-                var spacer = settings['binary_operators.padding'] ? ' ' : '';
+                var leftSpacer = settings['binary_operators.padding'] ? ' ' : '';
+                var rightSpacer = settings['binary_operators.padding'] ? ' ' : '';
+				if( find( 'assignment', scope ) && settings['assignment_operators.compact'] ) {
+					leftSpacer = '';
+				}
                 var token = cftokens.next(whitespace = false);
                 cftokens.consumeWhiteSpace();
-                return spacer & token[1] & (cftokens.peekNewline() ? '' : spacer);
+                return leftSpacer & token[1] & (cftokens.peekNewline() ? '' : rightSpacer);
             }
         }
 

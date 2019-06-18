@@ -4,5 +4,9 @@
     },
     {
         "binary_operators.padding": false
+    },
+    {
+        "binary_operators.padding": true,
+        "assignment_operators.compact": true
     }
 ]

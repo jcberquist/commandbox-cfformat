@@ -15,7 +15,8 @@
         "example": {
             "code": "myArray = [1,2,3,4];",
             "settings": {
-                "array.multiline.min_length": 1
+                "array.multiline.min_length": 1,
+                "array.multiline.leading_comma.padding": false
             }
         },
         "type": "boolean"
@@ -30,6 +31,18 @@
             }
         },
         "type": "boolean"
+    },
+    "array.multiline.leading_comma.tab": {
+        "description": "Whether to insert a tab instead of a space after leading commas when an array is printed on multiple lines.",
+        "example": {
+            "code": "myArray = [1,2,3,4];",
+            "settings": {
+                "array.multiline.leading_comma": true,
+                "array.multiline.leading_comma.padding": true,
+                "array.multiline.min_length": 1
+            }
+		},
+		"type": "boolean"
     },
     "array.multiline.min_length": {
         "description": "No matter how many elements an array has, if it is shorter than this length, keep it on one line.",
@@ -46,6 +59,13 @@
         "description": "Whether to pad binary operators with spaces.",
         "example": {
             "code": "a=1+2;"
+        },
+        "type": "boolean"
+    },
+    "assignment_operators.compact": {
+        "description": "Whether to pad assignment operators with a space on the left.",
+        "example": {
+            "code": "a= 1+2;"
         },
         "type": "boolean"
     },
@@ -79,7 +99,8 @@
         "example": {
             "code": "myFunc(1,2,3,4);",
             "settings": {
-                "function_call.multiline.min_length": 1
+                "function_call.multiline.min_length": 1,
+                "function_call.multiline.leading_comma.padding": false
             }
         },
         "type": "boolean"
@@ -94,6 +115,18 @@
             }
         },
         "type": "boolean"
+    },
+    "function_call.multiline.leading_comma.tab": {
+        "description": "Whether to insert a tab instead of a space after leading commas when function call arguments are printed on multiple lines.",
+        "example": {
+            "code": "myFunc(1,2,3,4);",
+            "settings": {
+                "function_call.multiline.leading_comma": true,
+                "function_call.multiline.leading_comma.padding": true,
+                "function_call.multiline.min_length": 1
+            }
+		},
+		"type": "boolean"
     },
     "function_call.multiline.min_length": {
         "description": "No matter how many arguments a function call has, if they can be printed inline in this many columns or less, keep them on one line.",
@@ -130,7 +163,8 @@
         "example": {
             "code": "function(a,b,c,d) {}",
             "settings": {
-                "function_declaration.multiline.min_length": 1
+                "function_declaration.multiline.min_length": 1,
+                "function_declaration.multiline.leading_comma.padding": false
             }
         },
         "type": "boolean"
@@ -145,6 +179,18 @@
             }
         },
         "type": "boolean"
+    },
+    "function_declaration.multiline.leading_comma.tab": {
+        "description": "Whether to insert a tab instead of a space after leading commas when function declaration parameters are printed on multiple lines.",
+		"example": {
+            "code": "function(a,b,c,d) {}",
+            "settings": {
+                "function_declaration.multiline.leading_comma": true,
+                "function_declaration.multiline.leading_comma.padding": true,
+                "function_declaration.multiline.min_length": 1
+            }
+		},
+		"type": "boolean"
     },
     "function_declaration.multiline.min_length": {
         "description": "No matter how many parameters a function declaration has, if they can be printed in this many columns or less, keep them on one line.",
@@ -253,7 +299,8 @@
         "example": {
             "code": "myStruct={a:1,b:2,c:3,d:4};",
             "settings": {
-                "struct.multiline.min_length": 1
+                "struct.multiline.min_length": 1,
+                "struct.multiline.leading_comma.padding": false
             }
         },
         "type": "boolean"
@@ -268,6 +315,18 @@
             }
         },
         "type": "boolean"
+    },
+    "struct.multiline.leading_comma.tab": {
+        "description": "Whether to insert a tab instead of a space after leading commas when an struct is printed on multiple lines.",
+        "example": {
+            "code": "myStruct={a:1,b:2,c:3,d:4};",
+            "settings": {
+                "struct.multiline.leading_comma": true,
+                "struct.multiline.leading_comma.padding": true,
+                "struct.multiline.min_length": 1
+            }
+		},
+		"type": "boolean"
     },
     "struct.multiline.min_length": {
         "description": "No matter how many elements an struct has, if it is shorter than this length, keep it on one line.",

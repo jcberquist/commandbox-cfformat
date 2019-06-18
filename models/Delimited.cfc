@@ -47,14 +47,21 @@ component accessors="true" {
         settings,
         indent
     ) {
-        var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
-        var formattedText = elementNewLine;
-
-        if (settings['#type#.multiline.leading_comma']) {
+        if (settings['#type#.multiline.leading_comma'] && settings['#type#.multiline.leading_comma.tab']) {
+			var elementNewLine = settings.lf & cfformat.indentTo(indent, settings);
+			var formattedText = elementNewLine;
+            var delimiter = ',' & ( settings['tab_indent'] ? chr(9) : repeatString(' ', settings['indent_size']-1 ) );
+            formattedText &= ( settings['tab_indent'] ? chr(9) : repeatString(' ', settings['indent_size'] ) );
+            formattedText &= printedElements.printed.tolist(elementNewLine & delimiter);
+		} else if (settings['#type#.multiline.leading_comma']) {
+			var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
+			var formattedText = elementNewLine;
             var delimiter = settings['#type#.multiline.leading_comma.padding'] ? ', ' : ',';
             formattedText &= repeatString(' ', delimiter.len());
             formattedText &= printedElements.printed.tolist(elementNewLine & delimiter);
         } else {
+			var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
+			var formattedText = elementNewLine;
             printedElements.printed.each((printed, i) => {
                 formattedText &= printed;
 

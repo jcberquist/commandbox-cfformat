@@ -36,10 +36,10 @@ Whether to use a leading comma when an array is printed on multiple lines.
 ```cfc
 // array.multiline.leading_comma: true
 myArray = [
-      1
-    , 2
-    , 3
-    , 4
+     1
+    ,2
+    ,3
+    ,4
 ];
 
 // array.multiline.leading_comma: false
@@ -74,6 +74,32 @@ myArray = [
     ,2
     ,3
     ,4
+];
+```
+
+## array.multiline.leading_comma.tab
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to insert a tab instead of a space after leading commas when an array is printed on multiple lines.
+
+```cfc
+// array.multiline.leading_comma.tab: true
+myArray = [
+    1
+,   2
+,   3
+,   4
+];
+
+// array.multiline.leading_comma.tab: false
+myArray = [
+      1
+    , 2
+    , 3
+    , 4
 ];
 ```
 
@@ -116,6 +142,22 @@ a = 1 + 2;
 
 // binary_operators.padding: false
 a=1+2;
+```
+
+## assignment_operators.compact
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to pad assignment operators with a space on the left.
+
+```cfc
+// assignment_operators.compact: true
+a= 1 + 2;
+
+// assignment_operators.compact: false
+a = 1 + 2;
 ```
 
 ## brackets.padding
@@ -188,10 +230,10 @@ Whether to use a leading comma when function call arguments are printed on multi
 ```cfc
 // function_call.multiline.leading_comma: true
 myFunc(
-      1
-    , 2
-    , 3
-    , 4
+     1
+    ,2
+    ,3
+    ,4
 );
 
 // function_call.multiline.leading_comma: false
@@ -226,6 +268,32 @@ myFunc(
     ,2
     ,3
     ,4
+);
+```
+
+## function_call.multiline.leading_comma.tab
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to insert a tab instead of a space after leading commas when function call arguments are printed on multiple lines.
+
+```cfc
+// function_call.multiline.leading_comma.tab: true
+myFunc(
+    1
+,   2
+,   3
+,   4
+);
+
+// function_call.multiline.leading_comma.tab: false
+myFunc(
+      1
+    , 2
+    , 3
+    , 4
 );
 ```
 
@@ -315,10 +383,10 @@ Whether to use a leading comma when function declaration parameters are printed 
 ```cfc
 // function_declaration.multiline.leading_comma: true
 function(
-      a
-    , b
-    , c
-    , d
+     a
+    ,b
+    ,c
+    ,d
 ) {
 }
 
@@ -356,6 +424,34 @@ function(
     ,b
     ,c
     ,d
+) {
+}
+```
+
+## function_declaration.multiline.leading_comma.tab
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to insert a tab instead of a space after leading commas when function declaration parameters are printed on multiple lines.
+
+```cfc
+// function_declaration.multiline.leading_comma.tab: true
+function(
+    a
+,   b
+,   c
+,   d
+) {
+}
+
+// function_declaration.multiline.leading_comma.tab: false
+function(
+      a
+    , b
+    , c
+    , d
 ) {
 }
 ```
@@ -638,10 +734,10 @@ Whether to use a leading comma when an struct is printed on multiple lines.
 ```cfc
 // struct.multiline.leading_comma: true
 myStruct = {
-      a: 1
-    , b: 2
-    , c: 3
-    , d: 4
+     a: 1
+    ,b: 2
+    ,c: 3
+    ,d: 4
 };
 
 // struct.multiline.leading_comma: false
@@ -676,6 +772,32 @@ myStruct = {
     ,b: 2
     ,c: 3
     ,d: 4
+};
+```
+
+## struct.multiline.leading_comma.tab
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to insert a tab instead of a space after leading commas when an struct is printed on multiple lines.
+
+```cfc
+// struct.multiline.leading_comma.tab: true
+myStruct = {
+    a: 1
+,   b: 2
+,   c: 3
+,   d: 4
+};
+
+// struct.multiline.leading_comma.tab: false
+myStruct = {
+      a: 1
+    , b: 2
+    , c: 3
+    , d: 4
 };
 ```
 
