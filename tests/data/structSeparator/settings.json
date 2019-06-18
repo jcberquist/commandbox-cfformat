@@ -10,8 +10,5 @@
     },
     {
         "struct.separator": "="
-    },
-    {
-        "struct.separator": null
     }
 ]

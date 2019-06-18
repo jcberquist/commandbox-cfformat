@@ -20,15 +20,7 @@ component {
         if (cftokens.peekScopes(structKeyValue)) {
             var token = cftokens.next(whitespace = false);
             cftokens.consumeWhiteSpace(true);
-            var separator = token[1].find('=') ? ' = ' : ': ';
-            if (
-                !isNull(settings['struct.separator']) &&
-                len(settings['struct.separator']) < 4 &&
-                [':', '='].find(settings['struct.separator'].trim())
-            ) {
-                separator = settings['struct.separator'];
-            }
-            return separator;
+            return settings['struct.separator'];
         }
 
         if (!cftokens.peekElement('struct')) return;
