@@ -43,8 +43,8 @@ pub const DELIMITED_SCOPES: [(&str, &str, &str, &str); 7] = [
     ),
     (
         "array",
-        "meta.array-literal.cfml punctuation.section.brackets.begin.cfml",
-        "punctuation.separator.array-literal.cfml",
+        "meta.sequence.cfml punctuation.section.brackets.begin.cfml",
+        "punctuation.separator.sequence.cfml",
         "punctuation.section.brackets.end.cfml"
     ),
     (

@@ -1,7 +1,7 @@
 {
     "author":"John Berquist",
     "bugs":"https://github.com/jcberquist/commandbox-cfformat/issues",
-    "cftokens":"v0.7.0",
+    "cftokens":"v0.9.0",
     "devDependencies":{
         "testbox":"^3.0.0"
     },
