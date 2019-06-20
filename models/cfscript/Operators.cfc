@@ -9,10 +9,10 @@ component {
         'keyword.operator.relational.binary.cfml',
         'keyword.operator.decision.binary.cfml',
         'keyword.operator.comparison.binary.cfml',
-        'keyword.operator.concat.binary.cfml'
+        'keyword.operator.concat.binary.cfml',
+        'keyword.operator.logical.binary.cfml',
+        'keyword.operator.binary.cfml'
     ];
-
-    variables.binaryOperatorsSpaced = ['keyword.operator.logical.binary.cfml', 'keyword.operator.binary.cfml'];
 
     function init(cfformat) {
         variables.cfformat = cfformat;
@@ -25,17 +25,9 @@ component {
 
         for (var scope in binaryOperators) {
             if (cftokens.peekScopes([scope])) {
-                var spacer = settings['binary_operators.padding'] ? ' ' : '';
                 var token = cftokens.next(whitespace = false);
-                cftokens.consumeWhiteSpace();
-                return spacer & token[1] & (cftokens.peekNewline() ? '' : spacer);
-            }
-        }
-
-        for (var scope in binaryOperatorsSpaced) {
-            if (cftokens.peekScopes([scope])) {
-                var spacer = ' ';
-                var token = cftokens.next(whitespace = false);
+                var isWord = reFindNoCase('^[a-z]', token[1]);
+                var spacer = settings['binary_operators.padding'] || isWord ? ' ' : '';
                 cftokens.consumeWhiteSpace();
                 return spacer & token[1] & (cftokens.peekNewline() ? '' : spacer);
             }

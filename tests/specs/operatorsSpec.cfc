@@ -21,6 +21,10 @@ component extends=tests.FormatBaseSpec {
             it('formats postfix operators', function() {
                 runTests(loadData('postfixOperators'));
             });
+
+            it('formats word operators', function() {
+                runTests(loadData('wordOperators'), true);
+            });
         });
     }
 
