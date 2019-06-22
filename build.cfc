@@ -16,7 +16,7 @@ component accessors="true" {
         print.line('Copying binary to "./bin/" folder...');
         var cftokensVersion = deserializeJSON(fileRead(dir & '../box.json')).cftokens;
         var srcBinaryName = filesystem.isWindows() ? 'cftokens.exe' : 'cftokens';
-        var targetBinaryName = filesystem.isWindows() ? 'cftokens.exe' : 'cftokens_osx';
+        var targetBinaryName = getTargetBinaryName();
         var src = resolvePath('./cftokens/target/release/#srcBinaryName#');
         var dest = resolvePath('./bin/#cftokensVersion#/');
         directoryCreate(dest, true, true);
@@ -195,6 +195,12 @@ component accessors="true" {
         }
 
         fileWrite(dir & 'reference.md', markdown.toList(lf & lf), 'utf-8');
+    }
+
+    function getTargetBinaryName() {
+        if (filesystem.isWindows()) return 'cftokens.exe';
+        if (filesystem.isMac()) return 'cftokens_osx';
+        if (filesystem.isLinux()) return 'cftokens_linux';
     }
 
 }
