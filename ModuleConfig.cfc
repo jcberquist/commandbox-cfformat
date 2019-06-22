@@ -10,18 +10,18 @@ component {
         var fullModulePath = modulePath.replace('\', '/', 'all') & (modulePath.endswith('/') ? '' : '/');
         var cftokensVersion = deserializeJSON(fileRead(fullModulePath & 'box.json')).cftokens;
         var binFolder = fullModulePath & 'bin/#cftokensVersion#/';
-        var executable = wirebox.getInstance('filesystem').isWindows() ? 'cftokens.exe' : 'cftokens_osx';
+        var executable = getExecutableName();
+
+        ensureExecutableExists(
+            binFolder & executable,
+            settings.downloadURL.replace('{version}', cftokensVersion) & executable
+        );
 
         binder
             .map('cfformat@commandbox-cfformat')
             .to('#moduleMapping#.models.CFFormat')
             .asSingleton()
             .initWith(binFolder, fullModulePath);
-
-        ensureExecutableExists(
-            binFolder & executable,
-            settings.downloadURL.replace('{version}', cftokensVersion) & executable
-        );
     }
 
     function ensureExecutableExists(executablePath, downloadURL) {
@@ -65,8 +65,15 @@ component {
         }
 
         if (!wirebox.getInstance('filesystem').isWindows()) {
-            cfexecute(name='chmod +x "#executablePath#"' timeout=10);
+            cfexecute(name="chmod +x ""#executablePath#""" timeout=10);
         }
+    }
+
+    function getExecutableName() {
+        var fs = wirebox.getInstance('filesystem');
+        if (fs.isWindows()) return 'cftokens.exe';
+        if (fs.isMac()) return 'cftokens_osx';
+        if (fs.isLinux()) return 'cftokens_linux';
     }
 
 }

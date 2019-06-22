@@ -12,13 +12,10 @@ component accessors="true" {
         variables.reference = deserializeJSON(fileRead(rootFolder & 'data/reference.json'));
         variables.examples = deserializeJSON(fileRead(rootFolder & 'data/examples.json'));
 
-        var isWindows = createObject('java', 'java.lang.System')
-            .getProperty('os.name')
-            .lcase()
-            .contains('win');
+        var platform = getPlatform();
 
-        variables.executable = binFolder & 'cftokens' & (isWindows ? '.exe' : '_osx');
-        defaultSettings['lf'] = isWindows ? chr(13) & chr(10) : chr(10);
+        variables.executable = binFolder & 'cftokens' & (platform == 'windows' ? '.exe' : '_#platform#');
+        defaultSettings['lf'] = platform == 'windows' ? chr(13) & chr(10) : chr(10);
 
         this.cfscript = new CFScript(this);
         this.cftags = new CFTags(this);
@@ -264,6 +261,13 @@ component accessors="true" {
         var tabSpaces = repeatString(' ', settings.indent_size);
         var normalizedTxt = text.replace(chr(9), tabSpaces, 'all');
         return normalizedTxt.len() - normalizedTxt.ltrim().len();
+    }
+
+    function getPlatform() {
+        var osName = createObject('java', 'java.lang.System').getProperty('os.name').lcase();
+        if (osName.contains('win')) return 'windows';
+        if (osName.contains('linux')) return 'linux';
+        if (osName.contains('mac')) return 'osx';
     }
 
 }
