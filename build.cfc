@@ -103,7 +103,7 @@ component accessors="true" {
     function examples() {
         var dir = resolvePath('./');
 
-        var binary = filesystem.isWindows() ? 'cftokens.exe' : 'cftokens_osx';
+        var binary = getTargetBinaryName();
         var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
         var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
         var reference = deserializeJSON(fileRead(dir & 'data/reference.json'));
@@ -195,6 +195,24 @@ component accessors="true" {
         }
 
         fileWrite(dir & 'reference.md', markdown.toList(lf & lf), 'utf-8');
+    }
+
+    function tokens( string path ) {
+        var dir = resolvePath('./');
+        var binary = getTargetBinaryName();
+        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
+        var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
+
+        // generate tokens
+        var tokenjson = "";
+        cfexecute(
+            name=expandPath(dir & "bin/#cftokensVersion#/#binary#")
+            arguments="""#resolvePath(path)#"""
+            variable="tokenjson"
+            timeout=10
+        );
+
+        print.line(deserializeJSON(tokenjson));
     }
 
     function getTargetBinaryName() {

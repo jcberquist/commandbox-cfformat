@@ -1,8 +1,7 @@
 //
 component {
-/**
-* @hint hint goes here
-
-*/
-function test() {}
+    /**
+      * @hint hint goes here
+    */
+    function test() {}
 }

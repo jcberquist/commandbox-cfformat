@@ -5,6 +5,7 @@
     "array.padding":"// array.padding: true\nmyArray = [ 1, 2 ];\n\n// array.padding: false\nmyArray = [1, 2];",
     "binary_operators.padding":"// binary_operators.padding: true\na = 1 + 2;\n\n// binary_operators.padding: false\na=1+2;",
     "brackets.padding":"// brackets.padding: true\na[ 'mykey' ][ 1 ] = 7;\n\n// brackets.padding: false\na['mykey'][1] = 7;",
+    "comment.asterisks":"// comment.asterisks: \"align\"\n{\n    /**\n     * a comment\n     */\n}\n\n// comment.asterisks: \"indent\"\n{\n    /**\n    * a comment\n    */\n}\n\n// comment.asterisks: \"\"\n{\n    /**\n      * a comment\n    */\n}",
     "for_loop_semicolons.padding":"// for_loop_semicolons.padding: true\nfor (var i = 0; i < 10; i++) {\n}\n\n// for_loop_semicolons.padding: false\nfor (var i = 0;i < 10;i++) {\n}",
     "function_call.empty_padding":"// function_call.empty_padding: true\nmyFunc( );\n\n// function_call.empty_padding: false\nmyFunc();",
     "function_call.multiline.leading_comma":"// function_call.multiline.leading_comma: true\nmyFunc(\n      1\n    , 2\n    , 3\n    , 4\n);\n\n// function_call.multiline.leading_comma: false\nmyFunc(\n    1,\n    2,\n    3,\n    4\n);",

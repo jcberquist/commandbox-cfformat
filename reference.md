@@ -134,6 +134,37 @@ a[ 'mykey' ][ 1 ] = 7;
 a['mykey'][1] = 7;
 ```
 
+## comment.asterisks
+
+Type: _string_
+
+Values: [**"align"**, "indent", ""]
+
+When enabled, if every line after the first of a block comment starts with a `*`, they will be aligned. Setting this to an empty string means no alignment will be done.
+
+```cfc
+// comment.asterisks: "align"
+{
+    /**
+     * a comment
+     */
+}
+
+// comment.asterisks: "indent"
+{
+    /**
+    * a comment
+    */
+}
+
+// comment.asterisks: ""
+{
+    /**
+      * a comment
+    */
+}
+```
+
 ## for_loop_semicolons.padding
 
 Type: _boolean_

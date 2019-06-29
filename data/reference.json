@@ -56,6 +56,14 @@
         },
         "type": "boolean"
     },
+    "comment.asterisks": {
+        "description": "When enabled, if every line after the first of a block comment starts with a `*`, they will be aligned. Setting this to an empty string means no alignment will be done.",
+        "example": {
+            "code": "{/**\n      * a comment\n    */}"
+        },
+        "type": "string",
+        "values": ["align", "indent", ""]
+    },
     "for_loop_semicolons.padding": {
         "description": "When true, insert a space after for loop semicolons.",
         "example": {

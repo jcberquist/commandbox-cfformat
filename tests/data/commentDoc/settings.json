@@ -1,1 +1,11 @@
-[{}]
+[
+    {
+        "comment.asterisks": "align"
+    }, 
+    {
+        "comment.asterisks": "indent"
+    }, 
+    {
+        "comment.asterisks": ""
+    }
+]

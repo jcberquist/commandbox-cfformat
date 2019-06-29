@@ -7,6 +7,7 @@
     "array.padding": false,
     "binary_operators.padding": true,
     "brackets.padding": false,
+    "comment.asterisks": "align",
     "for_loop_semicolons.padding": true,
     "function_call.empty_padding": false,
     "function_call.multiline.element_count": 4,
