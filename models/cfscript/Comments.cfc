@@ -16,7 +16,8 @@ component {
         cftokens,
         settings,
         indent,
-        columnOffset
+        columnOffset,
+        lastChar = ''
     ) {
         if (peekLineComment(cftokens)) {
             // grab the `//`
@@ -38,7 +39,7 @@ component {
                 formatted &= cfformat.indentTo(indent, settings);
             }
 
-            return '//' & formatted;
+            return (lastChar.trim().len() ? ' ' : '') & '//' & formatted;
         }
 
         if (!cftokens.nextIsElement()) return;
@@ -94,7 +95,7 @@ component {
             formatted &= cfformat.indentTo(indent, settings);
         }
 
-        return formatted;
+        return (lastChar.trim().len() ? ' ' : '') & formatted;
     }
 
     function peekLineComment(cftokens) {

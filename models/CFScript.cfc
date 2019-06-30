@@ -58,12 +58,15 @@ component accessors="true" {
             cftokens.hasNext() &&
             (stopAt.len() == 0 || !stopAt.some((scopes) => cftokens.peekScopes(scopes)))
         ) {
+            var lastChar = formattedText.right(1);
+
             if (cftokens.nextIsElement()) {
                 var printerTxt = elementPrinters[cftokens.peek().type].print(
                     cftokens,
                     settings,
                     indent,
-                    columnOffset
+                    columnOffset,
+                    lastChar
                 );
                 columnOffset = cfformat.nextOffset(columnOffset, printerTxt, settings);
                 formattedText &= printerTxt;
@@ -77,7 +80,8 @@ component accessors="true" {
                         cftokens,
                         settings,
                         indent,
-                        columnOffset
+                        columnOffset,
+                        lastChar
                     );
                     if (!isNull(printerTxt)) {
                         columnOffset = cfformat.nextOffset(columnOffset, printerTxt, settings);

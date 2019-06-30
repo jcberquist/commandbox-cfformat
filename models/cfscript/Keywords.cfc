@@ -99,6 +99,7 @@ component {
                 settings,
                 indent,
                 columnOffset + formatted.len(),
+                formatted.right(1),
                 settings['keywords.padding_inside_group'],
                 settings['keywords.empty_group_spacing']
             );

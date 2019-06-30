@@ -32,7 +32,7 @@ component accessors="true" {
 
         if (
             lines.len() == 1 &&
-            lines[1].trim().len() + columnOffset + 11 <= settings.max_columns// count <!--- and --->
+            lines[1].trim().len() + columnOffset + 11 <= settings.max_columns // count <!--- and --->
         ) {
             var txt = lines[1].trim();
             var spacer = txt.startswith('-') ? '' : ' ';

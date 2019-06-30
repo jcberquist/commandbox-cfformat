@@ -13,6 +13,7 @@ component {
         settings,
         indent,
         columnOffset,
+        lastChar,
         padding = settings['parentheses.padding'],
         emptyPadding = true
     ) {

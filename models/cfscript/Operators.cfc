@@ -20,7 +20,12 @@ component {
         return this;
     }
 
-    function print(cftokens, settings, indent, offset) {
+    function print(
+        cftokens,
+        settings,
+        indent,
+        columnOffset
+    ) {
         if (!cftokens.peekScopeStartsWith('keyword.operator.')) return;
 
         for (var scope in binaryOperators) {
