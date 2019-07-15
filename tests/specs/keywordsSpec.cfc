@@ -8,8 +8,11 @@ component extends=tests.FormatBaseSpec {
             it('tries to format keyswords followed by expression statements', function() {
                 runTests(loadData('keywordStatement'));
             });
-            it('formats the `new` keywords', function() {
+            it('formats the `new` keyword', function() {
                 runTests(loadData('keywordNew'));
+            });
+            it('formats the `throw` keyword', function() {
+                runTests(loadData('keywordThrow'));
             });
             it('formats case statements', function() {
                 runTests(loadData('switch'));

@@ -80,6 +80,15 @@ component {
         var keyword = keywordToken[1];
         formatted &= keyword;
 
+        // special case for a `throw`:
+        if (keyword == 'throw') {
+            cftokens.consumeWhitespace(true);
+            if (!cftokens.peekText(';', true)) {
+                formatted &= ' ';
+            }
+            return formatted;
+        }
+
         // check for a group
         var renderedGroup = false;
         if (
