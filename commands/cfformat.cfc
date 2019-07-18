@@ -72,7 +72,7 @@ component accessors="true" {
                 });
 
             for (var ref in info) {
-                print.BoldOnGrey93Line(' #ref.setting# ');
+                print.BlackOnGrey93Line(' #ref.setting# ');
                 print.line(ref.reference.description);
                 print.text('Default: ')
                 print.blueLine(defaultSettings[ref.setting]);
