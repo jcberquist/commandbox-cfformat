@@ -8,6 +8,9 @@ component extends=tests.FormatBaseSpec {
             it('preserves line comments', function() {
                 runTests(loadData('functionArgsWithComments'));
             });
+            it('formats anonymous functions', function() {
+                runTests(loadData('functionAnon'));
+            });
         });
     }
 

@@ -23,8 +23,8 @@ component extends=tests.FormatBaseSpec {
             });
 
             it('formats word operators', function() {
-                runTests(loadData('wordOperators'), true);
-                runTests(loadData('tagWordOperators'), true);
+                runTests(loadData('wordOperators'));
+                runTests(loadData('tagWordOperators'));
             });
         });
     }

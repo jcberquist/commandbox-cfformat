@@ -19,21 +19,23 @@ component {
         columnOffset
     ) {
         if (cftokens.peekScopes(functionStart)) {
-            var nextToken = cftokens.next(false);
-            var isComponentMethod = nextToken[2][nextToken[2].len() - 2] == 'meta.class.body.cfml';
-
-            var formattedText = nextToken[1];
+            var words = [];
 
             while (!cftokens.nextIsElement()) {
-                formattedText &= ' ' & cftokens.next(false)[1];
+                var token = cftokens.next(false)
+                words.append(token[1]);
             }
+
+            var formattedText = words.toList(' ');
+            var rootSettingKey = token[2].last() == 'entity.name.function.cfml' ? 'function_declaration' : 'function_anonymous';
 
             // parameters
             var parametersTxt = printFunctionParameters(
                 cftokens.next(false),
                 settings,
                 indent,
-                columnOffset + formattedText.len()
+                columnOffset + formattedText.len(),
+                rootSettingKey
             );
 
             columnOffset += parametersTxt.len();
@@ -60,11 +62,11 @@ component {
             }
 
             if (
-                settings['function_declaration.group_to_block_spacing'] == 'spaced' &&
+                settings['#rootSettingKey#.group_to_block_spacing'] == 'spaced' &&
                 !attributesTxt.find(chr(10))
             ) {
                 formattedText = formattedText & ' ';
-            } else if (settings['function_declaration.group_to_block_spacing'] == 'newline') {
+            } else if (settings['#rootSettingKey#.group_to_block_spacing'] == 'newline') {
                 formattedText &= settings.lf & cfformat.indentTo(indent, settings);
             }
 
@@ -76,16 +78,19 @@ component {
         }
 
         if (cftokens.peekElement('function-parameters')) {
+            var parametersElement = cftokens.next(false);
+            var arrowToken = cftokens.next(false);
+
             // arrow function parameters
             var formattedText = printFunctionParameters(
-                cftokens.next(false),
+                parametersElement,
                 settings,
                 indent,
-                columnOffset
+                columnOffset,
+                'function_anonymous'
             );
 
-            // collect the arrow `=>`
-            var arrowToken = cftokens.next(false);
+            // add the arrow `=>`
             formattedText &= ' => ';
 
             columnOffset += formattedText.len();
@@ -126,22 +131,23 @@ component {
         element,
         settings,
         indent,
-        columnOffset
+        columnOffset,
+        rootSettingKey
     ) {
         var printedElements = cfformat.delimited.printElements(element, settings, indent);
 
         if (printedElements.printed.len() == 1 && printedElements.printed[1].trim() == '') {
-            return settings['function_declaration.empty_padding'] ? '( )' : '()';
+            return settings['#rootSettingKey#.empty_padding'] ? '( )' : '()';
         }
 
-        var spacer = settings['function_declaration.padding'] ? ' ' : '';
+        var spacer = settings['#rootSettingKey#.padding'] ? ' ' : '';
         var delimiter = ', ';
         var formatted = '(' & spacer & printedElements.printed.tolist(delimiter) & spacer & ')';
 
         if (
             (
-                printedElements.printed.len() < settings['function_declaration.multiline.element_count'] ||
-                formatted.len() <= settings['function_declaration.multiline.min_length']
+                printedElements.printed.len() < settings['#rootSettingKey#.multiline.element_count'] ||
+                formatted.len() <= settings['#rootSettingKey#.multiline.min_length']
             ) &&
             !formatted.find(chr(10)) &&
             columnOffset + formatted.len() <= settings.max_columns
@@ -151,7 +157,7 @@ component {
 
         var formattedText = '(';
         formattedText &= cfformat.delimited.joinElements(
-            'function_declaration',
+            rootSettingKey,
             printedElements,
             settings,
             indent

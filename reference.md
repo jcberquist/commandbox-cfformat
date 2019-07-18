@@ -183,6 +183,139 @@ for (var i = 0;i < 10;i++) {
 }
 ```
 
+## function_anonymous.empty_padding
+
+Type: _boolean_
+
+Default: **false**
+
+When true, pad anonymous function declarations that have no parameters with a space.
+
+```cfc
+// function_anonymous.empty_padding: true
+function( ) {
+}
+
+// function_anonymous.empty_padding: false
+function() {
+}
+```
+
+## function_anonymous.group_to_block_spacing
+
+Type: _string_
+
+Values: [**"spaced"**, "compact", "newline"]
+
+How to space from the anonymous function parameters to the function block.
+
+```cfc
+// function_anonymous.group_to_block_spacing: "spaced"
+function() {
+}
+
+// function_anonymous.group_to_block_spacing: "compact"
+function(){
+}
+
+// function_anonymous.group_to_block_spacing: "newline"
+function()
+{
+}
+```
+
+## function_anonymous.multiline.element_count
+
+Type: _integer_
+
+Default: **4**
+
+When an anonymous function declaration has this number of parameters, split them onto multiple lines.
+
+
+## function_anonymous.multiline.leading_comma
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to use a leading comma when anonymous function declaration parameters are printed on multiple lines.
+
+```cfc
+// function_anonymous.multiline.leading_comma: true
+function(
+      a
+    , b
+    , c
+    , d
+) {
+}
+
+// function_anonymous.multiline.leading_comma: false
+function(
+    a,
+    b,
+    c,
+    d
+) {
+}
+```
+
+## function_anonymous.multiline.leading_comma.padding
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to insert a space after leading commas when anonymous function declaration parameters are printed on multiple lines.
+
+```cfc
+// function_anonymous.multiline.leading_comma.padding: true
+function(
+      a
+    , b
+    , c
+    , d
+) {
+}
+
+// function_anonymous.multiline.leading_comma.padding: false
+function(
+     a
+    ,b
+    ,c
+    ,d
+) {
+}
+```
+
+## function_anonymous.multiline.min_length
+
+Type: _integer_
+
+Default: **40**
+
+No matter how many parameters an anonymous function declaration has, if they can be printed in this many columns or less, keep them on one line.
+
+
+## function_anonymous.padding
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to pad non-empty anonymous function declarations with spaces.
+
+```cfc
+// function_anonymous.padding: true
+function( a, b ) {
+}
+
+// function_anonymous.padding: false
+function(a, b) {
+}
+```
+
 ## function_call.empty_padding
 
 Type: _boolean_
@@ -295,11 +428,11 @@ When true, pad function declarations that have no parameters with a space.
 
 ```cfc
 // function_declaration.empty_padding: true
-function( ) {
+function example( ) {
 }
 
 // function_declaration.empty_padding: false
-function() {
+function example() {
 }
 ```
 
@@ -313,15 +446,15 @@ How to space from the function parameters to the function block.
 
 ```cfc
 // function_declaration.group_to_block_spacing: "spaced"
-function() {
+function example() {
 }
 
 // function_declaration.group_to_block_spacing: "compact"
-function(){
+function example(){
 }
 
 // function_declaration.group_to_block_spacing: "newline"
-function()
+function example()
 {
 }
 ```
@@ -345,7 +478,7 @@ Whether to use a leading comma when function declaration parameters are printed 
 
 ```cfc
 // function_declaration.multiline.leading_comma: true
-function(
+function example(
       a
     , b
     , c
@@ -354,7 +487,7 @@ function(
 }
 
 // function_declaration.multiline.leading_comma: false
-function(
+function example(
     a,
     b,
     c,
@@ -373,7 +506,7 @@ Whether to insert a space after leading commas when function declaration paramet
 
 ```cfc
 // function_declaration.multiline.leading_comma.padding: true
-function(
+function example(
       a
     , b
     , c
@@ -382,7 +515,7 @@ function(
 }
 
 // function_declaration.multiline.leading_comma.padding: false
-function(
+function example(
      a
     ,b
     ,c
@@ -406,15 +539,15 @@ Type: _boolean_
 
 Default: **false**
 
-Whether to pad non-empty function calls with spaces.
+Whether to pad non-empty function declarations with spaces.
 
 ```cfc
 // function_declaration.padding: true
-function( a, b ) {
+function example( a, b ) {
 }
 
 // function_declaration.padding: false
-function(a, b) {
+function example(a, b) {
 }
 ```
 

@@ -62,12 +62,71 @@
             "code": "{/**\n      * a comment\n    */}"
         },
         "type": "string",
-        "values": ["align", "indent", ""]
+        "values": [
+            "align",
+            "indent",
+            ""
+        ]
     },
     "for_loop_semicolons.padding": {
         "description": "When true, insert a space after for loop semicolons.",
         "example": {
             "code": "for(var i=0;i<10;i++){}"
+        },
+        "type": "boolean"
+    },
+    "function_anonymous.empty_padding": {
+        "description": "When true, pad anonymous function declarations that have no parameters with a space.",
+        "example": {
+            "code": "function() {}"
+        },
+        "type": "boolean"
+    },
+    "function_anonymous.group_to_block_spacing": {
+        "description": "How to space from the anonymous function parameters to the function block.",
+        "example": {
+            "code": "function() {}"
+        },
+        "type": "string",
+        "values": [
+            "spaced",
+            "compact",
+            "newline"
+        ]
+    },
+    "function_anonymous.multiline.element_count": {
+        "description": "When an anonymous function declaration has this number of parameters, split them onto multiple lines.",
+        "type": "integer"
+    },
+    "function_anonymous.multiline.leading_comma": {
+        "description": "Whether to use a leading comma when anonymous function declaration parameters are printed on multiple lines.",
+        "example": {
+            "code": "function(a,b,c,d) {}",
+            "settings": {
+                "function_anonymous.multiline.min_length": 1
+            }
+        },
+        "type": "boolean"
+    },
+    "function_anonymous.multiline.leading_comma.padding": {
+        "description": "Whether to insert a space after leading commas when anonymous function declaration parameters are printed on multiple lines.",
+        "example": {
+            "code": "function(a,b,c,d) {}",
+            "settings": {
+                "function_anonymous.multiline.leading_comma": true,
+                "function_anonymous.multiline.min_length": 1
+            }
+        },
+        "type": "boolean"
+    },
+    "function_anonymous.multiline.min_length": {
+        "description": "No matter how many parameters an anonymous function declaration has, if they can be printed in this many columns or less, keep them on one line.",
+        "type": "integer"
+    },
+    "function_anonymous.padding": {
+        "description": "Whether to pad non-empty anonymous function declarations with spaces.",
+        "example": {
+            "code": "function(a,b) {}"
         },
         "type": "boolean"
     },
@@ -117,17 +176,21 @@
     "function_declaration.empty_padding": {
         "description": "When true, pad function declarations that have no parameters with a space.",
         "example": {
-            "code": "function() {}"
+            "code": "function example() {}"
         },
         "type": "boolean"
     },
     "function_declaration.group_to_block_spacing": {
         "description": "How to space from the function parameters to the function block.",
         "example": {
-            "code": "function() {}"
+            "code": "function example() {}"
         },
         "type": "string",
-        "values": ["spaced", "compact", "newline"]
+        "values": [
+            "spaced",
+            "compact",
+            "newline"
+        ]
     },
     "function_declaration.multiline.element_count": {
         "description": "When a function declaration has this number of parameters, split them onto multiple lines.",
@@ -136,7 +199,7 @@
     "function_declaration.multiline.leading_comma": {
         "description": "Whether to use a leading comma when function declaration parameters are printed on multiple lines.",
         "example": {
-            "code": "function(a,b,c,d) {}",
+            "code": "function example(a,b,c,d) {}",
             "settings": {
                 "function_declaration.multiline.min_length": 1
             }
@@ -146,7 +209,7 @@
     "function_declaration.multiline.leading_comma.padding": {
         "description": "Whether to insert a space after leading commas when function declaration parameters are printed on multiple lines.",
         "example": {
-            "code": "function(a,b,c,d) {}",
+            "code": "function example(a,b,c,d) {}",
             "settings": {
                 "function_declaration.multiline.leading_comma": true,
                 "function_declaration.multiline.min_length": 1
@@ -159,9 +222,9 @@
         "type": "integer"
     },
     "function_declaration.padding": {
-        "description": "Whether to pad non-empty function calls with spaces.",
+        "description": "Whether to pad non-empty function declarations with spaces.",
         "example": {
-            "code": "function(a,b) {}"
+            "code": "function example(a,b) {}"
         },
         "type": "boolean"
     },
@@ -169,7 +232,10 @@
         "description": "Each indent level or tab is equivalent to this many spaces.",
         "example": {
             "code": "do {myFunc();}",
-            "values": [4, 2]
+            "values": [
+                4,
+                2
+            ]
         },
         "type": "integer"
     },
@@ -179,7 +245,11 @@
             "code": "if(true){}else{}"
         },
         "type": "string",
-        "values": ["spaced", "compact", "newline"]
+        "values": [
+            "spaced",
+            "compact",
+            "newline"
+        ]
     },
     "keywords.empty_group_spacing": {
         "description": "Whether to pad empty keyword groups.",
@@ -194,7 +264,11 @@
             "code": "if(true){}"
         },
         "type": "string",
-        "values": ["spaced", "compact", "newline"]
+        "values": [
+            "spaced",
+            "compact",
+            "newline"
+        ]
     },
     "keywords.padding_inside_group": {
         "description": "Whether to pad inside non-empty keyword groups.",
@@ -209,7 +283,11 @@
             "code": "do{}"
         },
         "type": "string",
-        "values": ["spaced", "compact", "newline"]
+        "values": [
+            "spaced",
+            "compact",
+            "newline"
+        ]
     },
     "keywords.spacing_to_group": {
         "description": "Whether to space a keyword from following group.",
@@ -235,7 +313,11 @@
             "code": "http url='www.google.com';\nparam name=\"key\";"
         },
         "type": "string",
-        "values": ["single", "double", ""]
+        "values": [
+            "single",
+            "double",
+            ""
+        ]
     },
     "strings.quote": {
         "description": "Whether to use a single or double quote for strings. If set to an empty string, leaves string quotes as they are found.",
@@ -243,7 +325,11 @@
             "code": "a=\"One\";\nb='Two';"
         },
         "type": "string",
-        "values": ["single", "double", ""]
+        "values": [
+            "single",
+            "double",
+            ""
+        ]
     },
     "struct.empty_padding": {
         "description": "When true, non-empty structs are padded with spaces.",
@@ -292,7 +378,12 @@
         "description": "The key value separator to use in structs - it must contain either a single `:` or `=` and be no more than 3 characters in length.",
         "example": {
             "code": "myStruct={a:1,b:2};",
-            "values": [": ", " = ", " : ", "="]
+            "values": [
+                ": ",
+                " = ",
+                " : ",
+                "="
+            ]
         },
         "type": "struct-key-value"
     },
