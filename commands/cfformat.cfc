@@ -365,6 +365,9 @@ component accessors="true" {
             }
         }
 
+        // flush buffer
+        print.text().toConsole();
+
         try {
             print.line(cfformat.mergedSettings(userSettings));
         } catch (CFFormat.settings.validation e) {
