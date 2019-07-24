@@ -14,7 +14,7 @@ component {
         indent,
         columnOffset
     ) {
-        var element = cftokens.next(false);
+        var element = cftokens.next(false, true);
 
         var blockFormatted = cfformat.cfscript
             .print(
