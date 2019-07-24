@@ -14,6 +14,9 @@ component extends=tests.FormatBaseSpec {
             it('formats the `throw` keyword', function() {
                 runTests(loadData('keywordThrow'));
             });
+            it('formats the `include` keyword', function() {
+                runTests(loadData('keywordInclude'));
+            });
             it('formats case statements', function() {
                 runTests(loadData('switch'));
             });
