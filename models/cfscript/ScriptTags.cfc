@@ -49,7 +49,9 @@ component {
             attr_tokens,
             settings,
             indent,
-            columnOffset + formattedText.len()
+            columnOffset + formattedText.len(),
+            nullValue(),
+            tagType == 'acf'
         );
 
         if (tagType == 'acf') {

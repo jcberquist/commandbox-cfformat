@@ -32,7 +32,8 @@ component {
         settings,
         indent,
         columnOffset,
-        attributesEnd
+        attributesEnd,
+        commaDelimited = false
     ) {
         if (!isNull(arguments.attributesEnd)) {
             var attributeTokens = cftokens.collectTo(argumentCollection = attributesEnd);
@@ -54,7 +55,7 @@ component {
             return '';
         }
 
-        var formattedText = attributeStrings.toList(' ');
+        var formattedText = attributeStrings.toList(commaDelimited ? ', ' : ' ');
 
         if (
             !formattedText.find(chr(10)) &&
@@ -64,7 +65,8 @@ component {
         }
 
         var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
-        var formattedText = elementNewLine & attributeStrings.tolist(elementNewLine);
+        var delimiter = (commaDelimited ? ',' : '') & elementNewLine;
+        var formattedText = elementNewLine & attributeStrings.tolist(delimiter);
         formattedText &= settings.lf & cfformat.indentTo(indent, settings);
         return formattedText;
     }
