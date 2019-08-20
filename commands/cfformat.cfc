@@ -1,35 +1,42 @@
 /**
-* Formats script and tag components
-*
-* {code:bash}
-* cfformat path/to/MyComponent.cfc
-* cfformat path/to/mycomponents/
-* {code}
-*
-* Use the --watch flag with a directory to have it watch that directory
-* for component changes and format them.
-*
-* {code:bash}
-* cfformat ./ --watch
-* {code}
-*
-* Call it with the --settings flag to dump the formatting settings to the console.
-* If a file path is specified as well, it will show the settings that will be used
-* to format that particular file, based on your configured setting sources.
-*
-* {code:bash}
-* cfformat --settings
-* cfformat --settings > ~/.cfformat.json
-* cfformat path/to/MyComponent.cfc --settings
-* {code}
-*
-* Call it with `settingInfo` and a setting name or prefix to see reference
-* information for those settings
-*
-* {code:bash}
-* cfformat settingInfo=array
-* {code}
-*/
+ * Formats script and tag components
+ *
+ * {code:bash}
+ * cfformat path/to/MyComponent.cfc
+ * cfformat path/to/mycomponents/
+ * {code}
+ *
+ * Use the --watch flag with a directory to have it watch that directory
+ * for component changes and format them.
+ *
+ * {code:bash}
+ * cfformat ./ --watch
+ * {code}
+ *
+ * Call it with the --settings flag to dump the formatting settings to the console.
+ * If a file path is specified as well, it will show the settings that will be used
+ * to format that particular file, based on your configured setting sources.
+ *
+ * {code:bash}
+ * cfformat --settings
+ * cfformat --settings > ~/.cfformat.json
+ * cfformat path/to/MyComponent.cfc --settings
+ * {code}
+ *
+ * Call it with `settingInfo` and a setting name or prefix to see reference
+ * information for those settings
+ *
+ * {code:bash}
+ * cfformat settingInfo=array
+ * {code}
+ *
+ * Use the --check flag to have cfformat check to see if the file(s) are
+ * formatted according to its rules without making any changes
+ *
+ * {code:bash}
+ * cfformat ./ --check
+ * {code}
+ */
 component accessors="true" {
 
     property cfformat inject="CFFormat@commandbox-cfformat";
@@ -38,15 +45,16 @@ component accessors="true" {
     property tempDir inject="tempDir@constants";
 
     /**
-    * @path component or directory path
-    * @settingsPath path to a JSON settings file
-    * @settingInfo pass a setting name or prefix to get reference information
-    * @settingInfo.optionsUDF settingNames
-    * @overwrite overwrite file in place
-    * @timeit print the time formatting took to the console
-    * @settings dump cfformat settings to the console
-    * @watch enter into a watch mode on the path and format any files changed
-    */
+     * @path component or directory path
+     * @settingsPath path to a JSON settings file
+     * @settingInfo pass a setting name or prefix to get reference information
+     * @settingInfo.optionsUDF settingNames
+     * @overwrite overwrite file in place
+     * @timeit print the time formatting took to the console
+     * @settings dump cfformat settings to the console
+     * @watch enter into a watch mode on the path and format any files changed
+     * @check check to see if updates would take place without actually making any
+     */
     function run(
         string path = '',
         string settingsPath = '',
@@ -54,7 +62,8 @@ component accessors="true" {
         boolean overwrite = false,
         boolean timeit = false,
         boolean settings = false,
-        boolean watch = false
+        boolean watch = false,
+        boolean check = false
     ) {
         var fullPath = resolvePath(path);
 
@@ -124,6 +133,7 @@ component accessors="true" {
                 fullPath,
                 userSettings.paths[fullPath],
                 overwrite,
+                check,
                 timeit
             )
         } else {
@@ -131,6 +141,7 @@ component accessors="true" {
                 filePaths,
                 userSettings.paths,
                 overwrite,
+                check,
                 timeit
             );
         }
@@ -154,6 +165,7 @@ component accessors="true" {
                         allFiles[1],
                         userSettings.paths[allFiles[1]],
                         true,
+                        false,
                         true
                     )
                 } else {
@@ -161,6 +173,7 @@ component accessors="true" {
                         allFiles,
                         userSettings.paths,
                         true,
+                        false,
                         true
                     );
                 }
@@ -279,12 +292,25 @@ component accessors="true" {
         return {};
     }
 
-    function formatFile(fullPath, settings, overwrite, timeit) {
+    function formatFile(
+        fullPath,
+        settings,
+        overwrite,
+        check,
+        timeit
+    ) {
         var start = getTickCount();
         var formatted = cfformat.formatFile(fullPath, settings);
         var timeTaken = getTickCount() - start;
 
-        if (overwrite) {
+        if (check) {
+            var original = fileRead(fullPath, 'utf-8');
+            if (compare(original, formatted) == 0) {
+                print.greenLine('File is formatted according to cfformat rules.');
+            } else {
+                print.redLine('File is not formatted according to cfformat rules.');
+            }
+        } else if (overwrite) {
             fileWrite(fullPath, formatted, 'utf-8');
         } else {
             print.line(formatted);
@@ -296,8 +322,14 @@ component accessors="true" {
         }
     }
 
-    function formatFiles(paths, settings, overwrite, timeit) {
-        if (!overwrite) {
+    function formatFiles(
+        paths,
+        settings,
+        overwrite,
+        check,
+        timeit
+    ) {
+        if (!check && !overwrite) {
             overwrite = confirm(
                 'Running `cfformat` on multiple files will overwrite your components in place. Are you sure? [y/n]'
             );
@@ -307,42 +339,104 @@ component accessors="true" {
             }
         }
 
-        job.start('Formatting components...', 10);
+        var interactive = shell.isTerminalInteractive();
+        var fullTempPath = resolvePath(tempDir & '/' & createUUID().lcase() & '/');
+        var result = {count: 0, failures: []};
 
-        var tempKey = createUUID().lcase();
-        var fullTempPath = resolvePath(tempDir & '/' & tempKey & '/');
+        var logFile = function(file, success) {
+            if (interactive) {
+                if (success) {
+                    job.addSuccessLog(file);
+                } else {
+                    job.addErrorLog(file);
+                }
+            }
+        }
 
-        var start = getTickCount();
-        var dumpLog = false;
-
-        var cb = function(file, success, count, total) {
-            dumpLog = dumpLog || !success;
-            if (success) {
-                job.addSuccessLog(file);
+        var printFailures = function(message, failures) {
+            if (interactive) {
+                print.redLine(message);
             } else {
-                job.addErrorLog(file);
+                print.line(message);
+            }
+            print.line();
+            for (var f in failures) {
+                print.indentedLine(f);
+            }
+            print.line();
+        }
+
+        var cb = function(
+            file,
+            formatted,
+            success,
+            message,
+            count,
+            total
+        ) {
+            result.count++;
+            if (!success) {
+                result.failures.append(file);
+                logFile(file, false);
+            } else if (check) {
+                var original = fileRead(file, 'utf-8');
+                if (compare(original, formatted) == 0) {
+                    logFile(file, true);
+                } else {
+                    result.failures.append(file);
+                    logFile(file, false);
+                }
+            } else {
+                fileWrite(file, formatted, 'utf-8');
+                logFile(file, true);
             }
 
+            // NOTE: progress bar won't draw if shell is not interactive
             var percent = round(count / total * 100);
             progressBarGeneric.update(percent = percent, currentCount = count, totalCount = total);
         }
-        var result = cfformat.formatFiles(paths, fullTempPath, settings, cb);
-        var timeTaken = getTickCount() - start;
 
-        if (dumpLog) {
-            job.error('Formatting completed with errors.', true);
+        var startMessage = check ? 'Checking component formatting...' : 'Formatting components...';
+        if (interactive) {
+            job.start(startMessage, 10);
         } else {
-            job.complete(true);
+            print.line(startMessage).toConsole();
+        }
+
+        var start = getTickCount();
+        cfformat.formatFiles(paths, fullTempPath, settings, cb);
+        var timeTaken = getTickCount() - start;
+        setExitCode(min(result.failures.len(), 1));
+
+        if (interactive) {
+            if (result.failures.len()) {
+                job.error(dumpLog = true);
+            } else {
+                job.complete(true);
+            }
+        }
+
+        if (check) {
+            print.line('Files checked: ' & result.count);
+            print.line();
+            if (result.failures.len()) {
+                printFailures('The following files do not match the cfformat rules:', result.failures);
+                print.line('Please format the files using the `—overwrite` flag.');
+            }
+        } else {
+            print.line('Files formatted: ' & result.count - result.failures.len());
+            if (result.failures.len()) {
+                printFailures('The following files were unable to be formatted:', result.failures);
+            }
         }
 
         if (timeit) {
-            print.line();
             if (timeTaken > 1000) {
                 var totalTime = numberFormat(timeTaken / 1000, '.00') & 's';
             } else {
                 var totalTime = timeTaken & 'ms';
             }
-            print.aquaLine('Formatting took ' & totalTime);
+            print.aquaLine('#check ? 'Check' : 'Formatting'# completed in ' & totalTime);
         }
     }
 

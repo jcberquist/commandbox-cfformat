@@ -121,6 +121,7 @@ component accessors="true" {
             fileMap.each(function(src, target) {
                 var success = true;
                 var message = '';
+                var formatted = '';
 
                 if (fileExists(target & '.json')) {
                     var tokenJSON = fileRead(target & '.json');
@@ -130,8 +131,7 @@ component accessors="true" {
                     }
                     var tokens = deserializeJSON(tokenJSON);
                     try {
-                        var formatted = format(tokens, mergedSettings(settingsMap[src]));
-                        fileWrite(src, formatted, 'utf-8');
+                        formatted = format(tokens, mergedSettings(settingsMap[src]));
                     } catch (any e) {
                         success = false;
                         message = e.message;
@@ -144,14 +144,14 @@ component accessors="true" {
                 }
 
                 fileMap.delete(src);
-                if (!isNull(callback)) {
-                    callback(
-                        message.len() ? message : src,
-                        success,
-                        fileCount - fileMap.count(),
-                        fileCount
-                    );
-                }
+                callback(
+                    src,
+                    formatted,
+                    success,
+                    message,
+                    fileCount - fileMap.count(),
+                    fileCount
+                );
             });
         }
     }
@@ -179,7 +179,7 @@ component accessors="true" {
 
     function tokenizeFile(fullFilePath) {
         var tokens = '';
-        cfexecute(name=executable arguments="""#fullFilePath#""" variable="tokens" timeout=10);
+        cfexecute(name=executable, arguments="""#fullFilePath#""", variable="tokens", timeout=10);
         if (!isJSON(tokens)) {
             throw(tokens);
         }
@@ -187,11 +187,11 @@ component accessors="true" {
     }
 
     function tokenizeDirectory(fullSrcPath, fullTempPath) {
-        cfexecute(name=executable arguments="""#fullSrcPath#"" ""#fullTempPath#""");
+        cfexecute(name=executable, arguments="""#fullSrcPath#"" ""#fullTempPath#""");
     }
 
     function tokenizeManifest(fullManifestPath) {
-        cfexecute(name=executable arguments="""#fullManifestPath#""");
+        cfexecute(name=executable, arguments="""#fullManifestPath#""");
     }
 
     function postProcess(tokens) {
