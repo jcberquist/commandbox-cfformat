@@ -162,8 +162,16 @@ component accessors="true" {
 
     function format(tokens, settings) {
         var bom = '';
-        if (isArray(tokens.elements[1]) && asc(tokens.elements[1][1]) == 65279) {
+        if (
+            isArray(tokens.elements[1]) &&
+            arrayLen(tokens.elements[1][2]) &&
+            tokens.elements[1][2][1] == 'bom'
+        ) {
             bom = tokens.elements[1][1];
+            arrayDeleteAt(tokens.elements, 1);
+        }
+
+        while (isArray(tokens.elements[1]) && arrayLen(tokens.elements[1][2]) == 0) {
             arrayDeleteAt(tokens.elements, 1);
         }
 

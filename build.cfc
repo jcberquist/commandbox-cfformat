@@ -86,9 +86,10 @@ component accessors="true" {
         );
 
         print.line('Adding UTF-8 BOM check to CFML syntax...').toConsole();
+        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
         var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfml.sublime-syntax';
         syntax = fileRead(syntaxPath, 'utf-8');
-        syntax = syntax.replace('match: (?i)(?=^', 'match: (?i)(?=^(\xef\xbb\xbf)?');
+        syntax = syntax.replace('match: (?i)(?=^', 'match: ^\xef\xbb\xbf#lf#      scope: bom#lf#    - match: (?i)(?=');
         fileWrite(syntaxPath, syntax, 'utf-8');
 
         var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfscript.sublime-syntax';
