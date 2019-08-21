@@ -85,6 +85,20 @@ component accessors="true" {
             (p) => p.contains('cfml') || p.contains('cfscript')
         );
 
+        print.line('Adding UTF-8 BOM check to CFML syntax...').toConsole();
+        var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfml.sublime-syntax';
+        syntax = fileRead(syntaxPath, 'utf-8');
+        syntax = syntax.replace('match: (?i)(?=^', 'match: (?i)(?=^(\xef\xbb\xbf)?');
+        fileWrite(syntaxPath, syntax, 'utf-8');
+
+        var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfscript.sublime-syntax';
+        syntax = fileRead(syntaxPath, 'utf-8');
+        syntax = syntax.replace(
+            'match: (?i)^\s*(?:(abstract|final)',
+            'match: (?i)^(?:\xef\xbb\xbf)?\s*(?:(abstract|final)'
+        );
+        fileWrite(syntaxPath, syntax, 'utf-8');
+
         print.line();
         print.line('Building syntect packs...').toConsole();
         command(
@@ -121,8 +135,8 @@ component accessors="true" {
 
         // generate token json files
         cfexecute(
-            name=expandPath(dir & "bin/#cftokensVersion#/#binary#")
-            arguments="""#codeDir#"" ""#tokensDir#"""
+            name=expandPath(dir & "bin/#cftokensVersion#/#binary#"),
+            arguments="""#codeDir#"" ""#tokensDir#""",
             timeout=10
         );
 
@@ -197,18 +211,18 @@ component accessors="true" {
         fileWrite(dir & 'reference.md', markdown.toList(lf & lf), 'utf-8');
     }
 
-    function tokens( string path ) {
+    function tokens(string path) {
         var dir = resolvePath('./');
         var binary = getTargetBinaryName();
         var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
         var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
 
         // generate tokens
-        var tokenjson = "";
+        var tokenjson = '';
         cfexecute(
-            name=expandPath(dir & "bin/#cftokensVersion#/#binary#")
-            arguments="""#resolvePath(path)#"""
-            variable="tokenjson"
+            name=expandPath(dir & "bin/#cftokensVersion#/#binary#"),
+            arguments="""#resolvePath(path)#""",
+            variable="tokenjson",
             timeout=10
         );
 
