@@ -161,12 +161,18 @@ component accessors="true" {
     }
 
     function format(tokens, settings) {
+        var bom = '';
+        if (isArray(tokens.elements[1]) && asc(tokens.elements[1][1]) == 65279) {
+            bom = tokens.elements[1][1];
+            arrayDeleteAt(tokens.elements, 1);
+        }
+
         var type = determineFileType(tokens);
         if (type == 'cftags') {
             tokens = postProcess(tokens);
         }
         var cftokens = cftokens(tokens.elements);
-        return this[type].print(cftokens, settings);
+        return bom & this[type].print(cftokens, settings);
     }
 
     function determineFileType(tokens) {
