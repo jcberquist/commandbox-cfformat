@@ -3,7 +3,7 @@ component {
     property cfformat;
 
     variables.functionStart = ['meta.function.declaration.cfml', '*'];
-    variables.attrEnd = {scopes: ['punctuation.terminator.statement.cfml'], elements: ['block']};
+    variables.attrEnd = {scopes: [['punctuation.terminator.statement.cfml']], elements: ['block']};
 
     function init(cfformat) {
         variables.cfformat = cfformat;

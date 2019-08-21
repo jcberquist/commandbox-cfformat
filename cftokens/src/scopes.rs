@@ -79,7 +79,7 @@ pub const DELIMITED_SCOPES: [(&str, &str, &str, &str); 7] = [
     )
 ];
 
-pub const CONTAINER_SCOPES: [(&str, &str, &str); 13] = [
+pub const CONTAINER_SCOPES: [(&str, &str, &str); 14] = [
     (
         "block",
         "meta.block.cfml punctuation.section.block.begin.cfml",
@@ -93,6 +93,11 @@ pub const CONTAINER_SCOPES: [(&str, &str, &str); 13] = [
     (
         "block",
         "meta.class.body.cfml punctuation.section.block.begin.cfml",
+        "punctuation.section.block.end.cfml"
+    ),
+    (
+        "block",
+        "meta.interface.body.cfml punctuation.section.block.begin.cfml",
         "punctuation.section.block.end.cfml"
     ),
     (

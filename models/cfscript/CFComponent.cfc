@@ -3,6 +3,7 @@ component {
     property cfformat;
 
     variables.componentStart = ['meta.class.declaration.cfml', '*'];
+    variables.interfaceStart = ['meta.interface.declaration.cfml', '*'];
     variables.attrEnd = {scopes: [], elements: ['block']};
 
     function init(cfformat) {
@@ -17,12 +18,17 @@ component {
         indent,
         columnOffset
     ) {
-        if (!cftokens.peekScopes(componentStart)) return;
+        if (
+            !cftokens.peekScopes(componentStart) &&
+            !cftokens.peekScopes(interfaceStart)
+        ) {
+            return;
+        }
 
         var tokens = [];
         do {
             tokens.append(cftokens.next()[1]);
-        } while (tokens.last() != 'component');
+        } while (tokens.last() != 'component' && tokens.last() != 'interface');
 
         var formattedText = tokens.toList(' ');
 
