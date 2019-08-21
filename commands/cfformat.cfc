@@ -421,7 +421,7 @@ component accessors="true" {
             print.line();
             if (result.failures.len()) {
                 printFailures('The following files do not match the cfformat rules:', result.failures);
-                print.line('Please format the files using the `—overwrite` flag.');
+                print.line('Please format the files using the `--overwrite` flag.');
             }
         } else {
             print.line('Files formatted: ' & result.count - result.failures.len());
