@@ -5,6 +5,7 @@ component {
     function init(cfformat) {
         variables.cfformat = cfformat;
         cfformat.cftags.registerElement('template-expression', this);
+        cfformat.cfscript.registerElement('template-expression', this);
         return this;
     }
 
