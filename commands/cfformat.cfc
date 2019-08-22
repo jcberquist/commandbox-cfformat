@@ -308,7 +308,7 @@ component accessors="true" {
             if (compare(original, formatted) == 0) {
                 print.greenLine('File is formatted according to cfformat rules.');
             } else {
-                print.redLine('File is not formatted according to cfformat rules.');
+                return error('File is not formatted according to cfformat rules.');
             }
         } else if (overwrite) {
             fileWrite(fullPath, formatted, 'utf-8');
@@ -421,12 +421,13 @@ component accessors="true" {
             print.line();
             if (result.failures.len()) {
                 printFailures('The following files do not match the cfformat rules:', result.failures);
-                print.line('Please format the files using the `--overwrite` flag.');
+                return error('Please format the files using the `--overwrite` flag.');
             }
         } else {
             print.line('Files formatted: ' & result.count - result.failures.len());
             if (result.failures.len()) {
                 printFailures('The following files were unable to be formatted:', result.failures);
+                return error('Not all files could be formatted.');
             }
         }
 
@@ -465,7 +466,7 @@ component accessors="true" {
         try {
             print.line(cfformat.mergedSettings(userSettings));
         } catch (CFFormat.settings.validation e) {
-            print.redLine(e.message);
+            return error(e.message);
         }
     }
 
