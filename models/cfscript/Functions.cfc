@@ -73,6 +73,13 @@ component {
             var blockTxt = cfformat.cfscript.blocks.print(cftokens, settings, indent);
             formattedText &= blockTxt;
 
+            // check for semicolon after anon function
+            if (rootSettingKey == 'function_anonymous') {
+                var semicolon = cfformat.cfscript.semicolons.print(cftokens, settings, indent);
+                if (!isNull(semicolon)) {
+                    formattedText = formattedText.rtrim() & semicolon;
+                }
+            }
 
             return formattedText;
         }
@@ -99,6 +106,10 @@ component {
             if (cftokens.peekElement('block')) {
                 var blockTxt = cfformat.cfscript.blocks.print(cftokens, settings, indent);
                 formattedText &= blockTxt;
+                var semicolon = cfformat.cfscript.semicolons.print(cftokens, settings, indent);
+                if (!isNull(semicolon)) {
+                    formattedText = formattedText.rtrim() & semicolon;
+                }
             } else {
                 var baseScopes = arrowToken[2]
                     .slice(1, arrowToken[2].len() - 2)
