@@ -41,7 +41,9 @@ component {
             attrEnd
         );
         if (attributesTxt.len()) {
-            attributesTxt = ' ' & attributesTxt;
+            if (!attributesTxt.find(chr(10))) {
+                attributesTxt = ' ' & attributesTxt;
+            }
             formattedText &= attributesTxt;
         }
 
