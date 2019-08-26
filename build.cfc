@@ -86,6 +86,7 @@ component accessors="true" {
         );
 
         print.line('Adding UTF-8 BOM check to CFML syntax...').toConsole();
+
         var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
         var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfml.sublime-syntax';
         syntax = fileRead(syntaxPath, 'utf-8');
@@ -99,6 +100,22 @@ component accessors="true" {
             'match: (?i)^(?:\xef\xbb\xbf)?\s*(?:(abstract|final)'
         );
         fileWrite(syntaxPath, syntax, 'utf-8');
+
+        print.line('Adding CFFormat ignore scopes to CFML syntax...').toConsole();
+
+        var scopes = fileRead(resolvePath('./data/ignoreScopes.txt')).listToArray('~');
+        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
+        var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfml.sublime-syntax';
+        syntax = fileRead(syntaxPath, 'utf-8');
+        syntax = syntax.replace('  comments:', '  comments:' & lf & scopes[1]);
+        fileWrite(syntaxPath, syntax, 'utf-8');
+
+        for (var fn in ['cfscript', 'cfscript-in-tags']) {
+            var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/#fn#.sublime-syntax';
+            syntax = fileRead(syntaxPath, 'utf-8');
+            syntax = syntax.replace('  comments:', '  comments:' & lf & scopes[2].rtrim());
+            fileWrite(syntaxPath, syntax, 'utf-8');
+        }
 
         print.line();
         print.line('Building syntect packs...').toConsole();

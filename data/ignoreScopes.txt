@@ -1,0 +1,12 @@
+    - match: <!--- cfformat-ignore-start --->
+      push:
+        - meta_scope: cfformat.ignore.cfml
+        - match: <!--- cfformat-ignore-end --->
+          pop: true
+~
+    - match: (//\s*cfformat-ignore-start\s*\n|/\*\s*cfformat-ignore-start\s*\*/)
+      push:
+        - meta_include_prototype: false
+        - meta_scope: cfformat.ignore.cfml
+        - match: (//\s*cfformat-ignore-end\s*\n|/\*\s*cfformat-ignore-end\s*\*/)
+          pop: true
