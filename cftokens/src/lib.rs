@@ -304,8 +304,13 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
                     }
                 }
 
+                let mut text = s.to_owned();
+                if !scope_string.ends_with("cfformat.ignore.cfml") {
+                    text = text.replace("\r","")
+                }
+
                 let token = Token {
-                    text: s.to_owned().replace("\r",""),
+                    text: text,
                     scopes
                 };
                 token_stack[stack_index].add_element(Elements::Token(token));
