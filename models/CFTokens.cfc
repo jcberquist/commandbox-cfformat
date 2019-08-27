@@ -91,7 +91,8 @@ component {
             i <= tokens.len() &&
             isArray(tokens[i]) &&
             tokens[i][1].trim() == '' &&
-            tokens[i][1].endswith(chr(10))
+            tokens[i][1].endswith(chr(10)) &&
+            (tokens[i][2].len() == 0 || tokens[i][2].last() != 'cfformat.ignore.cfml')
         );
     }
 

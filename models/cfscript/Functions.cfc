@@ -75,7 +75,11 @@ component {
 
             // check for semicolon after anon function
             if (rootSettingKey == 'function_anonymous') {
-                var semicolon = cfformat.cfscript.semicolons.print(cftokens, settings, indent);
+                var semicolon = cfformat.cfscript.semicolons.print(
+                    cftokens,
+                    settings,
+                    indent
+                );
                 if (!isNull(semicolon)) {
                     formattedText = formattedText.rtrim() & semicolon;
                 }
@@ -106,7 +110,11 @@ component {
             if (cftokens.peekElement('block')) {
                 var blockTxt = cfformat.cfscript.blocks.print(cftokens, settings, indent);
                 formattedText &= blockTxt;
-                var semicolon = cfformat.cfscript.semicolons.print(cftokens, settings, indent);
+                var semicolon = cfformat.cfscript.semicolons.print(
+                    cftokens,
+                    settings,
+                    indent
+                );
                 if (!isNull(semicolon)) {
                     formattedText = formattedText.rtrim() & semicolon;
                 }
