@@ -1,4 +1,4 @@
-    - match: <!--- cfformat-ignore-start --->
+    - match: <!---\s*cfformat-ignore-start\s*--->
       push:
         - meta_scope: cfformat.ignore.cfml
         - match: <!--- cfformat-ignore-end --->
