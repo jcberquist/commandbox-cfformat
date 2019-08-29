@@ -1,0 +1,11 @@
+[
+    {
+        "function_call.casing.builtin": "cfdocs"
+    },
+    {
+        "function_call.casing.builtin": "pascal"
+    },
+    {
+        "function_call.casing.builtin": ""
+    }
+]

@@ -14,6 +14,12 @@ component extends=tests.FormatBaseSpec {
             it('preserves line comments', function() {
                 runTests(loadData('functionCallWithComments'));
             });
+            it('formats the casing of built in function calls', function() {
+                runTests(loadData('functionCallBuiltinCasing'));
+            });
+            it('can format the casing of user defined function calls', function() {
+                runTests(loadData('functionCallUdCasing'));
+            });
         });
     }
 

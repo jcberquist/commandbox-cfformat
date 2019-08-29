@@ -13,11 +13,13 @@ component {
         variables.cfformat = cfformat;
         cfformat.cfscript.registerElement('function-call', this);
         cfformat.cfscript.register('support.function.', this);
+        cfformat.cfscript.register('variable.function.', this);
 
         variables.builtins = deserializeJSON(fileRead(cfformat.getRootFolder() & 'data/functions.json')).reduce((r, f) => {
-            r[f.lcase()] = f;
+            r.cfdocs[f.lcase()] = f;
+            r.pascal[f.lcase()] = reReplace(f, '(.)', '\u\1');
             return r;
-        }, {});
+        }, {'cfdocs': {}, 'pascal': {}});
 
         return this;
     }
@@ -30,7 +32,21 @@ component {
     ) {
         if (cftokens.peekScopeStartsWith('support.function.cfml')) {
             var token = cftokens.next(whitespace = false);
-            return builtins[token[1].lcase()];
+            var key = settings['function_call.casing.builtin'];
+            if (len(key)) {
+                return builtins[key][token[1].lcase()];
+            }
+            return token[1];
+        }
+
+        if (cftokens.peekScopeStartsWith('variable.function.cfml')) {
+            var token = cftokens.next(whitespace = false);
+            var key = settings['function_call.casing.userdefined'];
+            if (len(key) && token[2][token[2].len() - 1] == 'meta.function-call.cfml') {
+                var replacement = key == 'camel' ? '\l\1' : '\u\1';
+                return reReplace(token[1], '(.)', replacement);
+            }
+            return token[1];
         }
 
         if (!cftokens.nextIsElement()) {

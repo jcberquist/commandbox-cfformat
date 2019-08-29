@@ -316,6 +316,44 @@ function(a, b) {
 }
 ```
 
+## function_call.casing.builtin
+
+Type: _string_
+
+Values: [**"cfdocs"**, "pascal", ""]
+
+Formats builtin function call casing. The default is to match cfdocs.org data. An alternative is to always capitalize the first letter (pascal). Set this setting to an empty string to leave casing as is.
+
+```cfc
+// function_call.casing.builtin: "cfdocs"
+arrayAppend(myarray, 1);
+
+// function_call.casing.builtin: "pascal"
+ArrayAppend(myarray, 1);
+
+// function_call.casing.builtin: ""
+ARRAYAPPEND(myarray, 1);
+```
+
+## function_call.casing.userdefined
+
+Type: _string_
+
+Values: [**""**, "camel", "pascal"]
+
+Formats user defined function call casing. The default is to leave as is (this is set to an empty string). Alternatives are to always capitalize the first letter (pascal), or always lower case it (camel).
+
+```cfc
+// function_call.casing.userdefined: ""
+myFunc();
+
+// function_call.casing.userdefined: "camel"
+myFunc();
+
+// function_call.casing.userdefined: "pascal"
+MyFunc();
+```
+
 ## function_call.empty_padding
 
 Type: _boolean_

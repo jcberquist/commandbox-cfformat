@@ -130,6 +130,30 @@
         },
         "type": "boolean"
     },
+    "function_call.casing.builtin": {
+        "description": "Formats builtin function call casing. The default is to match cfdocs.org data. An alternative is to always capitalize the first letter (pascal). Set this setting to an empty string to leave casing as is.",
+        "example": {
+            "code": "ARRAYAPPEND(myarray, 1);"
+        },
+        "type": "string",
+        "values": [
+            "cfdocs",
+            "pascal",
+            ""
+        ]
+    },
+    "function_call.casing.userdefined": {
+        "description": "Formats user defined function call casing. The default is to leave as is (this is set to an empty string). Alternatives are to always capitalize the first letter (pascal), or always lower case it (camel).",
+        "example": {
+            "code": "myFunc();"
+        },
+        "type": "string",
+        "values": [
+            "",
+            "camel",
+            "pascal"
+        ]
+    },
     "function_call.empty_padding": {
         "description": "When true, function calls with no arguments are padded with a space.",
         "example": {

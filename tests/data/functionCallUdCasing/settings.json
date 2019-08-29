@@ -1,0 +1,11 @@
+[
+    {
+        "function_call.casing.userdefined": ""
+    },
+    {
+        "function_call.casing.userdefined": "camel"
+    },
+    {
+        "function_call.casing.userdefined": "pascal"
+    }
+]

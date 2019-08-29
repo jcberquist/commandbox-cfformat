@@ -1,0 +1,2 @@
+//
+ARRAYAPPEND(myarray, 1);
