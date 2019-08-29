@@ -62,6 +62,26 @@ cfformat settingInfo=array.padding
 cfformat settingInfo=array
 ```
 
+## Ignoring Code Sections
+
+Use the special comments `// cfformat-ignore-start` and `// cfformat-ignore-end` (or the equivalent block comment or tag comment syntax) to have `cfformat` return the contained code as is without formatting it:
+
+```cfc
+// cfformat-ignore-start
+test = [1,2,3,4,5,6,7,8];
+// cfformat-ignore-end
+```
+
+**Note**: When doing this it is important to keep your start and end comment flags at the same level of the file. In other words, the following will not work:
+
+```cfc
+// cfformat-ignore-start
+if (true) {
+    ...
+    // cfformat-ignore-end
+}
+```
+
 ## Syntect
 
 Behind the scenes, `cfformat` makes use of the [syntect](https://github.com/trishume/syntect) library along with syntax files from Sublime Text's [Packages](https://github.com/sublimehq/Packages) repository to create an executable that uses the CFML syntax for Sublime Text to generate syntax scopes for component files. `cfformat` attempts to download this executable from GitHub when installed, or when it is updated (if necessary). If it is unable to download the executable, it should print a message to the console prompting you to download from GitHub, and indicating where to put it. If you have Rust installed, you can also build the executable yourself by running the `build.cfc` task runner in the root of this repository:
