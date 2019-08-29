@@ -11,6 +11,12 @@ If it is passed a component path it will, by default, print the formatted compon
 
 When passed a directory, `cfformat` always overwrites component files in place, and so it will ask for confirmation before proceeding. Here you can use the `--overwrite` flag to skip this confirmation check.
 
+The `--check` flag can be used to determine whether files are formatted according to the currently defined settings (see below). When this flag is used, `cfformat` will report on the status of the file(s) and return an appropriate exit code, without actually formatting them.
+
+```bash
+cfformat ./models/ --check
+```
+
 `cfformat` can also be called with a directory path and the `--watch` flag. When this is done, `cfformat` will use CommandBox's built in support for file watching to watch that directory for component changes, and will perform formatting passes on those files.
 
 ```bash
