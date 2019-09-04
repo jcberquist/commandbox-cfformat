@@ -102,6 +102,24 @@ myArray = [ 1, 2 ];
 myArray = [1, 2];
 ```
 
+## assignments.consecutive.alignment
+
+Type: _boolean_
+
+Default: **false**
+
+When true, cfformat will attempt to align consecutive variable assignments, named function call arguments, and struct key value pairs.
+
+```cfc
+// assignments.consecutive.alignment: true
+var a  = 1;
+var ab = 2;
+
+// assignments.consecutive.alignment: false
+var a = 1;
+var ab = 2;
+```
+
 ## binary_operators.padding
 
 Type: _boolean_

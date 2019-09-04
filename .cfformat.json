@@ -5,6 +5,7 @@
     "array.multiline.leading_comma.padding": true,
     "array.multiline.min_length": 40,
     "array.padding": false,
+    "assignments.consecutive.alignment": false,
     "binary_operators.padding": true,
     "brackets.padding": false,
     "comment.asterisks": "align",

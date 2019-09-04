@@ -42,6 +42,13 @@
         },
         "type": "boolean"
     },
+    "assignments.consecutive.alignment": {
+        "description": "When true, cfformat will attempt to align consecutive variable assignments, named function call arguments, and struct key value pairs.",
+        "example": {
+            "code": "var a = 1;\nvar ab = 2;"
+        },
+        "type": "boolean"
+    },
     "binary_operators.padding": {
         "description": "Whether to pad binary operators with spaces.",
         "example": {

@@ -3,6 +3,7 @@
     "array.multiline.leading_comma":"// array.multiline.leading_comma: true\nmyArray = [\n      1\n    , 2\n    , 3\n    , 4\n];\n\n// array.multiline.leading_comma: false\nmyArray = [\n    1,\n    2,\n    3,\n    4\n];",
     "array.multiline.leading_comma.padding":"// array.multiline.leading_comma.padding: true\nmyArray = [\n      1\n    , 2\n    , 3\n    , 4\n];\n\n// array.multiline.leading_comma.padding: false\nmyArray = [\n     1\n    ,2\n    ,3\n    ,4\n];",
     "array.padding":"// array.padding: true\nmyArray = [ 1, 2 ];\n\n// array.padding: false\nmyArray = [1, 2];",
+    "assignments.consecutive.alignment":"// assignments.consecutive.alignment: true\nvar a  = 1;\nvar ab = 2;\n\n// assignments.consecutive.alignment: false\nvar a = 1;\nvar ab = 2;",
     "binary_operators.padding":"// binary_operators.padding: true\na = 1 + 2;\n\n// binary_operators.padding: false\na=1+2;",
     "brackets.padding":"// brackets.padding: true\na[ 'mykey' ][ 1 ] = 7;\n\n// brackets.padding: false\na['mykey'][1] = 7;",
     "comment.asterisks":"// comment.asterisks: \"align\"\n{\n    /**\n     * a comment\n     */\n}\n\n// comment.asterisks: \"indent\"\n{\n    /**\n    * a comment\n    */\n}\n\n// comment.asterisks: \"\"\n{\n    /**\n      * a comment\n    */\n}",

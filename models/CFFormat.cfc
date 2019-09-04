@@ -20,6 +20,7 @@ component accessors="true" {
         this.cfscript = new CFScript(this);
         this.cftags = new CFTags(this);
         this.delimited = new Delimited(this);
+        this.alignment = new Alignment();
         this.cfscript.construct();
         this.cftags.construct();
         return this;
@@ -180,7 +181,11 @@ component accessors="true" {
             tokens = postProcess(tokens);
         }
         var cftokens = cftokens(tokens.elements);
-        return bom & this[type].print(cftokens, settings);
+        var formatted = this[type].print(cftokens, settings);
+        if (settings['assignments.consecutive.alignment']) {
+            formatted = this.alignment.align(formatted);
+        }
+        return bom & formatted;
     }
 
     function determineFileType(tokens) {

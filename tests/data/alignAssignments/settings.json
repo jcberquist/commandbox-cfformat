@@ -1,0 +1,10 @@
+[
+    {
+        "assignments.consecutive.alignment": true,
+        "function_call.multiline.element_count": 1,
+        "function_call.multiline.min_length": 0,
+        "struct.multiline.element_count": 1,
+        "struct.multiline.min_length": 0,
+        "struct.separator": " : "
+    }
+]
