@@ -40,7 +40,11 @@ component {
 
         cftokens.consumeWhitespace(false);
 
-        if (!cftokens.peekNewline()) {
+        // check for semicolon following block
+        var semicolon = cfformat.cfscript.semicolons.print(cftokens, settings, indent);
+        if (!isNull(semicolon)) {
+            formatted = formatted.rtrim() & semicolon;
+        } else if (!cftokens.peekNewline()) {
             formatted &= cfformat.indentTo(indent, settings);
         }
 
