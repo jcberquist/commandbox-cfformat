@@ -5,6 +5,9 @@ component extends=tests.FormatBaseSpec {
             it('formats method calls', function() {
                 runTests(loadData('methodCalls'));
             });
+            it('uses the method call multiline setting', function() {
+                runTests(loadData('methodCallsMultiline'));
+            });
         });
     }
 

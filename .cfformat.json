@@ -40,6 +40,7 @@
     "keywords.spacing_to_block": "spaced",
     "keywords.spacing_to_group": true,
     "max_columns": 120,
+    "method_call.chain.multiline": 3,
     "parentheses.padding": false,
     "strings.attributes.quote": "double",
     "strings.quote": "single",

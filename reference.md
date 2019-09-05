@@ -762,6 +762,15 @@ Default: **120**
 When rendering a delimited item (struct, array, function call, function declaration parameters), this is the maximum number of columns to render on one line before splitting the elements onto multiple lines.
 
 
+## method_call.chain.multiline
+
+Type: _integer_
+
+Default: **3**
+
+When a method call chain has this many method calls, always split them onto multiple lines.
+
+
 ## parentheses.padding
 
 Type: _boolean_

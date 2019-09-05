@@ -20,7 +20,7 @@ component {
             return c;
         }, 0);
 
-        if (methodCallCount < 3) {
+        if (methodCallCount < settings['method_call.chain.multiline']) {
             // print inline
             var formatted = '';
             for (var accessor in accessors) {

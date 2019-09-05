@@ -331,6 +331,10 @@
         "description": "When rendering a delimited item (struct, array, function call, function declaration parameters), this is the maximum number of columns to render on one line before splitting the elements onto multiple lines.",
         "type": "integer"
     },
+    "method_call.chain.multiline": {
+        "description": "When a method call chain has this many method calls, always split them onto multiple lines.",
+        "type": "integer"
+    },
     "parentheses.padding": {
         "description": "Whether to pad the contents of a group.",
         "example": {
