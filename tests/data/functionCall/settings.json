@@ -1,13 +1,16 @@
 [
     {
-        "function_call.padding": true
+        "function_call.padding": true,
+        "parentheses.padding": true
     },
     {
-        "function_call.multiline.min_length": 1
+        "function_call.multiline.min_length": 1,
+        "parentheses.padding": true
     },
     {
         "function_call.multiline.leading_comma": true,
         "function_call.multiline.leading_comma.padding": false,
-        "function_call.multiline.min_length": 1
+        "function_call.multiline.min_length": 1,
+        "parentheses.padding": true
     }
 ]
