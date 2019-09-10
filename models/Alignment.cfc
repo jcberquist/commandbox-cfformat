@@ -32,10 +32,12 @@ component accessors="true" {
 
             while (true) {
                 aMatcher.region(index, len(src));
-                if (aMatcher.lookingAt() && indent == aMatcher.group(1)) {
-                    group.append(aMatcher.toMatchResult());
-                    index = aMatcher.end();
-                    continue;
+                if (aMatcher.lookingAt()) {
+                    if (indent == aMatcher.group(1)) {
+                        group.append(aMatcher.toMatchResult());
+                        index = aMatcher.end();
+                        continue;
+                    }
                 } else {
                     cMatcher.region(index, len(src));
                     if (cMatcher.lookingAt()) {
