@@ -13,6 +13,8 @@
  * cfformat ./ --watch
  * {code}
  *
+ * Globs may be used when passing paths to cfformat.
+ *
  * Call it with the --settings flag to dump the formatting settings to the console.
  * If a file path is specified as well, it will show the settings that will be used
  * to format that particular file, based on your configured setting sources.
@@ -65,8 +67,6 @@ component accessors="true" {
         boolean watch = false,
         boolean check = false
     ) {
-        var fullPath = resolvePath(path);
-
         if (settingInfo.len()) {
             var defaultSettings = cfformat.getDefaultSettings();
             var reference = cfformat.getReference();
@@ -94,7 +94,7 @@ component accessors="true" {
         }
 
         if (arguments.watch) {
-            watchDirectory(fullPath, settingsPath);
+            watchDirectory(path, settingsPath);
             return;
         }
 
@@ -103,6 +103,7 @@ component accessors="true" {
             return;
         }
 
+        var fullPath = resolvePath(path);
         var pathType = 'glob';
         if (directoryExists(fullPath)) {
             pathType = 'dir';
@@ -147,18 +148,14 @@ component accessors="true" {
         }
     }
 
-    function watchDirectory(fullPath, settingsPath) {
-        if (!directoryExists(fullPath)) {
-            print.redLine(fullPath & ' is not a valid directory');
-            return;
-        }
+    function watchDirectory(path, settingsPath) {
+        var paths = path.listToArray().map((p) => p & (p.endswith('.cfc') ? '' : '**.cfc'));
 
         this.watch()
-            .paths('**.cfc')
-            .inDirectory(fullPath)
+            .paths(argumentCollection = paths)
             .onChange((files) => {
                 // files could contain absolute paths
-                var allFiles = files.added.append(files.changed, true).map((p) => fileExists(p) ? p : fullPath & p);
+                var allFiles = files.added.append(files.changed, true).map((p) => fileExists(p) ? p : shell.pwd() & p);
                 var userSettings = resolveSettings(allFiles, settingsPath);
                 if (allFiles.len() == 1) {
                     formatFile(
