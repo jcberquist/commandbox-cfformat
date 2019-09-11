@@ -1,5 +1,19 @@
 [
     {
-        "assignments.consecutive.alignment": true
+        "assignments.consecutive.alignment": true,
+        "function_declaration.multiline.element_count": 1,
+        "function_declaration.multiline.leading_comma": false
+    },
+    {
+        "assignments.consecutive.alignment": true,
+        "function_declaration.multiline.element_count": 1,
+        "function_declaration.multiline.leading_comma": true,
+        "function_declaration.multiline.leading_comma.padding": true
+    },
+    {
+        "assignments.consecutive.alignment": true,
+        "function_declaration.multiline.element_count": 1,
+        "function_declaration.multiline.leading_comma": true,
+        "function_declaration.multiline.leading_comma.padding": false
     }
 ]

@@ -3,7 +3,7 @@
     "bugs":"https://github.com/jcberquist/commandbox-cfformat/issues",
     "cftokens":"v0.12.2",
     "devDependencies":{
-        "testbox":"^3.0.0"
+        "testbox":"be"
     },
     "documentation":"https://github.com/jcberquist/commandbox-cfformat",
     "homepage":"https://github.com/jcberquist/commandbox-cfformat",

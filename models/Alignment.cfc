@@ -1,7 +1,7 @@
 component accessors="true" {
 
     variables.assignmentRegex = [
-        '^([ \t]*)', // leading indentation
+        '^([ \t,]*)', // leading indentation
         '(', // two possibilities
         '(?:var\s*)?[A-Za-z0-9$.]+(?:\[[^\]]+\])*', // variable assignment
         '|',
@@ -33,7 +33,7 @@ component accessors="true" {
             while (true) {
                 aMatcher.region(index, len(src));
                 if (aMatcher.lookingAt()) {
-                    if (indent == aMatcher.group(1)) {
+                    if (len(indent) == len(aMatcher.group(1))) {
                         group.append(aMatcher.toMatchResult());
                         index = aMatcher.end();
                         continue;
