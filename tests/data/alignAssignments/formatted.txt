@@ -7,7 +7,7 @@ var s = {
     abc : 3,
     // comment
     ab  : 2,
-    a   : 1
+    'a' : 1
 };
 
 f(

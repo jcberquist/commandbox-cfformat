@@ -3,7 +3,7 @@ component accessors="true" {
     variables.assignmentRegex = [
         '^([ \t,]*)', // leading indentation
         '(', // two possibilities
-        '(?:var\s*)?[A-Za-z0-9$.]+(?:\[[^\]]+\])*', // variable assignment
+        '(?:var\s*)?[A-Za-z0-9$."'']+(?:\[[^\]]+\])*', // variable assignment
         '|',
         '(?i:required\s+)?[A-Za-z0-9$.]+(?:\s+[A-Za-z0-9$.]+)?', // function parameters
         ')',
