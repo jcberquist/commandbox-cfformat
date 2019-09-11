@@ -163,17 +163,20 @@ component accessors="true" {
 
     function format(tokens, settings) {
         var bom = '';
-        if (
-            isArray(tokens.elements[1]) &&
-            arrayLen(tokens.elements[1][2]) &&
-            tokens.elements[1][2][1] == 'bom'
-        ) {
-            bom = tokens.elements[1][1];
-            arrayDeleteAt(tokens.elements, 1);
-        }
 
-        while (isArray(tokens.elements[1]) && arrayLen(tokens.elements[1][2]) == 0) {
-            arrayDeleteAt(tokens.elements, 1);
+        if (arrayLen(tokens.elements)) {
+            if (
+                isArray(tokens.elements[1]) &&
+                arrayLen(tokens.elements[1][2]) &&
+                tokens.elements[1][2][1] == 'bom'
+            ) {
+                bom = tokens.elements[1][1];
+                arrayDeleteAt(tokens.elements, 1);
+            }
+
+            while (isArray(tokens.elements[1]) && arrayLen(tokens.elements[1][2]) == 0) {
+                arrayDeleteAt(tokens.elements, 1);
+            }
         }
 
         var type = determineFileType(tokens);
