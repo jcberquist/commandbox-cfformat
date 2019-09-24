@@ -30,11 +30,12 @@ component {
 
         for (var scope in binaryOperators) {
             if (cftokens.peekScopes([scope])) {
+                var afterNewline = cftokens.peekBehindNewline();
                 var token = cftokens.next(whitespace = false);
                 var isWord = reFindNoCase('^[a-z]', token[1]);
-                var spacer = settings['binary_operators.padding'] || isWord ? ' ' : '';
+                var spacer = (settings['binary_operators.padding'] || isWord) ? ' ' : '';
                 cftokens.consumeWhiteSpace();
-                return spacer & token[1] & (cftokens.peekNewline() ? '' : spacer);
+                return (afterNewline ? '' : spacer) & token[1] & (cftokens.peekNewline() ? '' : spacer);
             }
         }
 

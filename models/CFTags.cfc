@@ -101,7 +101,7 @@ component accessors="true" {
             // dedent by one to print them
             if (
                 (cftokens.peekElement('cftag') || cftokens.peekElement('cftag-selfclosed'))
-                 && ['cfelse', 'cfelseif'].find(cftokens.peek(true).tagName)
+                && ['cfelse', 'cfelseif'].find(cftokens.peek(true).tagName)
             ) {
                 cftokens.consumeWhitespace(true);
                 formattedText &= settings.lf;
@@ -157,7 +157,7 @@ component accessors="true" {
                 // dedent by one to print them
                 if (
                     (token.type == 'cftag' || token.type == 'cftag-selfclosed')
-                     && ['cfelse', 'cfelseif'].find(token.tagName)
+                    && ['cfelse', 'cfelseif'].find(token.tagName)
                 ) {
                     formattedText = formattedText.rtrim() & settings.lf;
                     formattedText &= repeatString('    ', indent - 1);

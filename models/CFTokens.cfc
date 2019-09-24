@@ -2,8 +2,6 @@ component {
 
     property tokens;
     property index;
-    property previousIndex;
-    property peekIndex;
 
     function init(array tokens) {
         variables.tokens = tokens;
@@ -99,6 +97,19 @@ component {
             variables.tokens[i][1].trim() == '' &&
             variables.tokens[i][1].endswith(chr(10)) &&
             (variables.tokens[i][2].len() == 0 || variables.tokens[i][2].last() != 'cfformat.ignore.cfml')
+        );
+    }
+
+    boolean function peekBehindNewline() {
+        return (
+            variables.previousTokenIndex > 0 &&
+            isArray(variables.tokens[variables.previousTokenIndex]) &&
+            variables.tokens[variables.previousTokenIndex][1].trim() == '' &&
+            variables.tokens[variables.previousTokenIndex][1].endswith(chr(10)) &&
+            (
+                variables.tokens[variables.previousTokenIndex][2].len() == 0 ||
+                variables.tokens[variables.previousTokenIndex][2].last() != 'cfformat.ignore.cfml'
+            )
         );
     }
 
