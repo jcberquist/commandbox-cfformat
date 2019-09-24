@@ -8,8 +8,8 @@ component accessors="true" {
         'Strings',
         'Blocks',
         'Brackets',
-        'Comments',
         'Accessors',
+        'Comments',
         'FunctionCalls',
         'Groups',
         'ScriptTags',
@@ -37,8 +37,18 @@ component accessors="true" {
         elementPrinters[element_type] = printer;
     }
 
-    function register(scope, printer, lookPastNewline = false) {
-        scopePrinters.append({scope: scope, printer: printer, textOnly: lookPastNewline});
+    function register(
+        scope,
+        printer,
+        lookPastNewline = false,
+        lookPastComments = false
+    ) {
+        scopePrinters.append({
+            scope: scope,
+            printer: printer,
+            textOnly: lookPastNewline,
+            codeOnly: lookPastComments
+        });
     }
 
     function print(
@@ -75,7 +85,10 @@ component accessors="true" {
 
             var handledByPrinter = false;
             for (var sp in scopePrinters) {
-                if (cftokens.peekScopeStartsWith(sp.scope, sp.textOnly)) {
+                if (
+                    (sp.codeOnly && cftokens.peekCodeScopeStartsWith(sp.scope)) ||
+                    cftokens.peekScopeStartsWith(sp.scope, sp.textOnly)
+                ) {
                     var printerTxt = sp.printer.print(
                         cftokens,
                         settings,

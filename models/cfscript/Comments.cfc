@@ -2,8 +2,6 @@ component {
 
     property cfformat;
 
-    variables.lineCommentStart = ['comment.line.double-slash.cfml', 'punctuation.definition.comment.cfml'];
-
     function init(cfformat) {
         variables.cfformat = cfformat;
         cfformat.cfscript.register('punctuation.definition.comment.', this);
@@ -98,8 +96,8 @@ component {
         return (lastChar.trim().len() ? ' ' : '') & formatted;
     }
 
-    function peekLineComment(cftokens) {
-        return cftokens.peekScopes(lineCommentStart);
+    function peekLineComment(cftokens, textOnly = false) {
+        return cftokens.peekScopeStartsWith('punctuation.definition.comment.cfml', textOnly);
     }
 
 }
