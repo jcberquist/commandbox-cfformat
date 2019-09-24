@@ -11,8 +11,10 @@ component {
 
         variables.previousTokenIndex = 0;
         variables.previousTextTokenIndex = 0;
+
         variables.nextTokenIndex = 0;
         variables.nextTextTokenIndex = 0;
+        variables.nextCodeTokenIndex = 0;
 
         findNextTokens();
 
@@ -24,96 +26,119 @@ component {
     }
 
     function next(boolean whitespace = true, consumeNewline = false) {
-        if (!whitespace) {
-            consumeWhitespace(consumeNewline);
+        if (!arguments.whitespace) {
+            consumeWhitespace(arguments.consumeNewline);
         }
 
-        if (index > tokens.len()) {
+        if (variables.index > tokens.len()) {
             return;
         }
 
-        var token = tokens[index];
+        var token = tokens[variables.index];
 
         if (!isArray(token) || token[1].trim() != '') {
-            previousTokenIndex = index;
-            previousTextTokenIndex = index;
+            previousTokenIndex = variables.index;
+            previousTextTokenIndex = variables.index;
         } else if (token[1].trim() == '' && token[1].endswith(chr(10))) {
-            previousTokenIndex = index;
+            previousTokenIndex = variables.index;
         }
 
-        index++;
+        variables.index++;
         findNextTokens();
         return token;
     }
 
     function consumeWhitespace(consumeNewline = false) {
-        index = consumeNewline ? nextTextTokenIndex : nextTokenIndex;
-        nextTokenIndex = index;
+        variables.index = arguments.consumeNewline ? variables.nextTextTokenIndex : variables.nextTokenIndex;
+        variables.nextTokenIndex = variables.index;
     }
 
     function peek(textOnly = false) {
-        var i = textOnly ? nextTextTokenIndex : nextTokenIndex;
-        if (i <= tokens.len()) return tokens[i];
+        var i = arguments.textOnly ? variables.nextTextTokenIndex : variables.nextTokenIndex;
+        if (i <= variables.tokens.len()) return variables.tokens[i];
     }
 
     function peekBehind(textOnly = false) {
-        var i = textOnly ? previousTextTokenIndex : previousTokenIndex;
-        if (i) return tokens[i];
+        var i = arguments.textOnly ? variables.previousTextTokenIndex : variables.previousTokenIndex;
+        if (i) return variables.tokens[i];
     }
 
     boolean function nextIsElement() {
-        if (nextTokenIndex > tokens.len()) {
+        if (variables.nextTokenIndex > variables.tokens.len()) {
             return false;
         }
-        return isStruct(tokens[nextTokenIndex]);
+        return isStruct(variables.tokens[nextTokenIndex]);
     }
 
     boolean function hasNext(boolean whitespace = true) {
-        if (index > tokens.len()) {
+        if (variables.index > tokens.len()) {
             return false;
         }
-        return whitespace ? true : nextTokenIndex;
+        return arguments.whitespace ? true : variables.nextTokenIndex;
     }
 
     boolean function peekText(text, textOnly = false) {
-        var i = textOnly ? nextTextTokenIndex : nextTokenIndex;
+        var i = arguments.textOnly ? variables.nextTextTokenIndex : variables.nextTokenIndex;
         return i <= tokens.len() && isArray(tokens[i]) && tokens[i][1] == text;
     }
 
     boolean function peekScopes(scopes, textOnly = false) {
-        var i = textOnly ? nextTextTokenIndex : nextTokenIndex;
-        return i <= tokens.len() && isArray(tokens[i]) && tokenMatches(tokens[i], scopes);
+        var i = arguments.textOnly ? variables.nextTextTokenIndex : variables.nextTokenIndex;
+        return (
+            i <= variables.tokens.len() &&
+            isArray(variables.tokens[i]) &&
+            tokenMatches(variables.tokens[i], arguments.scopes)
+        );
     }
 
     boolean function peekNewline(textOnly = false) {
-        var i = textOnly ? nextTextTokenIndex : nextTokenIndex;
+        var i = arguments.textOnly ? variables.nextTextTokenIndex : variables.nextTokenIndex;
         return (
-            i <= tokens.len() &&
-            isArray(tokens[i]) &&
-            tokens[i][1].trim() == '' &&
-            tokens[i][1].endswith(chr(10)) &&
-            (tokens[i][2].len() == 0 || tokens[i][2].last() != 'cfformat.ignore.cfml')
+            i <= variables.tokens.len() &&
+            isArray(variables.tokens[i]) &&
+            variables.tokens[i][1].trim() == '' &&
+            variables.tokens[i][1].endswith(chr(10)) &&
+            (variables.tokens[i][2].len() == 0 || variables.tokens[i][2].last() != 'cfformat.ignore.cfml')
         );
     }
 
     boolean function peekScopeStartsWith(scopeString, textOnly = false) {
-        var i = textOnly ? nextTextTokenIndex : nextTokenIndex;
-        return i <= tokens.len() && isArray(tokens[i]) && tokens[i][2].last().startswith(scopeString);
+        var i = arguments.textOnly ? variables.nextTextTokenIndex : variables.nextTokenIndex;
+        return (
+            i <= variables.tokens.len() &&
+            isArray(variables.tokens[i]) &&
+            variables.tokens[i][2].last().startswith(arguments.scopeString)
+        );
+    }
+
+    boolean function peekCodeScopeStartsWith(scopeString) {
+        return (
+            variables.nextCodeTokenIndex <= variables.tokens.len() &&
+            isArray(variables.tokens[variables.nextCodeTokenIndex]) &&
+            variables.tokens[variables.nextCodeTokenIndex][2].last().startswith(arguments.scopeString)
+        );
     }
 
     boolean function peekElement(element) {
-        var i = nextTextTokenIndex;
-        return i <= tokens.len() && isStruct(tokens[i]) && tokens[i].type == element;
+        var i = variables.nextTextTokenIndex;
+        return (
+            i <= variables.tokens.len() &&
+            isStruct(variables.tokens[i]) &&
+            variables.tokens[i].type == element
+        );
     }
 
     boolean function tokenMatches(token, scopes) {
-        var scopesLen = scopes.len();
-        var tokenLen = token[2].len();
+        var scopesLen = arguments.scopes.len();
+        var tokenLen = arguments.token[2].len();
 
         if (scopesLen > tokenLen) return false;
 
         for (var i = 0; i < scopesLen; i++) {
-            if (scopes[scopesLen - i] != '*' && !token[2][tokenLen - i].startswith(scopes[scopesLen - i])) {
+            if (
+                arguments.scopes[scopesLen - i] != '*' &&
+                !arguments.token[2][tokenLen - i].startswith(arguments.scopes[scopesLen - i])
+            ) {
                 return false;
             }
         }
@@ -123,8 +148,8 @@ component {
     function delimitedTokens(endScope, delimiterScope) {
         var startToken = next(false);
         var baseStack = startToken[2].slice(1, startToken[2].len() - 1);
-        var delimiterStack = duplicate(baseStack).append(delimiterScope);
-        var endStack = duplicate(baseStack).append(endScope);
+        var delimiterStack = duplicate(baseStack).append(arguments.delimiterScope);
+        var endStack = duplicate(baseStack).append(arguments.endScope);
         var cftokens = [];
         var tokens = [];
 
@@ -146,12 +171,12 @@ component {
     }
 
     function collectTo(scopes, elements) {
-        if (!isArray(scopes)) scopes = [scopes];
+        if (!isArray(arguments.scopes)) arguments.scopes = [arguments.scopes];
         var tokens = [];
         while (hasNext()) {
             var terminate = false;
             if (nextIsElement()) {
-                for (var element_type in elements) {
+                for (var element_type in arguments.elements) {
                     if (peekElement(element_type)) {
                         terminate = true;
                         break;
@@ -161,7 +186,7 @@ component {
                     break;
                 }
             } else {
-                for (var scopeArray in scopes) {
+                for (var scopeArray in arguments.scopes) {
                     if (tokenMatches(peek(), scopeArray)) {
                         terminate = true;
                         break;
@@ -188,24 +213,48 @@ component {
     }
 
     private function findNextTokens() {
-        nextTokenIndex = 0;
-        nextTextTokenIndex = index;
+        variables.nextTokenIndex = 0;
+        variables.nextTextTokenIndex = 0;
+        variables.nextCodeTokenIndex = variables.index;
+
         while (
-            nextTextTokenIndex <= tokens.len() &&
-            isArray(tokens[nextTextTokenIndex]) &&
-            tokens[nextTextTokenIndex][1].trim() == ''
+            variables.nextCodeTokenIndex <= variables.tokens.len() &&
+            isArray(variables.tokens[variables.nextCodeTokenIndex]) &&
+            variables.tokens[variables.nextCodeTokenIndex][1].trim() == ''
         ) {
             if (
-                tokens[nextTextTokenIndex][1].trim() == '' &&
-                tokens[nextTextTokenIndex][1].endswith(chr(10)) &&
-                !nextTokenIndex
+                !variables.nextTokenIndex &&
+                variables.tokens[variables.nextCodeTokenIndex][1].endswith(chr(10))
             ) {
-                nextTokenIndex = nextTextTokenIndex;
+                variables.nextTokenIndex = variables.nextCodeTokenIndex;
             }
-            nextTextTokenIndex++;
+
+            variables.nextCodeTokenIndex++;
         }
-        if (!nextTokenIndex) {
-            nextTokenIndex = nextTextTokenIndex;
+
+        variables.nextTextTokenIndex = variables.nextCodeTokenIndex;
+
+        if (!variables.nextTokenIndex) {
+            variables.nextTokenIndex = variables.nextTextTokenIndex;
+        }
+
+        while (variables.nextCodeTokenIndex <= variables.tokens.len()) {
+            if (
+                isArray(variables.tokens[variables.nextCodeTokenIndex]) &&
+                variables.tokens[variables.nextCodeTokenIndex][1].trim() != '' &&
+                !variables.tokens[variables.nextCodeTokenIndex][2].find('comment.line.double-slash.cfml')
+            ) {
+                break;
+            }
+
+            if (
+                isStruct(variables.tokens[variables.nextCodeTokenIndex]) &&
+                !['doc-comment', 'block-comment'].find(variables.tokens[variables.nextCodeTokenIndex].type)
+            ) {
+                break;
+            }
+
+            variables.nextCodeTokenIndex++;
         }
     }
 
