@@ -136,7 +136,7 @@ component accessors="true" {
         var dir = resolvePath('./');
 
         var binary = getTargetBinaryName();
-        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
+        var lf = chr(10);
         var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
         var reference = deserializeJSON(fileRead(dir & 'data/reference.json'));
         var refDir = tempDir & '/' & createUUID() & '/';
@@ -179,7 +179,10 @@ component accessors="true" {
                         cfformat.mergedSettings(reference[setting].example.settings)
                     );
                     output.append(
-                        formatted.reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#').trim()
+                        formatted
+                            .replace(chr(13), '', 'all')
+                            .reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#')
+                            .trim()
                     );
                 }
 

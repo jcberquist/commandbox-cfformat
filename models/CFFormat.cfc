@@ -185,9 +185,18 @@ component accessors="true" {
         }
         var cftokens = cftokens(tokens.elements);
         var formatted = this[type].print(cftokens, settings);
-        if (settings['assignments.consecutive.alignment']) {
-            formatted = this.alignment.align(formatted);
+
+        // alignment
+        if (settings['alignment.consecutive.assignments']) {
+            formatted = this.alignment.alignAssignments(formatted);
         }
+        if (settings['alignment.consecutive.properties']) {
+            formatted = this.alignment.alignAttributes(formatted, 'properties');
+        }
+        if (settings['alignment.consecutive.params']) {
+            formatted = this.alignment.alignAttributes(formatted, 'params');
+        }
+
         return bom & formatted;
     }
 

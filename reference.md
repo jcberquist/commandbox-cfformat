@@ -1,5 +1,59 @@
 # Settings Reference
 
+## alignment.consecutive.assignments
+
+Type: _boolean_
+
+Default: **false**
+
+When true, cfformat will attempt to align consecutive variable assignments, named function call arguments, and struct key value pairs.
+
+```cfc
+// alignment.consecutive.assignments: true
+var a  = 1;
+var ab = 2;
+
+// alignment.consecutive.assignments: false
+var a = 1;
+var ab = 2;
+```
+
+## alignment.consecutive.params
+
+Type: _boolean_
+
+Default: **false**
+
+When true, cfformat will attempt to align the attributes of consecutive params.
+
+```cfc
+// alignment.consecutive.params: true
+param name="a"       type="string";
+param name="abcdefg" type="string";
+
+// alignment.consecutive.params: false
+param name="a" type="string";
+param name="abcdefg" type="string";
+```
+
+## alignment.consecutive.properties
+
+Type: _boolean_
+
+Default: **false**
+
+When true, cfformat will attempt to align the attributes of consecutive properties.
+
+```cfc
+// alignment.consecutive.properties: true
+property name="requestService" inject="coldbox:requestService";
+property name="log"            inject="logbox:logger:{this}";
+
+// alignment.consecutive.properties: false
+property name="requestService" inject="coldbox:requestService";
+property name="log" inject="logbox:logger:{this}";
+```
+
 ## array.empty_padding
 
 Type: _boolean_
@@ -100,24 +154,6 @@ myArray = [ 1, 2 ];
 
 // array.padding: false
 myArray = [1, 2];
-```
-
-## assignments.consecutive.alignment
-
-Type: _boolean_
-
-Default: **false**
-
-When true, cfformat will attempt to align consecutive variable assignments, named function call arguments, and struct key value pairs.
-
-```cfc
-// assignments.consecutive.alignment: true
-var a  = 1;
-var ab = 2;
-
-// assignments.consecutive.alignment: false
-var a = 1;
-var ab = 2;
 ```
 
 ## binary_operators.padding

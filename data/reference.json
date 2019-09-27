@@ -1,4 +1,25 @@
 {
+    "alignment.consecutive.assignments": {
+        "description": "When true, cfformat will attempt to align consecutive variable assignments, named function call arguments, and struct key value pairs.",
+        "example": {
+            "code": "var a = 1;\nvar ab = 2;"
+        },
+        "type": "boolean"
+    },
+    "alignment.consecutive.params": {
+        "description": "When true, cfformat will attempt to align the attributes of consecutive params.",
+        "example": {
+            "code": "param name=\"a\" type=\"string\";\nparam name=\"abcdefg\" type=\"string\";"
+        },
+        "type": "boolean"
+    },
+    "alignment.consecutive.properties": {
+        "description": "When true, cfformat will attempt to align the attributes of consecutive properties.",
+        "example": {
+            "code": "property name=\"requestService\" inject=\"coldbox:requestService\";\nproperty name=\"log\" inject=\"logbox:logger:{this}\";"
+        },
+        "type": "boolean"
+    },
     "array.empty_padding": {
         "description": "When true, empty arrays are padded with a space.",
         "example": {
@@ -39,13 +60,6 @@
         "description": "When true, non-empty arrays are padded with spaces.",
         "example": {
             "code": "myArray = [1,2];"
-        },
-        "type": "boolean"
-    },
-    "assignments.consecutive.alignment": {
-        "description": "When true, cfformat will attempt to align consecutive variable assignments, named function call arguments, and struct key value pairs.",
-        "example": {
-            "code": "var a = 1;\nvar ab = 2;"
         },
         "type": "boolean"
     },

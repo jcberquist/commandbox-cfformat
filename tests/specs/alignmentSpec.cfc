@@ -8,8 +8,17 @@ component extends=tests.FormatBaseSpec {
             it('aligns assignments with brackets', function() {
                 runTests(loadData('alignAssignmentsWithBrackets'));
             });
+            it('aligns params with default assignments', function() {
+                runTests(loadData('alignParamAssignments'));
+            });
             it('aligns function parameters', function() {
                 runTests(loadData('alignFunctionParams'));
+            });
+            it('aligns property attributes', function() {
+                runTests(loadData('alignPropertyAttributes'));
+            });
+            it('aligns param attributes', function() {
+                runTests(loadData('alignParamAttributes'));
             });
         });
     }
