@@ -349,6 +349,15 @@
         "description": "When a method call chain has this many method calls, always split them onto multiple lines.",
         "type": "integer"
     },
+    "newline": {
+        "description": "The new line character(s) to use. The default is \"os\" which uses \\r\\n on Windows, and \\n otherwise.",
+        "type": "string",
+        "values": [
+            "os",
+            "\n",
+            "\r\n"
+        ]
+    },
     "parentheses.padding": {
         "description": "Whether to pad the contents of a group.",
         "example": {

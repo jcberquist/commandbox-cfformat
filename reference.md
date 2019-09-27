@@ -807,6 +807,15 @@ Default: **3**
 When a method call chain has this many method calls, always split them onto multiple lines.
 
 
+## newline
+
+Type: _string_
+
+Values: [**"os"**, "\n", "\r\n"]
+
+The new line character(s) to use. The default is "os" which uses \r\n on Windows, and \n otherwise.
+
+
 ## parentheses.padding
 
 Type: _boolean_

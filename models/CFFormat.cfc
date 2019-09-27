@@ -11,11 +11,15 @@ component accessors="true" {
         variables.defaultSettings = deserializeJSON(fileRead(rootFolder & '.cfformat.json'));
         variables.reference = deserializeJSON(fileRead(rootFolder & 'data/reference.json'));
         variables.examples = deserializeJSON(fileRead(rootFolder & 'data/examples.json'));
+        variables.platform = getPlatform();
 
-        var platform = getPlatform();
+        // internally we use `lf` not `newline`
+        variables.defaultSettings.lf = variables.defaultSettings.newline;
+        if (variables.defaultSettings.lf == 'os') {
+            variables.defaultSettings.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
+        }
 
         variables.executable = binFolder & 'cftokens' & (platform == 'windows' ? '.exe' : '_#platform#');
-        defaultSettings['lf'] = platform == 'windows' ? chr(13) & chr(10) : chr(10);
 
         this.cfscript = new CFScript(this);
         this.cftags = new CFTags(this);
@@ -67,6 +71,13 @@ component accessors="true" {
             }
             merged[key] = userSettings[key];
         }
+
+        // internally we use `lf` not `newline`
+        merged.lf = merged.newline;
+        if (merged.lf == 'os') {
+            merged.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
+        }
+
         return merged;
     }
 
