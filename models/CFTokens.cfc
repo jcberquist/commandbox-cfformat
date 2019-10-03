@@ -7,9 +7,6 @@ component {
         variables.tokens = tokens;
         variables.index = 1;
 
-        variables.previousTokenIndex = 0;
-        variables.previousTextTokenIndex = 0;
-
         variables.nextTokenIndex = 0;
         variables.nextTextTokenIndex = 0;
         variables.nextCodeTokenIndex = 0;
@@ -33,14 +30,6 @@ component {
         }
 
         var token = tokens[variables.index];
-
-        if (!isArray(token) || token[1].trim() != '') {
-            previousTokenIndex = variables.index;
-            previousTextTokenIndex = variables.index;
-        } else if (token[1].trim() == '' && token[1].endswith(chr(10))) {
-            previousTokenIndex = variables.index;
-        }
-
         variables.index++;
         findNextTokens();
         return token;
@@ -54,11 +43,6 @@ component {
     function peek(textOnly = false) {
         var i = arguments.textOnly ? variables.nextTextTokenIndex : variables.nextTokenIndex;
         if (i <= variables.tokens.len()) return variables.tokens[i];
-    }
-
-    function peekBehind(textOnly = false) {
-        var i = arguments.textOnly ? variables.previousTextTokenIndex : variables.previousTokenIndex;
-        if (i) return variables.tokens[i];
     }
 
     boolean function nextIsElement() {
@@ -101,14 +85,22 @@ component {
     }
 
     boolean function peekBehindNewline() {
+        var previousIndex = variables.index - 1;
+        while (
+            previousIndex > 0 &&
+            isArray(variables.tokens[previousIndex]) &&
+            !variables.tokens[previousIndex][1].endswith(chr(10)) &&
+            variables.tokens[previousIndex][1].trim() == ''
+        ) {
+            previousIndex--;
+        }
         return (
-            variables.previousTokenIndex > 0 &&
-            isArray(variables.tokens[variables.previousTokenIndex]) &&
-            variables.tokens[variables.previousTokenIndex][1].trim() == '' &&
-            variables.tokens[variables.previousTokenIndex][1].endswith(chr(10)) &&
+            previousIndex > 0 &&
+            isArray(variables.tokens[previousIndex]) &&
+            variables.tokens[previousIndex][1].endswith(chr(10)) &&
             (
-                variables.tokens[variables.previousTokenIndex][2].len() == 0 ||
-                variables.tokens[variables.previousTokenIndex][2].last() != 'cfformat.ignore.cfml'
+                variables.tokens[previousIndex][2].len() == 0 ||
+                variables.tokens[previousIndex][2].last() != 'cfformat.ignore.cfml'
             )
         );
     }

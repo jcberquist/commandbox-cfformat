@@ -8,7 +8,7 @@ a&
 b
 )
 (
-a
-&&
+a // test comment
+    &&
 b
 )
