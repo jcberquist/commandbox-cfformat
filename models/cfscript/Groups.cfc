@@ -32,8 +32,15 @@ component {
             return '(' & (emptyPadding ? ' ' : '') & ')';
         }
 
+        var endsWithLineComment = (
+            element.elements.len() &&
+            isArray(element.elements.last()) &&
+            element.elements.last()[2].last() == 'comment.line.double-slash.cfml'
+        );
+
         if (
             !groupFormatted.find(chr(10)) &&
+            !endsWithLineComment &&
             columnOffset + groupFormatted.len() <= settings.max_columns
         ) {
             var spacer = padding ? ' ' : '';
