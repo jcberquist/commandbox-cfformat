@@ -185,7 +185,7 @@ component {
             }
         } else if (['do', 'try', 'catch'].find(keyword)) {
             var nextToken = cftokens.peek(true);
-            if (!isNull(nextToken) && ['while', 'catch', 'finally'].find(nextToken[1])) {
+            if (!isNull(nextToken) && isArray(nextToken) && ['while', 'catch', 'finally'].find(nextToken[1])) {
                 formatted = formatted.rtrim();
                 if (settings['keywords.block_to_keyword_spacing'] == 'spaced') {
                     formatted &= ' ';
