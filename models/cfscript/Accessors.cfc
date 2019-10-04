@@ -24,7 +24,7 @@ component {
             if (a.tokens.len() > 1) c.methods++;
             if (
                 a.startComments.len() ||
-                (a.endComment.len() &&  i < accessors.len())
+                (a.endComment.len() && i < accessors.len())
             ) {
                 c.comments++;
             }
