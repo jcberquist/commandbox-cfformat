@@ -20,17 +20,22 @@ component {
         columnOffset
     ) {
         var accessors = collectAccessors(cftokens, settings);
-        var counts = accessors.reduce((c, a) => {
+        var counts = accessors.reduce((c, a, i) => {
             if (a.tokens.len() > 1) c.methods++;
-            if (a.startComments.len() || a.endComment.len()) c.comments++;
+            if (
+                a.startComments.len() ||
+                (a.endComment.len() &&  i < accessors.len())
+            ) {
+                c.comments++;
+            }
             return c;
         }, {methods: 0, comments: 0});
 
         if (
-            (accessors.len() == 1 && accessors[1].startComments.len() == 0) ||
+            counts.comments == 0 &&
             (
-                counts.methods < settings['method_call.chain.multiline'] &&
-                counts.comments == 0
+                accessors.len() == 1 ||
+                counts.methods < settings['method_call.chain.multiline']
             )
         ) {
             // print inline
@@ -46,14 +51,15 @@ component {
                         columnOffset
                     )
                 }
-                if (accessor.endComment.len()) {
-                    // we have an ending comment
-                    formatted &= ' ' & accessor.endComment;
-                }
             }
 
             if (counts.methods == 1 || !formatted.find(chr(10))) {
-                return formatted.rtrim();
+                if (accessors.last().endComment.len()) {
+                    // we have an ending comment
+                    formatted &= ' ' & accessor.endComment;
+                    formatted &= settings.lf & cfformat.indentTo(indent, settings);
+                }
+                return formatted;
             }
         }
 
@@ -63,16 +69,20 @@ component {
         var lineBreak = false;
 
         for (var accessor in accessors) {
-            if (accessor.startComments.len() && !lineBreak) {
+            var isMethod = accessor.tokens.len() == 2;
+
+            if (
+                accessor.startComments.len() ||
+                firstMethodSeen ||
+                (
+                    isMethod &&
+                    columnOffset > ((indent + 1) * settings.indent_size)
+                )
+            ) {
                 formatted &= settings.lf & cfformat.indentTo(indent + 1, settings);
             }
 
-            if (!firstMethodSeen && accessor.tokens.len() == 2) {
-                if (!accessor.startComments.len() && columnOffset > (indent + 1) * settings.indent_size && !lineBreak) {
-                    formatted &= settings.lf & cfformat.indentTo(indent + 1, settings);
-                }
-                firstMethodSeen = true;
-            }
+            firstMethodSeen = firstMethodSeen || isMethod;
 
             for (var startComment in accessor.startComments) {
                 formatted &= startComment;
@@ -81,6 +91,7 @@ component {
 
             formatted &= '.' & accessor.tokens[1][1];
             columnOffset = cfformat.nextOffset(columnOffset, formatted, settings);
+
             if (accessor.tokens.len() > 1) {
                 formatted &= cfformat.cfscript.FunctionCalls.print(
                     cfformat.cftokens([accessor.tokens[2]]),
@@ -89,25 +100,28 @@ component {
                     columnOffset
                 )
             }
-            if (accessor.endComment.len()) {
-                // we have an ending comment
-                formatted &= ' ' & accessor.endComment;
-            }
 
-            lineBreak = accessor.tokens.len() > 1 || accessor.endComment.len();
-            if (lineBreak) {
-                formatted &= settings.lf & cfformat.indentTo(indent + 1, settings);
+            if (accessor.endComment.len()) {
+                formatted &= ' ' & accessor.endComment;
             }
         }
 
-        return formatted.rtrim();
+        if (accessor.endComment.len()) {
+            formatted &= settings.lf & cfformat.indentTo(indent, settings);
+        }
+
+        return formatted;
     }
 
     function collectAccessors(cftokens, settings, accessors = []) {
         var accessor = {startComments: [], tokens: [], endComment: ''};
 
-        // are there line comments
-        while (cfformat.cfscript.comments.peekLineComment(cftokens, true)) {
+        // are there comments
+        while (
+            cfformat.cfscript.comments.peekLineComment(cftokens, true) ||
+            cftokens.peekElement('doc-comment') ||
+            cftokens.peekElement('block-comment')
+        ) {
             cftokens.consumeWhitespace(true);
             accessor.startComments.append(cfformat.cfscript.comments.print(cftokens, settings, 0).trim());
         }
@@ -120,7 +134,7 @@ component {
             accessor.tokens.append(cftokens.next(false));
         }
 
-        // is there a line comment
+        // is there an end comment
         if (cfformat.cfscript.comments.peekLineComment(cftokens)) {
             accessor.endComment = cfformat.cfscript.comments.print(cftokens, settings, 0).trim();
         }

@@ -11,3 +11,6 @@ a
     .buzz() // buzz
 // baz
     .baz(); // baz
+
+(a.test() // comment
+|| b)

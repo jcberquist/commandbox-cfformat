@@ -9,3 +9,8 @@ a.boo() // boo
     .buzz() // buzz
     // baz
     .baz(); // baz
+
+(
+    a.test() // comment
+    || b
+)
