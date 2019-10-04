@@ -66,7 +66,7 @@ component {
         // print on newlines
         var formatted = '';
         var firstMethodSeen = false;
-        var lineBreak = false;
+        var lineComment = false;
 
         for (var accessor in accessors) {
             var isMethod = accessor.tokens.len() == 2;
@@ -74,6 +74,7 @@ component {
             if (
                 accessor.startComments.len() ||
                 firstMethodSeen ||
+                lineComment ||
                 (
                     isMethod &&
                     columnOffset > ((indent + 1) * settings.indent_size)
@@ -83,6 +84,7 @@ component {
             }
 
             firstMethodSeen = firstMethodSeen || isMethod;
+            lineComment = false;
 
             for (var startComment in accessor.startComments) {
                 formatted &= startComment;
@@ -103,10 +105,11 @@ component {
 
             if (accessor.endComment.len()) {
                 formatted &= ' ' & accessor.endComment;
+                lineComment = true;
             }
         }
 
-        if (accessor.endComment.len()) {
+        if (lineComment) {
             formatted &= settings.lf & cfformat.indentTo(indent, settings);
         }
 

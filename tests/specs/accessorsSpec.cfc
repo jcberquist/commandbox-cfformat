@@ -11,6 +11,10 @@ component extends=tests.FormatBaseSpec {
             it('formats method call chains with comments', function() {
                 runTests(loadData('methodCallComments'));
             });
+            it('formats accessors with comments', function() {
+                runTests(loadData('accessorComments'));
+            });
+
         });
     }
 
