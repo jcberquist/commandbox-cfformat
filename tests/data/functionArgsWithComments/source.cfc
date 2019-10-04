@@ -6,3 +6,10 @@ function run(
 ) {
 
 }
+
+function run(
+    string arg1 = 'hello', // another comment
+    numeric arg2 = 1
+) {
+
+}

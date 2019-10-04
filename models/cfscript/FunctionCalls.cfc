@@ -116,17 +116,19 @@ component {
             return settings['function_call.empty_padding'] ? '( )' : '()';
         }
 
-        var formatted = '(' & spacer & printedElements.printed.tolist(delimiter) & spacer & ')';
 
-        if (
-            (
-                printedElements.printed.len() < settings['function_call.multiline.element_count'] ||
-                formatted.len() <= settings['function_call.multiline.min_length']
-            ) &&
-            !formatted.find(chr(10)) &&
-            columnOffset + formatted.len() <= settings.max_columns
-        ) {
-            return formatted;
+        if (printedElements.endingComments.isEmpty()) {
+            var formatted = '(' & spacer & printedElements.printed.tolist(delimiter) & spacer & ')';
+            if (
+                (
+                    printedElements.printed.len() < settings['function_call.multiline.element_count'] ||
+                    formatted.len() <= settings['function_call.multiline.min_length']
+                ) &&
+                !formatted.find(chr(10)) &&
+                columnOffset + formatted.len() <= settings.max_columns
+            ) {
+                return formatted;
+            }
         }
 
         var formattedText = '(';
