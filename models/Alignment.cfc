@@ -1,13 +1,15 @@
 component accessors="true" {
 
+    variables.identifier = '[A-Za-z0-9$._]+';
+
     variables.assignmentRegex = [
         '^([ \t,]*)', // leading indentation
         '(', // three possibilities
-        '(?:var\s*)?[A-Za-z0-9$."'']+(?:\[[^\]]+\])*', // variable assignment
+        '(?:var\s*)?(?i:"[^"]*"|''[^'']*''|#identifier#)(?:\[[^\]]+\])*', // variable assignment
         '|',
-        '(?i:param\s+)?[A-Za-z0-9$.]+(?:\s+[A-Za-z0-9$.]+)?', // params
+        '(?i:param\s+)?#identifier#(?:\s+#identifier#)?', // params
         '|',
-        '(?i:required\s+)?[A-Za-z0-9$.]+(?:\s+[A-Za-z0-9$.]+)?', // function parameters
+        '(?i:required\s+)?#identifier#(?:\s+#identifier#)?', // function parameters
         ')',
         '(\s*[:=][^\r\n]*)\r?\n'
     ];
@@ -17,19 +19,19 @@ component accessors="true" {
         '(?i:property)', // tag name
         '\s+',
         '((?:\s*',
-        '[A-Za-z0-9$.]+', // attribute name
+        identifier, // attribute name
         '(?:',
         '\s*=\s*',
-        '(?i:"[^"]*"|''[^'']*''|[A-Za-z0-9$.]+)', // attribute value
+        '(?i:"[^"]*"|''[^'']*''|#identifier#)', // attribute value
         ')?', // attribute value is optional
         ')*)',
         ';?\r?\n'
     ];
     variables.attributeRegex = [
-        '([A-Za-z0-9$.]+)', // attribute name
+        '(#identifier#)', // attribute name
         '(?:',
         '\s*=\s*',
-        '(?:"[^"]*"|''[^'']*''|[A-Za-z0-9$.]+)', // attribute value
+        '(?:"[^"]*"|''[^'']*''|#identifier#)', // attribute value
         ')?' // attribute value is optional
     ];
 
