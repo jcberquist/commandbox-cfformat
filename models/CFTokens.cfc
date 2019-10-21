@@ -1,4 +1,4 @@
-component {
+component accessors=true {
 
     property tokens;
     property index;
@@ -14,10 +14,6 @@ component {
         findNextTokens();
 
         return this;
-    }
-
-    function getTokens() {
-        return variables.tokens;
     }
 
     function next(boolean whitespace = true, consumeNewline = false) {

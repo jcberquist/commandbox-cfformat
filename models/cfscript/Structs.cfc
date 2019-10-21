@@ -34,7 +34,7 @@ component {
         var spacer = settings['struct.padding'] ? ' ' : '';
         var delimiter = ', ';
 
-        if (printedElements.endingComments.isEmpty()) {
+        if (printedElements.endingComments.isEmpty() && printedElements.afterCommaComments.isEmpty()) {
             var formatted = '{' & spacer & printedElements.printed.tolist(delimiter) & spacer & '}';
             if (
                 (

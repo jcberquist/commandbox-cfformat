@@ -1,0 +1,8 @@
+[
+    {
+        "function_call.multiline.leading_comma": false
+    },
+    {
+        "function_call.multiline.leading_comma": true
+    }
+]

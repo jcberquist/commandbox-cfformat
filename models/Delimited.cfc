@@ -6,7 +6,7 @@ component accessors="true" {
     }
 
     function printElements(scope, settings, indent) {
-        var result = {printed: [], endingComments: {}};
+        var result = {printed: [], endingComments: {}, afterCommaComments: {}};
 
         for (var i = 1; i <= scope.delimited_elements.len(); i++) {
             var tokens = scope.delimited_elements[i];
@@ -16,22 +16,20 @@ component accessors="true" {
                 continue;
             }
 
-            var endCommentIndex = endswithLineComment(tokens);
-
-            if (endCommentIndex) {
-                var commentTokens = tokens.slice(endCommentIndex, tokens.len() - (endCommentIndex - 1));
-                tokens = tokens.slice(1, endCommentIndex - 1);
-                result.endingComments[i] = cfformat.cfscript.comments
-                    .print(cfformat.cftokens(commentTokens), settings, indent + 1)
-                    .trim();
-            }
-
             var element_cftokens = cfformat.cftokens(tokens);
 
             if (i > 1 && cfformat.cfscript.comments.peekLineComment(element_cftokens)) {
-                result.endingComments[i - 1] = cfformat.cfscript.comments
+                result.afterCommaComments[i - 1] = cfformat.cfscript.comments
                     .print(element_cftokens, settings, indent + 1)
                     .trim();
+            }
+
+            var endCommentIndex = endswithLineComments(element_cftokens);
+
+            if (endCommentIndex) {
+                var commentTokens = tokens.slice(endCommentIndex);
+                element_cftokens.setTokens(endCommentIndex > 1 ? tokens.slice(1, endCommentIndex - 1) : []);
+                result.endingComments[i] = cfformat.cfscript.print(cfformat.cftokens(commentTokens), settings, indent + 1).rtrim();
             }
 
             var printedElement = cfformat.cfscript.print(element_cftokens, settings, indent + 1).trim();
@@ -50,39 +48,61 @@ component accessors="true" {
         var elementNewLine = settings.lf & cfformat.indentTo(indent + 1, settings);
         var formattedText = elementNewLine;
 
-        if (settings['#type#.multiline.leading_comma']) {
-            var delimiter = settings['#type#.multiline.leading_comma.padding'] ? ', ' : ',';
-            formattedText &= repeatString(' ', delimiter.len());
-            formattedText &= printedElements.printed.tolist(elementNewLine & delimiter);
-        } else {
-            printedElements.printed.each((printed, i) => {
-                formattedText &= printed;
-
-                if (i < printedElements.printed.len()) {
-                    formattedText &= ',';
+        printedElements.printed.each((printed, i) => {
+            if (settings['#type#.multiline.leading_comma']) {
+                if (i == 1) {
+                    formattedText &= settings['#type#.multiline.leading_comma.padding'] ? '  ' : ' ';
+                } else {
+                    formattedText &= settings['#type#.multiline.leading_comma.padding'] ? ', ' : ',';
                 }
+            }
 
-                if (printedElements.endingComments.keyExists(i)) {
-                    formattedText &= (printed.len() ? ' ' : '') & printedElements.endingComments[i];
-                }
+            formattedText &= printed;
 
-                if (i < printedElements.printed.len()) {
-                    formattedText &= elementNewLine;
+            if (!settings['#type#.multiline.leading_comma'] && i < printedElements.printed.len()) {
+                formattedText &= ',';
+            }
+
+            if (printedElements.afterCommaComments.keyExists(i)) {
+                formattedText &= ' ' & printedElements.afterCommaComments[i];
+            }
+
+            if (printedElements.endingComments.keyExists(i)) {
+                var comment = printed.len() ? printedElements.endingComments[i] : printedElements.endingComments[i].ltrim();
+                if (
+                    formattedText.len() &&
+                    !formattedText.endswith(' ') &&
+                    !(comment.startswith(chr(13)) || comment.startswith(chr(10)))
+                ) {
+                    formattedText &= ' ';
                 }
-            });
-        }
+                formattedText &= comment;
+            }
+
+            if (i < printedElements.printed.len()) {
+                formattedText &= elementNewLine;
+            }
+        });
 
         return formattedText;
     }
 
-    function endswithLineComment(tokens) {
-        for (var i = tokens.len(); i > 0; i--) {
+    function endswithLineComments(cftokens) {
+        var tokens = cftokens.getTokens();
+        var index = cftokens.getIndex();
+
+        var commentsPresent = false;
+        for (var i = tokens.len(); i >= index; i--) {
             var token = tokens[i];
-            if (!isArray(token)) return 0;
-            if (token[2].last() == 'comment.line.double-slash.cfml') return i - 1;
-            if (token[1].trim().len()) return 0;
+            if (isArray(token) && token[2].find('comment.line.double-slash.cfml')) {
+                commentsPresent = true;
+                continue;
+            }
+            if (!isArray(token) || token[1].trim().len()) {
+                return commentsPresent ? (i + 1) : 0;
+            }
         }
-        return 0;
+        return commentsPresent ? index : 0;
     }
 
 }

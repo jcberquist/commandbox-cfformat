@@ -13,6 +13,7 @@ component extends=tests.FormatBaseSpec {
             });
             it('preserves line comments', function() {
                 runTests(loadData('functionCallWithComments'));
+                runTests(loadData('functionCallCommentsLeadingComma'));
             });
             it('formats the casing of built in function calls', function() {
                 runTests(loadData('functionCallBuiltinCasing'));

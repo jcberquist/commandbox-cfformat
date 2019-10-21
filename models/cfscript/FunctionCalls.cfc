@@ -59,7 +59,7 @@ component {
         var spacer = settings['function_call.padding'] ? ' ' : '';
         var delimiter = ', ';
 
-        if (printedElements.endingComments.isEmpty()) {
+        if (printedElements.endingComments.isEmpty() && printedElements.afterCommaComments.isEmpty()) {
             var tokenArrays = element.delimited_elements.map((tokens) => cfformat.cftokens(tokens));
 
             var anonFuncs = tokenArrays
@@ -117,7 +117,7 @@ component {
         }
 
 
-        if (printedElements.endingComments.isEmpty()) {
+        if (printedElements.endingComments.isEmpty() && printedElements.afterCommaComments.isEmpty()) {
             var formatted = '(' & spacer & printedElements.printed.tolist(delimiter) & spacer & ')';
             if (
                 (
