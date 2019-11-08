@@ -20,6 +20,7 @@ component accessors="true" {
         '\s+',
         '((?:\s*',
         identifier, // attribute name
+        '(?![A-Za-z0-9$._])', // boundary to prevent backtracking
         '(?:',
         '\s*=\s*',
         '(?i:"[^"]*"|''[^'']*''|#identifier#)', // attribute value
@@ -29,6 +30,7 @@ component accessors="true" {
     ];
     variables.attributeRegex = [
         '(#identifier#)', // attribute name
+        '(?![A-Za-z0-9$._])', // boundary to prevent backtracking
         '(?:',
         '\s*=\s*',
         '(?:"[^"]*"|''[^'']*''|#identifier#)', // attribute value
