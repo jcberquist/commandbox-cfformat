@@ -166,7 +166,7 @@ component accessors="true" {
         var examples = {};
         for (var setting in reference) {
             if (reference[setting].keyExists('example')) {
-                var output = [];
+                var output = {};
                 var values = reference[setting].example.keyExists('values') ? reference[setting].example.values : [];
                 if (reference[setting].keyExists('values')) {
                     values = reference[setting].values;
@@ -181,15 +181,13 @@ component accessors="true" {
                         tokens,
                         cfformat.mergedSettings(reference[setting].example.settings)
                     );
-                    output.append(
-                        formatted
-                            .replace(chr(13), '', 'all')
-                            .reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#')
-                            .trim()
-                    );
+                    output[ v ] = formatted
+                        .replace(chr(13), '', 'all')
+                        .reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#')
+                        .trim();
                 }
 
-                examples[setting] = output.toList(lf & lf);
+                examples[setting] = output;
             }
         }
 
@@ -227,7 +225,7 @@ component accessors="true" {
                 md &= lf & reference[setting].description & lf;
             }
             if (examples.keyExists(setting)) {
-                md &= lf & '```cfc' & lf & examples[setting] & lf & '```';
+                md &= lf & '```cfc' & lf & structValueArray( examples[setting] ).toList(lf & lf) & lf & '```';
             }
             markdown.append(md);
         }
@@ -257,6 +255,13 @@ component accessors="true" {
         if (filesystem.isWindows()) return 'cftokens.exe';
         if (filesystem.isMac()) return 'cftokens_osx';
         if (filesystem.isLinux()) return 'cftokens_linux';
+    }
+
+    private function structValueArray( required struct structure ) {
+        return arguments.structure.reduce( ( values, _, value ) => {
+            values.append( value );
+            return values;
+        }, [] );
     }
 
 }
