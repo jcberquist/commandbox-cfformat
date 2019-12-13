@@ -1,44 +1,182 @@
 {
-    "alignment.consecutive.assignments":"// alignment.consecutive.assignments: true\nvar a  = 1;\nvar ab = 2;\n\n// alignment.consecutive.assignments: false\nvar a = 1;\nvar ab = 2;",
-    "alignment.consecutive.params":"// alignment.consecutive.params: true\nparam name=\"a\"       type=\"string\";\nparam name=\"abcdefg\" type=\"string\";\n\n// alignment.consecutive.params: false\nparam name=\"a\" type=\"string\";\nparam name=\"abcdefg\" type=\"string\";",
-    "alignment.consecutive.properties":"// alignment.consecutive.properties: true\nproperty name=\"requestService\" inject=\"coldbox:requestService\";\nproperty name=\"log\"            inject=\"logbox:logger:{this}\";\n\n// alignment.consecutive.properties: false\nproperty name=\"requestService\" inject=\"coldbox:requestService\";\nproperty name=\"log\" inject=\"logbox:logger:{this}\";",
-    "array.empty_padding":"// array.empty_padding: true\nmyArray = [ ];\n\n// array.empty_padding: false\nmyArray = [];",
-    "array.multiline.leading_comma":"// array.multiline.leading_comma: true\nmyArray = [\n      1\n    , 2\n    , 3\n    , 4\n];\n\n// array.multiline.leading_comma: false\nmyArray = [\n    1,\n    2,\n    3,\n    4\n];",
-    "array.multiline.leading_comma.padding":"// array.multiline.leading_comma.padding: true\nmyArray = [\n      1\n    , 2\n    , 3\n    , 4\n];\n\n// array.multiline.leading_comma.padding: false\nmyArray = [\n     1\n    ,2\n    ,3\n    ,4\n];",
-    "array.padding":"// array.padding: true\nmyArray = [ 1, 2 ];\n\n// array.padding: false\nmyArray = [1, 2];",
-    "binary_operators.padding":"// binary_operators.padding: true\na = 1 + 2;\n\n// binary_operators.padding: false\na=1+2;",
-    "brackets.padding":"// brackets.padding: true\na[ 'mykey' ][ 1 ] = 7;\n\n// brackets.padding: false\na['mykey'][1] = 7;",
-    "comment.asterisks":"// comment.asterisks: \"align\"\n{\n    /**\n     * a comment\n     */\n}\n\n// comment.asterisks: \"indent\"\n{\n    /**\n    * a comment\n    */\n}\n\n// comment.asterisks: \"\"\n{\n    /**\n      * a comment\n    */\n}",
-    "for_loop_semicolons.padding":"// for_loop_semicolons.padding: true\nfor (var i = 0; i < 10; i++) {\n}\n\n// for_loop_semicolons.padding: false\nfor (var i = 0;i < 10;i++) {\n}",
-    "function_anonymous.empty_padding":"// function_anonymous.empty_padding: true\nfunction( ) {\n}\n\n// function_anonymous.empty_padding: false\nfunction() {\n}",
-    "function_anonymous.group_to_block_spacing":"// function_anonymous.group_to_block_spacing: \"spaced\"\nfunction() {\n}\n\n// function_anonymous.group_to_block_spacing: \"compact\"\nfunction(){\n}\n\n// function_anonymous.group_to_block_spacing: \"newline\"\nfunction()\n{\n}",
-    "function_anonymous.multiline.leading_comma":"// function_anonymous.multiline.leading_comma: true\nfunction(\n      a\n    , b\n    , c\n    , d\n) {\n}\n\n// function_anonymous.multiline.leading_comma: false\nfunction(\n    a,\n    b,\n    c,\n    d\n) {\n}",
-    "function_anonymous.multiline.leading_comma.padding":"// function_anonymous.multiline.leading_comma.padding: true\nfunction(\n      a\n    , b\n    , c\n    , d\n) {\n}\n\n// function_anonymous.multiline.leading_comma.padding: false\nfunction(\n     a\n    ,b\n    ,c\n    ,d\n) {\n}",
-    "function_anonymous.padding":"// function_anonymous.padding: true\nfunction( a, b ) {\n}\n\n// function_anonymous.padding: false\nfunction(a, b) {\n}",
-    "function_call.casing.builtin":"// function_call.casing.builtin: \"cfdocs\"\narrayAppend(myarray, 1);\n\n// function_call.casing.builtin: \"pascal\"\nArrayAppend(myarray, 1);\n\n// function_call.casing.builtin: \"\"\nARRAYAPPEND(myarray, 1);",
-    "function_call.casing.userdefined":"// function_call.casing.userdefined: \"\"\nmyFunc();\n\n// function_call.casing.userdefined: \"camel\"\nmyFunc();\n\n// function_call.casing.userdefined: \"pascal\"\nMyFunc();",
-    "function_call.empty_padding":"// function_call.empty_padding: true\nmyFunc( );\n\n// function_call.empty_padding: false\nmyFunc();",
-    "function_call.multiline.leading_comma":"// function_call.multiline.leading_comma: true\nmyFunc(\n      1\n    , 2\n    , 3\n    , 4\n);\n\n// function_call.multiline.leading_comma: false\nmyFunc(\n    1,\n    2,\n    3,\n    4\n);",
-    "function_call.multiline.leading_comma.padding":"// function_call.multiline.leading_comma.padding: true\nmyFunc(\n      1\n    , 2\n    , 3\n    , 4\n);\n\n// function_call.multiline.leading_comma.padding: false\nmyFunc(\n     1\n    ,2\n    ,3\n    ,4\n);",
-    "function_call.padding":"// function_call.padding: true\nmyFunc( 1, 2 );\n\n// function_call.padding: false\nmyFunc(1, 2);",
-    "function_declaration.empty_padding":"// function_declaration.empty_padding: true\nfunction example( ) {\n}\n\n// function_declaration.empty_padding: false\nfunction example() {\n}",
-    "function_declaration.group_to_block_spacing":"// function_declaration.group_to_block_spacing: \"spaced\"\nfunction example() {\n}\n\n// function_declaration.group_to_block_spacing: \"compact\"\nfunction example(){\n}\n\n// function_declaration.group_to_block_spacing: \"newline\"\nfunction example()\n{\n}",
-    "function_declaration.multiline.leading_comma":"// function_declaration.multiline.leading_comma: true\nfunction example(\n      a\n    , b\n    , c\n    , d\n) {\n}\n\n// function_declaration.multiline.leading_comma: false\nfunction example(\n    a,\n    b,\n    c,\n    d\n) {\n}",
-    "function_declaration.multiline.leading_comma.padding":"// function_declaration.multiline.leading_comma.padding: true\nfunction example(\n      a\n    , b\n    , c\n    , d\n) {\n}\n\n// function_declaration.multiline.leading_comma.padding: false\nfunction example(\n     a\n    ,b\n    ,c\n    ,d\n) {\n}",
-    "function_declaration.padding":"// function_declaration.padding: true\nfunction example( a, b ) {\n}\n\n// function_declaration.padding: false\nfunction example(a, b) {\n}",
-    "indent_size":"// indent_size: 4\ndo {\n    myFunc();\n}\n\n// indent_size: 2\ndo {\n  myFunc();\n}",
-    "keywords.block_to_keyword_spacing":"// keywords.block_to_keyword_spacing: \"spaced\"\nif (true) {\n} else {\n}\n\n// keywords.block_to_keyword_spacing: \"compact\"\nif (true) {\n}else {\n}\n\n// keywords.block_to_keyword_spacing: \"newline\"\nif (true) {\n}\nelse {\n}",
-    "keywords.empty_group_spacing":"// keywords.empty_group_spacing: true\nif ( ) {\n}\n\n// keywords.empty_group_spacing: false\nif () {\n}",
-    "keywords.group_to_block_spacing":"// keywords.group_to_block_spacing: \"spaced\"\nif (true) {\n}\n\n// keywords.group_to_block_spacing: \"compact\"\nif (true){\n}\n\n// keywords.group_to_block_spacing: \"newline\"\nif (true)\n{\n}",
-    "keywords.padding_inside_group":"// keywords.padding_inside_group: true\nif ( true ) {\n}\n\n// keywords.padding_inside_group: false\nif (true) {\n}",
-    "keywords.spacing_to_block":"// keywords.spacing_to_block: \"spaced\"\ndo {\n}\n\n// keywords.spacing_to_block: \"compact\"\ndo{\n}\n\n// keywords.spacing_to_block: \"newline\"\ndo\n{\n}",
-    "keywords.spacing_to_group":"// keywords.spacing_to_group: true\nif (true) {\n}\n\n// keywords.spacing_to_group: false\nif(true) {\n}",
-    "parentheses.padding":"// parentheses.padding: true\na = ( 1 + 2 );\n\n// parentheses.padding: false\na = (1 + 2);",
-    "strings.attributes.quote":"// strings.attributes.quote: \"single\"\nhttp url='www.google.com';\nparam name='key';\n\n// strings.attributes.quote: \"double\"\nhttp url=\"www.google.com\";\nparam name=\"key\";\n\n// strings.attributes.quote: \"\"\nhttp url='www.google.com';\nparam name=\"key\";",
-    "strings.quote":"// strings.quote: \"single\"\na = 'One';\nb = 'Two';\n\n// strings.quote: \"double\"\na = \"One\";\nb = \"Two\";\n\n// strings.quote: \"\"\na = \"One\";\nb = 'Two';",
-    "struct.empty_padding":"// struct.empty_padding: true\nmyStruct = { };\n\n// struct.empty_padding: false\nmyStruct = {};",
-    "struct.multiline.leading_comma":"// struct.multiline.leading_comma: true\nmyStruct = {\n      a: 1\n    , b: 2\n    , c: 3\n    , d: 4\n};\n\n// struct.multiline.leading_comma: false\nmyStruct = {\n    a: 1,\n    b: 2,\n    c: 3,\n    d: 4\n};",
-    "struct.multiline.leading_comma.padding":"// struct.multiline.leading_comma.padding: true\nmyStruct = {\n      a: 1\n    , b: 2\n    , c: 3\n    , d: 4\n};\n\n// struct.multiline.leading_comma.padding: false\nmyStruct = {\n     a: 1\n    ,b: 2\n    ,c: 3\n    ,d: 4\n};",
-    "struct.padding":"// struct.padding: true\nmyStruct = { a: 1, b: 2 };\n\n// struct.padding: false\nmyStruct = {a: 1, b: 2};",
-    "struct.separator":"// struct.separator: \": \"\nmyStruct = {a: 1, b: 2};\n\n// struct.separator: \" = \"\nmyStruct = {a = 1, b = 2};\n\n// struct.separator: \" : \"\nmyStruct = {a : 1, b : 2};\n\n// struct.separator: \"=\"\nmyStruct = {a=1, b=2};"
+    "alignment.consecutive.assignments":{
+        "false":"// alignment.consecutive.assignments: false\nvar a = 1;\nvar ab = 2;",
+        "true":"// alignment.consecutive.assignments: true\nvar a  = 1;\nvar ab = 2;"
+    },
+    "alignment.consecutive.params":{
+        "false":"// alignment.consecutive.params: false\nparam name=\"a\" type=\"string\";\nparam name=\"abcdefg\" type=\"string\";",
+        "true":"// alignment.consecutive.params: true\nparam name=\"a\"       type=\"string\";\nparam name=\"abcdefg\" type=\"string\";"
+    },
+    "alignment.consecutive.properties":{
+        "false":"// alignment.consecutive.properties: false\nproperty name=\"requestService\" inject=\"coldbox:requestService\";\nproperty name=\"log\" inject=\"logbox:logger:{this}\";",
+        "true":"// alignment.consecutive.properties: true\nproperty name=\"requestService\" inject=\"coldbox:requestService\";\nproperty name=\"log\"            inject=\"logbox:logger:{this}\";"
+    },
+    "array.empty_padding":{
+        "false":"// array.empty_padding: false\nmyArray = [];",
+        "true":"// array.empty_padding: true\nmyArray = [ ];"
+    },
+    "array.multiline.leading_comma":{
+        "false":"// array.multiline.leading_comma: false\nmyArray = [\n    1,\n    2,\n    3,\n    4\n];",
+        "true":"// array.multiline.leading_comma: true\nmyArray = [\n      1\n    , 2\n    , 3\n    , 4\n];"
+    },
+    "array.multiline.leading_comma.padding":{
+        "false":"// array.multiline.leading_comma.padding: false\nmyArray = [\n     1\n    ,2\n    ,3\n    ,4\n];",
+        "true":"// array.multiline.leading_comma.padding: true\nmyArray = [\n      1\n    , 2\n    , 3\n    , 4\n];"
+    },
+    "array.padding":{
+        "false":"// array.padding: false\nmyArray = [1, 2];",
+        "true":"// array.padding: true\nmyArray = [ 1, 2 ];"
+    },
+    "binary_operators.padding":{
+        "false":"// binary_operators.padding: false\na=1+2;",
+        "true":"// binary_operators.padding: true\na = 1 + 2;"
+    },
+    "brackets.padding":{
+        "false":"// brackets.padding: false\na['mykey'][1] = 7;",
+        "true":"// brackets.padding: true\na[ 'mykey' ][ 1 ] = 7;"
+    },
+    "comment.asterisks":{
+        "":"// comment.asterisks: \"\"\n{\n    /**\n      * a comment\n    */\n}",
+        "align":"// comment.asterisks: \"align\"\n{\n    /**\n     * a comment\n     */\n}",
+        "indent":"// comment.asterisks: \"indent\"\n{\n    /**\n    * a comment\n    */\n}"
+    },
+    "for_loop_semicolons.padding":{
+        "false":"// for_loop_semicolons.padding: false\nfor (var i = 0;i < 10;i++) {\n}",
+        "true":"// for_loop_semicolons.padding: true\nfor (var i = 0; i < 10; i++) {\n}"
+    },
+    "function_anonymous.empty_padding":{
+        "false":"// function_anonymous.empty_padding: false\nfunction() {\n}",
+        "true":"// function_anonymous.empty_padding: true\nfunction( ) {\n}"
+    },
+    "function_anonymous.group_to_block_spacing":{
+        "compact":"// function_anonymous.group_to_block_spacing: \"compact\"\nfunction(){\n}",
+        "newline":"// function_anonymous.group_to_block_spacing: \"newline\"\nfunction()\n{\n}",
+        "spaced":"// function_anonymous.group_to_block_spacing: \"spaced\"\nfunction() {\n}"
+    },
+    "function_anonymous.multiline.leading_comma":{
+        "false":"// function_anonymous.multiline.leading_comma: false\nfunction(\n    a,\n    b,\n    c,\n    d\n) {\n}",
+        "true":"// function_anonymous.multiline.leading_comma: true\nfunction(\n      a\n    , b\n    , c\n    , d\n) {\n}"
+    },
+    "function_anonymous.multiline.leading_comma.padding":{
+        "false":"// function_anonymous.multiline.leading_comma.padding: false\nfunction(\n     a\n    ,b\n    ,c\n    ,d\n) {\n}",
+        "true":"// function_anonymous.multiline.leading_comma.padding: true\nfunction(\n      a\n    , b\n    , c\n    , d\n) {\n}"
+    },
+    "function_anonymous.padding":{
+        "false":"// function_anonymous.padding: false\nfunction(a, b) {\n}",
+        "true":"// function_anonymous.padding: true\nfunction( a, b ) {\n}"
+    },
+    "function_call.casing.builtin":{
+        "":"// function_call.casing.builtin: \"\"\nARRAYAPPEND(myarray, 1);",
+        "cfdocs":"// function_call.casing.builtin: \"cfdocs\"\narrayAppend(myarray, 1);",
+        "pascal":"// function_call.casing.builtin: \"pascal\"\nArrayAppend(myarray, 1);"
+    },
+    "function_call.casing.userdefined":{
+        "":"// function_call.casing.userdefined: \"\"\nmyFunc();",
+        "camel":"// function_call.casing.userdefined: \"camel\"\nmyFunc();",
+        "pascal":"// function_call.casing.userdefined: \"pascal\"\nMyFunc();"
+    },
+    "function_call.empty_padding":{
+        "false":"// function_call.empty_padding: false\nmyFunc();",
+        "true":"// function_call.empty_padding: true\nmyFunc( );"
+    },
+    "function_call.multiline.leading_comma":{
+        "false":"// function_call.multiline.leading_comma: false\nmyFunc(\n    1,\n    2,\n    3,\n    4\n);",
+        "true":"// function_call.multiline.leading_comma: true\nmyFunc(\n      1\n    , 2\n    , 3\n    , 4\n);"
+    },
+    "function_call.multiline.leading_comma.padding":{
+        "false":"// function_call.multiline.leading_comma.padding: false\nmyFunc(\n     1\n    ,2\n    ,3\n    ,4\n);",
+        "true":"// function_call.multiline.leading_comma.padding: true\nmyFunc(\n      1\n    , 2\n    , 3\n    , 4\n);"
+    },
+    "function_call.padding":{
+        "false":"// function_call.padding: false\nmyFunc(1, 2);",
+        "true":"// function_call.padding: true\nmyFunc( 1, 2 );"
+    },
+    "function_declaration.empty_padding":{
+        "false":"// function_declaration.empty_padding: false\nfunction example() {\n}",
+        "true":"// function_declaration.empty_padding: true\nfunction example( ) {\n}"
+    },
+    "function_declaration.group_to_block_spacing":{
+        "compact":"// function_declaration.group_to_block_spacing: \"compact\"\nfunction example(){\n}",
+        "newline":"// function_declaration.group_to_block_spacing: \"newline\"\nfunction example()\n{\n}",
+        "spaced":"// function_declaration.group_to_block_spacing: \"spaced\"\nfunction example() {\n}"
+    },
+    "function_declaration.multiline.leading_comma":{
+        "false":"// function_declaration.multiline.leading_comma: false\nfunction example(\n    a,\n    b,\n    c,\n    d\n) {\n}",
+        "true":"// function_declaration.multiline.leading_comma: true\nfunction example(\n      a\n    , b\n    , c\n    , d\n) {\n}"
+    },
+    "function_declaration.multiline.leading_comma.padding":{
+        "false":"// function_declaration.multiline.leading_comma.padding: false\nfunction example(\n     a\n    ,b\n    ,c\n    ,d\n) {\n}",
+        "true":"// function_declaration.multiline.leading_comma.padding: true\nfunction example(\n      a\n    , b\n    , c\n    , d\n) {\n}"
+    },
+    "function_declaration.padding":{
+        "false":"// function_declaration.padding: false\nfunction example(a, b) {\n}",
+        "true":"// function_declaration.padding: true\nfunction example( a, b ) {\n}"
+    },
+    "indent_size":{
+        "2":"// indent_size: 2\ndo {\n  myFunc();\n}",
+        "4":"// indent_size: 4\ndo {\n    myFunc();\n}"
+    },
+    "keywords.block_to_keyword_spacing":{
+        "compact":"// keywords.block_to_keyword_spacing: \"compact\"\nif (true) {\n}else {\n}",
+        "newline":"// keywords.block_to_keyword_spacing: \"newline\"\nif (true) {\n}\nelse {\n}",
+        "spaced":"// keywords.block_to_keyword_spacing: \"spaced\"\nif (true) {\n} else {\n}"
+    },
+    "keywords.empty_group_spacing":{
+        "false":"// keywords.empty_group_spacing: false\nif () {\n}",
+        "true":"// keywords.empty_group_spacing: true\nif ( ) {\n}"
+    },
+    "keywords.group_to_block_spacing":{
+        "compact":"// keywords.group_to_block_spacing: \"compact\"\nif (true){\n}",
+        "newline":"// keywords.group_to_block_spacing: \"newline\"\nif (true)\n{\n}",
+        "spaced":"// keywords.group_to_block_spacing: \"spaced\"\nif (true) {\n}"
+    },
+    "keywords.padding_inside_group":{
+        "false":"// keywords.padding_inside_group: false\nif (true) {\n}",
+        "true":"// keywords.padding_inside_group: true\nif ( true ) {\n}"
+    },
+    "keywords.spacing_to_block":{
+        "compact":"// keywords.spacing_to_block: \"compact\"\ndo{\n}",
+        "newline":"// keywords.spacing_to_block: \"newline\"\ndo\n{\n}",
+        "spaced":"// keywords.spacing_to_block: \"spaced\"\ndo {\n}"
+    },
+    "keywords.spacing_to_group":{
+        "false":"// keywords.spacing_to_group: false\nif(true) {\n}",
+        "true":"// keywords.spacing_to_group: true\nif (true) {\n}"
+    },
+    "parentheses.padding":{
+        "false":"// parentheses.padding: false\na = (1 + 2);",
+        "true":"// parentheses.padding: true\na = ( 1 + 2 );"
+    },
+    "strings.attributes.quote":{
+        "":"// strings.attributes.quote: \"\"\nhttp url='www.google.com';\nparam name=\"key\";",
+        "double":"// strings.attributes.quote: \"double\"\nhttp url=\"www.google.com\";\nparam name=\"key\";",
+        "single":"// strings.attributes.quote: \"single\"\nhttp url='www.google.com';\nparam name='key';"
+    },
+    "strings.quote":{
+        "":"// strings.quote: \"\"\na = \"One\";\nb = 'Two';",
+        "double":"// strings.quote: \"double\"\na = \"One\";\nb = \"Two\";",
+        "single":"// strings.quote: \"single\"\na = 'One';\nb = 'Two';"
+    },
+    "struct.empty_padding":{
+        "false":"// struct.empty_padding: false\nmyStruct = {};",
+        "true":"// struct.empty_padding: true\nmyStruct = { };"
+    },
+    "struct.multiline.leading_comma":{
+        "false":"// struct.multiline.leading_comma: false\nmyStruct = {\n    a: 1,\n    b: 2,\n    c: 3,\n    d: 4\n};",
+        "true":"// struct.multiline.leading_comma: true\nmyStruct = {\n      a: 1\n    , b: 2\n    , c: 3\n    , d: 4\n};"
+    },
+    "struct.multiline.leading_comma.padding":{
+        "false":"// struct.multiline.leading_comma.padding: false\nmyStruct = {\n     a: 1\n    ,b: 2\n    ,c: 3\n    ,d: 4\n};",
+        "true":"// struct.multiline.leading_comma.padding: true\nmyStruct = {\n      a: 1\n    , b: 2\n    , c: 3\n    , d: 4\n};"
+    },
+    "struct.padding":{
+        "false":"// struct.padding: false\nmyStruct = {a: 1, b: 2};",
+        "true":"// struct.padding: true\nmyStruct = { a: 1, b: 2 };"
+    },
+    "struct.separator":{
+        " : ":"// struct.separator: \" : \"\nmyStruct = {a : 1, b : 2};",
+        " = ":"// struct.separator: \" = \"\nmyStruct = {a = 1, b = 2};",
+        ": ":"// struct.separator: \": \"\nmyStruct = {a: 1, b: 2};",
+        "=":"// struct.separator: \"=\"\nmyStruct = {a=1, b=2};"
+    }
 }

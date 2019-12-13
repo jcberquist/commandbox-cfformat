@@ -9,12 +9,12 @@ Default: **false**
 When true, cfformat will attempt to align consecutive variable assignments, named function call arguments, and struct key value pairs.
 
 ```cfc
-// alignment.consecutive.assignments: true
-var a  = 1;
-var ab = 2;
-
 // alignment.consecutive.assignments: false
 var a = 1;
+var ab = 2;
+
+// alignment.consecutive.assignments: true
+var a  = 1;
 var ab = 2;
 ```
 
@@ -27,12 +27,12 @@ Default: **false**
 When true, cfformat will attempt to align the attributes of consecutive params.
 
 ```cfc
-// alignment.consecutive.params: true
-param name="a"       type="string";
-param name="abcdefg" type="string";
-
 // alignment.consecutive.params: false
 param name="a" type="string";
+param name="abcdefg" type="string";
+
+// alignment.consecutive.params: true
+param name="a"       type="string";
 param name="abcdefg" type="string";
 ```
 
@@ -45,13 +45,13 @@ Default: **false**
 When true, cfformat will attempt to align the attributes of consecutive properties.
 
 ```cfc
-// alignment.consecutive.properties: true
-property name="requestService" inject="coldbox:requestService";
-property name="log"            inject="logbox:logger:{this}";
-
 // alignment.consecutive.properties: false
 property name="requestService" inject="coldbox:requestService";
 property name="log" inject="logbox:logger:{this}";
+
+// alignment.consecutive.properties: true
+property name="requestService" inject="coldbox:requestService";
+property name="log"            inject="logbox:logger:{this}";
 ```
 
 ## array.empty_padding
@@ -63,11 +63,11 @@ Default: **false**
 When true, empty arrays are padded with a space.
 
 ```cfc
-// array.empty_padding: true
-myArray = [ ];
-
 // array.empty_padding: false
 myArray = [];
+
+// array.empty_padding: true
+myArray = [ ];
 ```
 
 ## array.multiline.element_count
@@ -88,20 +88,20 @@ Default: **false**
 Whether to use a leading comma when an array is printed on multiple lines.
 
 ```cfc
-// array.multiline.leading_comma: true
-myArray = [
-      1
-    , 2
-    , 3
-    , 4
-];
-
 // array.multiline.leading_comma: false
 myArray = [
     1,
     2,
     3,
     4
+];
+
+// array.multiline.leading_comma: true
+myArray = [
+      1
+    , 2
+    , 3
+    , 4
 ];
 ```
 
@@ -114,20 +114,20 @@ Default: **true**
 Whether to insert a space after leading commas when an array is printed on multiple lines.
 
 ```cfc
-// array.multiline.leading_comma.padding: true
-myArray = [
-      1
-    , 2
-    , 3
-    , 4
-];
-
 // array.multiline.leading_comma.padding: false
 myArray = [
      1
     ,2
     ,3
     ,4
+];
+
+// array.multiline.leading_comma.padding: true
+myArray = [
+      1
+    , 2
+    , 3
+    , 4
 ];
 ```
 
@@ -149,11 +149,11 @@ Default: **false**
 When true, non-empty arrays are padded with spaces.
 
 ```cfc
-// array.padding: true
-myArray = [ 1, 2 ];
-
 // array.padding: false
 myArray = [1, 2];
+
+// array.padding: true
+myArray = [ 1, 2 ];
 ```
 
 ## binary_operators.padding
@@ -165,11 +165,11 @@ Default: **true**
 Whether to pad binary operators with spaces.
 
 ```cfc
-// binary_operators.padding: true
-a = 1 + 2;
-
 // binary_operators.padding: false
 a=1+2;
+
+// binary_operators.padding: true
+a = 1 + 2;
 ```
 
 ## brackets.padding
@@ -181,11 +181,11 @@ Default: **false**
 When true, bracketed accessors are padded with spaces.
 
 ```cfc
-// brackets.padding: true
-a[ 'mykey' ][ 1 ] = 7;
-
 // brackets.padding: false
 a['mykey'][1] = 7;
+
+// brackets.padding: true
+a[ 'mykey' ][ 1 ] = 7;
 ```
 
 ## comment.asterisks
@@ -197,6 +197,13 @@ Values: [**"align"**, "indent", ""]
 When enabled, if every line after the first of a block comment starts with a `*`, they will be aligned. Setting this to an empty string means no alignment will be done.
 
 ```cfc
+// comment.asterisks: ""
+{
+    /**
+      * a comment
+    */
+}
+
 // comment.asterisks: "align"
 {
     /**
@@ -210,13 +217,6 @@ When enabled, if every line after the first of a block comment starts with a `*`
     * a comment
     */
 }
-
-// comment.asterisks: ""
-{
-    /**
-      * a comment
-    */
-}
 ```
 
 ## for_loop_semicolons.padding
@@ -228,12 +228,12 @@ Default: **true**
 When true, insert a space after for loop semicolons.
 
 ```cfc
-// for_loop_semicolons.padding: true
-for (var i = 0; i < 10; i++) {
-}
-
 // for_loop_semicolons.padding: false
 for (var i = 0;i < 10;i++) {
+}
+
+// for_loop_semicolons.padding: true
+for (var i = 0; i < 10; i++) {
 }
 ```
 
@@ -246,12 +246,12 @@ Default: **false**
 When true, pad anonymous function declarations that have no parameters with a space.
 
 ```cfc
-// function_anonymous.empty_padding: true
-function( ) {
-}
-
 // function_anonymous.empty_padding: false
 function() {
+}
+
+// function_anonymous.empty_padding: true
+function( ) {
 }
 ```
 
@@ -264,10 +264,6 @@ Values: [**"spaced"**, "compact", "newline"]
 How to space from the anonymous function parameters to the function block.
 
 ```cfc
-// function_anonymous.group_to_block_spacing: "spaced"
-function() {
-}
-
 // function_anonymous.group_to_block_spacing: "compact"
 function(){
 }
@@ -275,6 +271,10 @@ function(){
 // function_anonymous.group_to_block_spacing: "newline"
 function()
 {
+}
+
+// function_anonymous.group_to_block_spacing: "spaced"
+function() {
 }
 ```
 
@@ -296,21 +296,21 @@ Default: **false**
 Whether to use a leading comma when anonymous function declaration parameters are printed on multiple lines.
 
 ```cfc
-// function_anonymous.multiline.leading_comma: true
-function(
-      a
-    , b
-    , c
-    , d
-) {
-}
-
 // function_anonymous.multiline.leading_comma: false
 function(
     a,
     b,
     c,
     d
+) {
+}
+
+// function_anonymous.multiline.leading_comma: true
+function(
+      a
+    , b
+    , c
+    , d
 ) {
 }
 ```
@@ -324,21 +324,21 @@ Default: **true**
 Whether to insert a space after leading commas when anonymous function declaration parameters are printed on multiple lines.
 
 ```cfc
-// function_anonymous.multiline.leading_comma.padding: true
-function(
-      a
-    , b
-    , c
-    , d
-) {
-}
-
 // function_anonymous.multiline.leading_comma.padding: false
 function(
      a
     ,b
     ,c
     ,d
+) {
+}
+
+// function_anonymous.multiline.leading_comma.padding: true
+function(
+      a
+    , b
+    , c
+    , d
 ) {
 }
 ```
@@ -361,12 +361,12 @@ Default: **false**
 Whether to pad non-empty anonymous function declarations with spaces.
 
 ```cfc
-// function_anonymous.padding: true
-function( a, b ) {
-}
-
 // function_anonymous.padding: false
 function(a, b) {
+}
+
+// function_anonymous.padding: true
+function( a, b ) {
 }
 ```
 
@@ -379,14 +379,14 @@ Values: [**"cfdocs"**, "pascal", ""]
 Formats builtin function call casing. The default is to match cfdocs.org data. An alternative is to always capitalize the first letter (pascal). Set this setting to an empty string to leave casing as is.
 
 ```cfc
+// function_call.casing.builtin: ""
+ARRAYAPPEND(myarray, 1);
+
 // function_call.casing.builtin: "cfdocs"
 arrayAppend(myarray, 1);
 
 // function_call.casing.builtin: "pascal"
 ArrayAppend(myarray, 1);
-
-// function_call.casing.builtin: ""
-ARRAYAPPEND(myarray, 1);
 ```
 
 ## function_call.casing.userdefined
@@ -417,11 +417,11 @@ Default: **false**
 When true, function calls with no arguments are padded with a space.
 
 ```cfc
-// function_call.empty_padding: true
-myFunc( );
-
 // function_call.empty_padding: false
 myFunc();
+
+// function_call.empty_padding: true
+myFunc( );
 ```
 
 ## function_call.multiline.element_count
@@ -442,20 +442,20 @@ Default: **false**
 Whether to use a leading comma when function call arguments are printed on multiple lines.
 
 ```cfc
-// function_call.multiline.leading_comma: true
-myFunc(
-      1
-    , 2
-    , 3
-    , 4
-);
-
 // function_call.multiline.leading_comma: false
 myFunc(
     1,
     2,
     3,
     4
+);
+
+// function_call.multiline.leading_comma: true
+myFunc(
+      1
+    , 2
+    , 3
+    , 4
 );
 ```
 
@@ -468,20 +468,20 @@ Default: **true**
 Whether to insert a space after leading commas when function call arguments are printed on multiple lines.
 
 ```cfc
-// function_call.multiline.leading_comma.padding: true
-myFunc(
-      1
-    , 2
-    , 3
-    , 4
-);
-
 // function_call.multiline.leading_comma.padding: false
 myFunc(
      1
     ,2
     ,3
     ,4
+);
+
+// function_call.multiline.leading_comma.padding: true
+myFunc(
+      1
+    , 2
+    , 3
+    , 4
 );
 ```
 
@@ -503,11 +503,11 @@ Default: **false**
 Whether to pad function call arguments with spaces.
 
 ```cfc
-// function_call.padding: true
-myFunc( 1, 2 );
-
 // function_call.padding: false
 myFunc(1, 2);
+
+// function_call.padding: true
+myFunc( 1, 2 );
 ```
 
 ## function_declaration.empty_padding
@@ -519,12 +519,12 @@ Default: **false**
 When true, pad function declarations that have no parameters with a space.
 
 ```cfc
-// function_declaration.empty_padding: true
-function example( ) {
-}
-
 // function_declaration.empty_padding: false
 function example() {
+}
+
+// function_declaration.empty_padding: true
+function example( ) {
 }
 ```
 
@@ -537,10 +537,6 @@ Values: [**"spaced"**, "compact", "newline"]
 How to space from the function parameters to the function block.
 
 ```cfc
-// function_declaration.group_to_block_spacing: "spaced"
-function example() {
-}
-
 // function_declaration.group_to_block_spacing: "compact"
 function example(){
 }
@@ -548,6 +544,10 @@ function example(){
 // function_declaration.group_to_block_spacing: "newline"
 function example()
 {
+}
+
+// function_declaration.group_to_block_spacing: "spaced"
+function example() {
 }
 ```
 
@@ -569,21 +569,21 @@ Default: **false**
 Whether to use a leading comma when function declaration parameters are printed on multiple lines.
 
 ```cfc
-// function_declaration.multiline.leading_comma: true
-function example(
-      a
-    , b
-    , c
-    , d
-) {
-}
-
 // function_declaration.multiline.leading_comma: false
 function example(
     a,
     b,
     c,
     d
+) {
+}
+
+// function_declaration.multiline.leading_comma: true
+function example(
+      a
+    , b
+    , c
+    , d
 ) {
 }
 ```
@@ -597,21 +597,21 @@ Default: **true**
 Whether to insert a space after leading commas when function declaration parameters are printed on multiple lines.
 
 ```cfc
-// function_declaration.multiline.leading_comma.padding: true
-function example(
-      a
-    , b
-    , c
-    , d
-) {
-}
-
 // function_declaration.multiline.leading_comma.padding: false
 function example(
      a
     ,b
     ,c
     ,d
+) {
+}
+
+// function_declaration.multiline.leading_comma.padding: true
+function example(
+      a
+    , b
+    , c
+    , d
 ) {
 }
 ```
@@ -634,12 +634,12 @@ Default: **false**
 Whether to pad non-empty function declarations with spaces.
 
 ```cfc
-// function_declaration.padding: true
-function example( a, b ) {
-}
-
 // function_declaration.padding: false
 function example(a, b) {
+}
+
+// function_declaration.padding: true
+function example( a, b ) {
 }
 ```
 
@@ -652,14 +652,14 @@ Default: **4**
 Each indent level or tab is equivalent to this many spaces.
 
 ```cfc
-// indent_size: 4
-do {
-    myFunc();
-}
-
 // indent_size: 2
 do {
   myFunc();
+}
+
+// indent_size: 4
+do {
+    myFunc();
 }
 ```
 
@@ -672,11 +672,6 @@ Values: [**"spaced"**, "compact", "newline"]
 Spacing for keywords following a block.
 
 ```cfc
-// keywords.block_to_keyword_spacing: "spaced"
-if (true) {
-} else {
-}
-
 // keywords.block_to_keyword_spacing: "compact"
 if (true) {
 }else {
@@ -686,6 +681,11 @@ if (true) {
 if (true) {
 }
 else {
+}
+
+// keywords.block_to_keyword_spacing: "spaced"
+if (true) {
+} else {
 }
 ```
 
@@ -698,12 +698,12 @@ Default: **false**
 Whether to pad empty keyword groups.
 
 ```cfc
-// keywords.empty_group_spacing: true
-if ( ) {
-}
-
 // keywords.empty_group_spacing: false
 if () {
+}
+
+// keywords.empty_group_spacing: true
+if ( ) {
 }
 ```
 
@@ -716,10 +716,6 @@ Values: [**"spaced"**, "compact", "newline"]
 Spacing from a keyword group to the following block.
 
 ```cfc
-// keywords.group_to_block_spacing: "spaced"
-if (true) {
-}
-
 // keywords.group_to_block_spacing: "compact"
 if (true){
 }
@@ -727,6 +723,10 @@ if (true){
 // keywords.group_to_block_spacing: "newline"
 if (true)
 {
+}
+
+// keywords.group_to_block_spacing: "spaced"
+if (true) {
 }
 ```
 
@@ -739,12 +739,12 @@ Default: **false**
 Whether to pad inside non-empty keyword groups.
 
 ```cfc
-// keywords.padding_inside_group: true
-if ( true ) {
-}
-
 // keywords.padding_inside_group: false
 if (true) {
+}
+
+// keywords.padding_inside_group: true
+if ( true ) {
 }
 ```
 
@@ -757,10 +757,6 @@ Values: [**"spaced"**, "compact", "newline"]
 Spacing from a keyword to the following block.
 
 ```cfc
-// keywords.spacing_to_block: "spaced"
-do {
-}
-
 // keywords.spacing_to_block: "compact"
 do{
 }
@@ -768,6 +764,10 @@ do{
 // keywords.spacing_to_block: "newline"
 do
 {
+}
+
+// keywords.spacing_to_block: "spaced"
+do {
 }
 ```
 
@@ -780,12 +780,12 @@ Default: **true**
 Whether to space a keyword from following group.
 
 ```cfc
-// keywords.spacing_to_group: true
-if (true) {
-}
-
 // keywords.spacing_to_group: false
 if(true) {
+}
+
+// keywords.spacing_to_group: true
+if (true) {
 }
 ```
 
@@ -825,11 +825,11 @@ Default: **false**
 Whether to pad the contents of a group.
 
 ```cfc
-// parentheses.padding: true
-a = ( 1 + 2 );
-
 // parentheses.padding: false
 a = (1 + 2);
+
+// parentheses.padding: true
+a = ( 1 + 2 );
 ```
 
 ## strings.attributes.quote
@@ -841,17 +841,17 @@ Values: ["single", **"double"**, ""]
 Whether to use a single or double quote for attribute values. If set to an empty string, leaves attribute value quotes as they are found.
 
 ```cfc
-// strings.attributes.quote: "single"
+// strings.attributes.quote: ""
 http url='www.google.com';
-param name='key';
+param name="key";
 
 // strings.attributes.quote: "double"
 http url="www.google.com";
 param name="key";
 
-// strings.attributes.quote: ""
+// strings.attributes.quote: "single"
 http url='www.google.com';
-param name="key";
+param name='key';
 ```
 
 ## strings.quote
@@ -863,16 +863,16 @@ Values: [**"single"**, "double", ""]
 Whether to use a single or double quote for strings. If set to an empty string, leaves string quotes as they are found.
 
 ```cfc
-// strings.quote: "single"
-a = 'One';
+// strings.quote: ""
+a = "One";
 b = 'Two';
 
 // strings.quote: "double"
 a = "One";
 b = "Two";
 
-// strings.quote: ""
-a = "One";
+// strings.quote: "single"
+a = 'One';
 b = 'Two';
 ```
 
@@ -885,11 +885,11 @@ Default: **false**
 When true, non-empty structs are padded with spaces.
 
 ```cfc
-// struct.empty_padding: true
-myStruct = { };
-
 // struct.empty_padding: false
 myStruct = {};
+
+// struct.empty_padding: true
+myStruct = { };
 ```
 
 ## struct.multiline.element_count
@@ -910,20 +910,20 @@ Default: **false**
 Whether to use a leading comma when an struct is printed on multiple lines.
 
 ```cfc
-// struct.multiline.leading_comma: true
-myStruct = {
-      a: 1
-    , b: 2
-    , c: 3
-    , d: 4
-};
-
 // struct.multiline.leading_comma: false
 myStruct = {
     a: 1,
     b: 2,
     c: 3,
     d: 4
+};
+
+// struct.multiline.leading_comma: true
+myStruct = {
+      a: 1
+    , b: 2
+    , c: 3
+    , d: 4
 };
 ```
 
@@ -936,20 +936,20 @@ Default: **true**
 Whether to insert a space after leading commas when an struct is printed on multiple lines.
 
 ```cfc
-// struct.multiline.leading_comma.padding: true
-myStruct = {
-      a: 1
-    , b: 2
-    , c: 3
-    , d: 4
-};
-
 // struct.multiline.leading_comma.padding: false
 myStruct = {
      a: 1
     ,b: 2
     ,c: 3
     ,d: 4
+};
+
+// struct.multiline.leading_comma.padding: true
+myStruct = {
+      a: 1
+    , b: 2
+    , c: 3
+    , d: 4
 };
 ```
 
@@ -971,11 +971,11 @@ Default: **false**
 Whether to pad non-empty structs with spaces.
 
 ```cfc
-// struct.padding: true
-myStruct = { a: 1, b: 2 };
-
 // struct.padding: false
 myStruct = {a: 1, b: 2};
+
+// struct.padding: true
+myStruct = { a: 1, b: 2 };
 ```
 
 ## struct.separator
@@ -985,14 +985,14 @@ Default: **": "**
 The key value separator to use in structs - it must contain either a single `:` or `=` and be no more than 3 characters in length.
 
 ```cfc
-// struct.separator: ": "
-myStruct = {a: 1, b: 2};
+// struct.separator: " : "
+myStruct = {a : 1, b : 2};
 
 // struct.separator: " = "
 myStruct = {a = 1, b = 2};
 
-// struct.separator: " : "
-myStruct = {a : 1, b : 2};
+// struct.separator: ": "
+myStruct = {a: 1, b: 2};
 
 // struct.separator: "="
 myStruct = {a=1, b=2};
