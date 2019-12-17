@@ -18,10 +18,16 @@ component {
         );
 
         binder
+            .map('cfformatutils@commandbox-cfformat')
+            .to('#moduleMapping#.models.CFFormatUtils')
+            .asSingleton();
+
+        binder
             .map('cfformat@commandbox-cfformat')
             .to('#moduleMapping#.models.CFFormat')
             .asSingleton()
             .initWith(binFolder, fullModulePath);
+
     }
 
     function ensureExecutableExists(executablePath, downloadURL) {

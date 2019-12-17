@@ -29,7 +29,9 @@ component accessors="true" {
             if (endCommentIndex) {
                 var commentTokens = tokens.slice(endCommentIndex);
                 element_cftokens.setTokens(endCommentIndex > 1 ? tokens.slice(1, endCommentIndex - 1) : []);
-                result.endingComments[i] = cfformat.cfscript.print(cfformat.cftokens(commentTokens), settings, indent + 1).rtrim();
+                result.endingComments[i] = cfformat.cfscript
+                    .print(cfformat.cftokens(commentTokens), settings, indent + 1)
+                    .rtrim();
             }
 
             var printedElement = cfformat.cfscript.print(element_cftokens, settings, indent + 1).trim();
