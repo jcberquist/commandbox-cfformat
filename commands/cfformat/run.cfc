@@ -39,8 +39,8 @@ component accessors="true" aliases="fmt" {
 
         if (pathData.pathType == 'file') {
             formatFile(
-                fullPath,
-                userSettings.paths[fullPath],
+                pathData.filePaths[1],
+                userSettings.paths[pathData.filePaths[1]],
                 overwrite,
                 timeit
             )

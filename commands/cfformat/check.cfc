@@ -34,7 +34,7 @@ component accessors="true" {
         var userSettings = cfformatUtils.resolveSettings(pathData.filePaths, settingsPath);
 
         if (pathData.pathType == 'file') {
-            checkFile(fullPath, userSettings.paths[fullPath], timeit)
+            checkFile(pathData.filePaths[1], userSettings.paths[pathData.filePaths[1]], timeit)
         } else {
             checkFiles(pathData.filePaths, userSettings.paths, timeit);
         }
