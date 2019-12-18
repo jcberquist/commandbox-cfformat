@@ -31,15 +31,19 @@ component {
             var attr_tokens = cftokens.collectTo(argumentCollection = attrEnd);
         }
 
+        var alwaysMultiline = false;
+
         // special cfproperty handling
         if (formattedText == 'property') {
-            while (attr_tokens.hasNext() && !attr_tokens.peekScopeStartsWith('entity.other.attribute-name')) {
-                formattedText &= ' ' & attr_tokens.next(false)[1];
+            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith('entity.other.attribute-name', true);
+            while (attr_tokens.hasNext() && !attr_tokens.peekScopeStartsWith('entity.other.attribute-name', true)) {
+                formattedText &= ' ' & attr_tokens.next(false, false)[1];
             }
         }
 
         // special cfparam handling
         if (formattedText == 'param') {
+            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith('entity.other.attribute-name', true);
             var preAttrTokens = attr_tokens.collectTo(argumentCollection = attrStart);
             var preAttrTxt = cfformat.cfscript.print(preAttrTokens, settings, indent).trim();
             if (preAttrTxt.len()) formattedText &= ' ' & preAttrTxt;
@@ -51,19 +55,17 @@ component {
             indent,
             columnOffset + formattedText.len(),
             nullValue(),
-            tagType == 'acf'
+            tagType == 'acf',
+            alwaysMultiline
         );
 
         if (tagType == 'acf') {
             formattedText &= '(' & attributesTxt & ')';
         } else if (attributesTxt.len()) {
-            formattedText &= ' ';
             if (attributesTxt.find(chr(10))) {
-                formattedText &= attributesTxt
-                    .trim()
-                    .replace(chr(10), chr(10) & repeatString(' ', tagName.len() - 3), 'all');
+                formattedText &= attributesTxt.rtrim();
             } else {
-                formattedText &= attributesTxt.trim();
+                formattedText &= ' ' & attributesTxt.trim();
             }
         }
 

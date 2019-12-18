@@ -33,7 +33,8 @@ component {
         indent,
         columnOffset,
         attributesEnd,
-        commaDelimited = false
+        commaDelimited = false,
+        alwaysMultiline = false
     ) {
         if (!isNull(arguments.attributesEnd)) {
             var attributeTokens = cftokens.collectTo(argumentCollection = attributesEnd);
@@ -58,6 +59,7 @@ component {
         var formattedText = attributeStrings.toList(commaDelimited ? ', ' : ' ');
 
         if (
+            !alwaysMultiline &&
             !formattedText.find(chr(10)) &&
             columnOffset + formattedText.len() <= settings.max_columns
         ) {
