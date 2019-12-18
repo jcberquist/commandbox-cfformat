@@ -16,7 +16,7 @@
             "URL":"http://opensource.org/licenses/MIT"
         }
     ],
-    "location":"jcberquist/commandbox-cfformat#v0.12.13",
+    "location":"jcberquist/commandbox-cfformat#v0.12.14",
     "name":"cfformat",
     "repository":{
         "type":"git",
@@ -25,5 +25,5 @@
     "shortDescription":"A CommandBox module for formatting CFML component files.",
     "slug":"commandbox-cfformat",
     "type":"commandbox-modules",
-    "version":"0.12.13"
+    "version":"0.12.14"
 }
