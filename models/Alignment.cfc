@@ -7,11 +7,11 @@ component accessors="true" {
         '(', // three possibilities
         '(?:var\s*)?(?i:"[^"]*"|''[^'']*''|#identifier#)(?:\[[^\]]+\])*', // variable assignment
         '|',
-        '(?i:param\s+)?#identifier#(?:\s+#identifier#)?', // params
+        '(?i:param[ \t]+)?#identifier#(?:[ \t]+#identifier#)?', // params
         '|',
-        '(?i:required\s+)?#identifier#(?:\s+#identifier#)?', // function parameters
+        '(?i:required[ \t]+)?#identifier#(?:[ \t]+#identifier#)?', // function parameters
         ')',
-        '(\s*[:=][^\r\n]*)\r?\n'
+        '([ \t]*[:=][^\r\n]*)\r?\n'
     ];
     variables.commentRegex = '^[ \t]*//[^\r\n]*\r?\n';
     variables.propertiesRegex = [

@@ -17,6 +17,9 @@ component extends=tests.FormatBaseSpec {
             it('aligns property attributes', function() {
                 runTests(loadData('alignPropertyAttributes'));
             });
+            it('aligns property attribute assignments', function() {
+                runTests(loadData('alignPropertyAttributeAssignments'));
+            });
             it('aligns param attributes', function() {
                 runTests(loadData('alignParamAttributes'));
             });
