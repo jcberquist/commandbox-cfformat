@@ -51,9 +51,12 @@ component accessors="true" {
             command('!git clone https://github.com/sublimehq/Packages.git ./Packages')
                 .inWorkingDirectory(cftokensLibDir)
                 .run();
+            command('!git checkout st3').inWorkingDirectory(cftokensLibDir & 'Packages').run();
         } else {
             print.line('Pulling sublimehq Packages repo from GitHub...').toConsole();
-            command('!git pull').inWorkingDirectory(cftokensLibDir & 'Packages').run();
+            command('!git fetch').inWorkingDirectory(cftokensLibDir & 'Packages').run();
+            command('!git checkout st3').inWorkingDirectory(cftokensLibDir & 'Packages').run();
+            command('!git merge FETCH_HEAD').inWorkingDirectory(cftokensLibDir & 'Packages').run();
         }
 
         if (!directoryExists(cftokensLibDir & 'CFML')) {
