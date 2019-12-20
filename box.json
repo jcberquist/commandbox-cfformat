@@ -1,7 +1,7 @@
 {
     "author":"John Berquist",
     "bugs":"https://github.com/jcberquist/commandbox-cfformat/issues",
-    "cftokens":"v0.12.2",
+    "cftokens":"v0.12.15",
     "devDependencies":{
         "testbox":"be"
     },
@@ -16,7 +16,7 @@
             "URL":"http://opensource.org/licenses/MIT"
         }
     ],
-    "location":"jcberquist/commandbox-cfformat#v0.12.14",
+    "location":"jcberquist/commandbox-cfformat#v0.12.15",
     "name":"cfformat",
     "repository":{
         "type":"git",
@@ -25,5 +25,5 @@
     "shortDescription":"A CommandBox module for formatting CFML component files.",
     "slug":"commandbox-cfformat",
     "type":"commandbox-modules",
-    "version":"0.12.14"
+    "version":"0.12.15"
 }
