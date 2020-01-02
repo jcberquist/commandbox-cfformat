@@ -1,7 +1,0 @@
-component {
-
-    function run() {
-        //
-    }
-
-}
