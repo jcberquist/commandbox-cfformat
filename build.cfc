@@ -3,6 +3,8 @@ component accessors="true" {
     property tempDir inject="tempDir@constants";
     property filesystem inject="filesystem";
     property JSONService inject="JSONService";
+	property JSONPrettyPrint inject="provider:JSONPrettyPrint";
+
 
     function run() {
         syntect();
@@ -163,10 +165,10 @@ component accessors="true" {
 
         // generate examples
         var cfformat = new models.CFFormat('', dir);
-        var examples = {};
+        var examples = structNew( "ordered" );
         for (var setting in reference) {
             if (reference[setting].keyExists('example')) {
-                var output = {};
+                var output = structNew( "ordered" );
                 var values = reference[setting].example.keyExists('values') ? reference[setting].example.values : [];
                 if (reference[setting].keyExists('values')) {
                     values = reference[setting].values;
@@ -191,7 +193,10 @@ component accessors="true" {
             }
         }
 
-        JSONService.writeJSONFile(dir & 'data/examples.json', examples);
+        fileWrite(
+            dir & 'data/examples.json',
+            JSONPrettyPrint.formatJSON( examples )
+        );
     }
 
     function reference() {
