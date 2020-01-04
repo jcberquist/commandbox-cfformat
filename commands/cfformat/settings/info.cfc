@@ -19,10 +19,7 @@ component accessors="true" {
      * @path component or directory path
      * @settingsPath path to a JSON settings file
      */
-    function run(
-        string setting = '',
-    ) {
-
+    function run(string setting = '') {
         var defaultSettings = cfformat.getDefaultSettings();
         var reference = cfformat.getReference();
         var examples = cfformat.getExamples();
@@ -45,7 +42,6 @@ component accessors="true" {
                 print.line(examples[ref.setting]);
             }
         }
-
     }
 
     array function settingNames() {

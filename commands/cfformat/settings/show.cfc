@@ -19,10 +19,7 @@ component accessors="true" {
      * @path component or directory path
      * @settingsPath path to a JSON settings file
      */
-    function run(
-        string path = '',
-        string settingsPath = ''
-    ) {
+    function run(string path = '', string settingsPath = '') {
         var pathData = cfformatUtils.resolveFormatPath(path);
 
         if (path.len() && !pathData.filePaths.len()) {
