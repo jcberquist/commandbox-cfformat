@@ -38,7 +38,7 @@
     "comment.asterisks":{
         "align":"// comment.asterisks: \"align\"\n{\n    /**\n     * a comment\n     */\n}",
         "indent":"// comment.asterisks: \"indent\"\n{\n    /**\n    * a comment\n    */\n}",
-        "":"// comment.asterisks: \"\"\n{\n    /**\n      * a comment\n    */\n}"
+        "ignored":"// comment.asterisks: \"ignored\"\n{\n    /**\n      * a comment\n    */\n}"
     },
     "for_loop_semicolons.padding":{
         "true":"// for_loop_semicolons.padding: true\nfor (var i = 0; i < 10; i++) {\n}",
@@ -68,10 +68,10 @@
     "function_call.casing.builtin":{
         "cfdocs":"// function_call.casing.builtin: \"cfdocs\"\narrayAppend(myarray, 1);",
         "pascal":"// function_call.casing.builtin: \"pascal\"\nArrayAppend(myarray, 1);",
-        "":"// function_call.casing.builtin: \"\"\nARRAYAPPEND(myarray, 1);"
+        "ignored":"// function_call.casing.builtin: \"ignored\"\nARRAYAPPEND(myarray, 1);"
     },
     "function_call.casing.userdefined":{
-        "":"// function_call.casing.userdefined: \"\"\nmyFunc();",
+        "ignored":"// function_call.casing.userdefined: \"ignored\"\nmyFunc();",
         "camel":"// function_call.casing.userdefined: \"camel\"\nmyFunc();",
         "pascal":"// function_call.casing.userdefined: \"pascal\"\nMyFunc();"
     },
@@ -150,12 +150,12 @@
     "strings.attributes.quote":{
         "single":"// strings.attributes.quote: \"single\"\nhttp url='www.google.com';\nparam name='key';",
         "double":"// strings.attributes.quote: \"double\"\nhttp url=\"www.google.com\";\nparam name=\"key\";",
-        "":"// strings.attributes.quote: \"\"\nhttp url='www.google.com';\nparam name=\"key\";"
+        "ignored":"// strings.attributes.quote: \"ignored\"\nhttp url='www.google.com';\nparam name=\"key\";"
     },
     "strings.quote":{
         "single":"// strings.quote: \"single\"\na = 'One';\nb = 'Two';",
         "double":"// strings.quote: \"double\"\na = \"One\";\nb = \"Two\";",
-        "":"// strings.quote: \"\"\na = \"One\";\nb = 'Two';"
+        "ignored":"// strings.quote: \"ignored\"\na = \"One\";\nb = 'Two';"
     },
     "struct.empty_padding":{
         "true":"// struct.empty_padding: true\nmyStruct = { };",
