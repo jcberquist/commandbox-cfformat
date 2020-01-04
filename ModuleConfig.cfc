@@ -1,5 +1,6 @@
 component {
 
+    this.cfmapping = "cfformat";
     this.autoMapModels = false;
 
     function configure() {
