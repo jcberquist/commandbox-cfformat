@@ -132,7 +132,7 @@ component accessors="true" aliases="fmt" {
                 result.failures.append(file);
                 logFile(file, false);
             } else {
-                // fileWrite(file, formatted, 'utf-8');
+                fileWrite(file, formatted, 'utf-8');
                 logFile(file, true);
             }
 
