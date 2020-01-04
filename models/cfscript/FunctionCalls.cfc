@@ -33,7 +33,7 @@ component {
         if (cftokens.peekScopeStartsWith('support.function.cfml')) {
             var token = cftokens.next(whitespace = false);
             var key = settings['function_call.casing.builtin'];
-            if (len(key)) {
+            if (key != 'ignored') {
                 return builtins[key][token[1].lcase()];
             }
             return token[1];
@@ -42,7 +42,7 @@ component {
         if (cftokens.peekScopeStartsWith('variable.function.cfml')) {
             var token = cftokens.next(whitespace = false);
             var key = settings['function_call.casing.userdefined'];
-            if (len(key) && token[2][token[2].len() - 1] == 'meta.function-call.cfml') {
+            if (key != 'ignored' && token[2][token[2].len() - 1] == 'meta.function-call.cfml') {
                 var replacement = key == 'camel' ? '\l\1' : '\u\1';
                 return reReplace(token[1], '(.)', replacement);
             }

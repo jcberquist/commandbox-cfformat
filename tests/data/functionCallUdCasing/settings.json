@@ -1,6 +1,6 @@
 [
     {
-        "function_call.casing.userdefined": ""
+        "function_call.casing.userdefined": "ignored"
     },
     {
         "function_call.casing.userdefined": "camel"

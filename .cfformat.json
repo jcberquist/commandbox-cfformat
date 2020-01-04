@@ -20,7 +20,7 @@
     "function_anonymous.multiline.min_length": 40,
     "function_anonymous.padding": false,
     "function_call.casing.builtin": "cfdocs",
-    "function_call.casing.userdefined": "",
+    "function_call.casing.userdefined": "ignored",
     "function_call.empty_padding": false,
     "function_call.multiline.element_count": 4,
     "function_call.multiline.leading_comma": false,

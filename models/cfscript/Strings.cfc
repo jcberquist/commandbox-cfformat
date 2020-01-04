@@ -50,8 +50,7 @@ component {
 
         for (q in quotes) {
             if (
-                element.type == q.type &&
-                !isNull(settings[q.setting]) &&
+                element.type == q.type &&                
                 settings[q.setting] == q.value
             ) {
                 quote = q.quote;

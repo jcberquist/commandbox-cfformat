@@ -78,7 +78,7 @@
         "type": "boolean"
     },
     "comment.asterisks": {
-        "description": "When enabled, if every line after the first of a block comment starts with a `*`, they will be aligned. Setting this to an empty string means no alignment will be done.",
+        "description": "When enabled, if every line after the first of a block comment starts with a `*`, they will be aligned. Setting this to \"ignored\" means no alignment will be done.",
         "example": {
             "code": "{/**\n      * a comment\n    */}"
         },
@@ -86,7 +86,7 @@
         "values": [
             "align",
             "indent",
-            ""
+            "ignored"
         ]
     },
     "for_loop_semicolons.padding": {
@@ -152,7 +152,7 @@
         "type": "boolean"
     },
     "function_call.casing.builtin": {
-        "description": "Formats builtin function call casing. The default is to match cfdocs.org data. An alternative is to always capitalize the first letter (pascal). Set this setting to an empty string to leave casing as is.",
+        "description": "Formats builtin function call casing. The default is to match cfdocs.org data. An alternative is to always capitalize the first letter (pascal). Set this setting to \"ignored\" to leave casing as is.",
         "example": {
             "code": "ARRAYAPPEND(myarray, 1);"
         },
@@ -160,17 +160,17 @@
         "values": [
             "cfdocs",
             "pascal",
-            ""
+            "ignored"
         ]
     },
     "function_call.casing.userdefined": {
-        "description": "Formats user defined function call casing. The default is to leave as is (this is set to an empty string). Alternatives are to always capitalize the first letter (pascal), or always lower case it (camel).",
+        "description": "Formats user defined function call casing. The default is to leave as is (this is set to \"ignored\"). Alternatives are to always capitalize the first letter (pascal), or always lower case it (camel).",
         "example": {
             "code": "myFunc();"
         },
         "type": "string",
         "values": [
-            "",
+            "ignored",
             "camel",
             "pascal"
         ]
@@ -366,7 +366,7 @@
         "type": "boolean"
     },
     "strings.attributes.quote": {
-        "description": "Whether to use a single or double quote for attribute values. If set to an empty string, leaves attribute value quotes as they are found.",
+        "description": "Whether to use a single or double quote for attribute values. If set to \"ignored\", leaves attribute value quotes as they are found.",
         "example": {
             "code": "http url='www.google.com';\nparam name=\"key\";"
         },
@@ -374,11 +374,11 @@
         "values": [
             "single",
             "double",
-            ""
+            "ignored"
         ]
     },
     "strings.quote": {
-        "description": "Whether to use a single or double quote for strings. If set to an empty string, leaves string quotes as they are found.",
+        "description": "Whether to use a single or double quote for strings. If set to \"ignored\", leaves string quotes as they are found.",
         "example": {
             "code": "a=\"One\";\nb='Two';"
         },
@@ -386,7 +386,7 @@
         "values": [
             "single",
             "double",
-            ""
+            "ignored"
         ]
     },
     "struct.empty_padding": {

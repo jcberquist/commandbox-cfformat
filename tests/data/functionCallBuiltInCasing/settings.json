@@ -6,6 +6,6 @@
         "function_call.casing.builtin": "pascal"
     },
     {
-        "function_call.casing.builtin": ""
+        "function_call.casing.builtin": "ignored"
     }
 ]

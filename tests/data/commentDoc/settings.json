@@ -6,6 +6,6 @@
         "comment.asterisks": "indent"
     }, 
     {
-        "comment.asterisks": ""
+        "comment.asterisks": "ignored"
     }
 ]

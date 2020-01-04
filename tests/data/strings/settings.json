@@ -4,6 +4,6 @@
         "strings.quote": "double"
     },
     {
-        "strings.quote": ""
+        "strings.quote": "ignored"
     }
 ]

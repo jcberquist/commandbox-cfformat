@@ -65,7 +65,7 @@ component {
 
 
         // check to see if all lines after first start with `*`
-        if (settings['comment.asterisks'] != '') {
+        if (settings['comment.asterisks'] != 'ignored') {
             var lines = formatted.listToArray(chr(10), true);
             var starred = lines.len() > 1 && lines.slice(2).every((l) => l.ltrim().startswith('*'));
 
