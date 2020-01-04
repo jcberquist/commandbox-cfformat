@@ -692,6 +692,7 @@
     "structSort",
     "structToSorted",
     "structUpdate",
+    "structValueArray",
     "systemCacheClear",
     "systemOutput",
     "tan",

@@ -35,7 +35,10 @@ component {
 
         // special cfproperty handling
         if (formattedText == 'property') {
-            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith('entity.other.attribute-name', true);
+            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith(
+                'entity.other.attribute-name',
+                true
+            );
             while (attr_tokens.hasNext() && !attr_tokens.peekScopeStartsWith('entity.other.attribute-name', true)) {
                 formattedText &= ' ' & attr_tokens.next(false, false)[1];
             }
@@ -43,7 +46,10 @@ component {
 
         // special cfparam handling
         if (formattedText == 'param') {
-            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith('entity.other.attribute-name', true);
+            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith(
+                'entity.other.attribute-name',
+                true
+            );
             var preAttrTokens = attr_tokens.collectTo(argumentCollection = attrStart);
             var preAttrTxt = cfformat.cfscript.print(preAttrTokens, settings, indent).trim();
             if (preAttrTxt.len()) formattedText &= ' ' & preAttrTxt;

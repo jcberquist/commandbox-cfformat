@@ -1,6 +1,6 @@
 component {
 
-    this.cfmapping = "cfformat";
+    this.cfmapping = 'cfformat';
     this.autoMapModels = false;
 
     function configure() {
@@ -28,7 +28,6 @@ component {
             .to('#moduleMapping#.models.CFFormat')
             .asSingleton()
             .initWith(binFolder, fullModulePath);
-
     }
 
     function ensureExecutableExists(executablePath, downloadURL) {

@@ -3,7 +3,7 @@ component accessors="true" {
     property tempDir inject="tempDir@constants";
     property filesystem inject="filesystem";
     property JSONService inject="JSONService";
-	property JSONPrettyPrint inject="provider:JSONPrettyPrint";
+    property JSONPrettyPrint inject="provider:JSONPrettyPrint";
 
 
     function run() {
@@ -165,10 +165,10 @@ component accessors="true" {
 
         // generate examples
         var cfformat = new models.CFFormat('', dir);
-        var examples = structNew( "ordered" );
+        var examples = structNew('ordered');
         for (var setting in reference) {
             if (reference[setting].keyExists('example')) {
-                var output = structNew( "ordered" );
+                var output = structNew('ordered');
                 var values = reference[setting].example.keyExists('values') ? reference[setting].example.values : [];
                 if (reference[setting].keyExists('values')) {
                     values = reference[setting].values;
@@ -183,7 +183,7 @@ component accessors="true" {
                         tokens,
                         cfformat.mergedSettings(reference[setting].example.settings)
                     );
-                    output[ v ] = formatted
+                    output[v] = formatted
                         .replace(chr(13), '', 'all')
                         .reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#')
                         .trim();
@@ -193,10 +193,7 @@ component accessors="true" {
             }
         }
 
-        fileWrite(
-            dir & 'data/examples.json',
-            JSONPrettyPrint.formatJSON( examples )
-        );
+        fileWrite(dir & 'data/examples.json', JSONPrettyPrint.formatJSON(examples));
     }
 
     function reference() {
@@ -230,7 +227,7 @@ component accessors="true" {
                 md &= lf & reference[setting].description & lf;
             }
             if (examples.keyExists(setting)) {
-                md &= lf & '```cfc' & lf & structValueArray( examples[setting] ).toList(lf & lf) & lf & '```';
+                md &= lf & '```cfc' & lf & structValueArray(examples[setting]).toList(lf & lf) & lf & '```';
             }
             markdown.append(md);
         }
@@ -262,11 +259,11 @@ component accessors="true" {
         if (filesystem.isLinux()) return 'cftokens_linux';
     }
 
-    private function structValueArray( required struct structure ) {
-        return arguments.structure.reduce( ( values, _, value ) => {
-            values.append( value );
+    private function structValueArray(required struct structure) {
+        return arguments.structure.reduce((values, _, value) => {
+            values.append(value);
             return values;
-        }, [] );
+        }, []);
     }
 
 }
