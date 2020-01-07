@@ -1,4 +1,11 @@
-component {
+/**
+ * Generate a settings file
+ *
+ * {code:bash}
+ * cfformat settings wizard
+ * {code}
+ */
+ component {
 
     property cfformat inject="CFFormat@commandbox-cfformat";
     property fileSystemUtil inject="FileSystem";
