@@ -38,8 +38,11 @@ component accessors="true" {
             print.text('Default: ')
             print.blueLine(defaultSettings[ref.setting]);
             if (examples.keyExists(ref.setting)) {
-                print.line();
-                print.line(examples[ref.setting]);
+                examples[ref.setting].each((option, example) => {
+                    print.underscoredBlueLine(option);
+                    print.line(example)
+                    print.line().toConsole();
+                });
             }
         }
     }
