@@ -1,38 +1,49 @@
 # commandbox-cfformat
 
-This module registers a `cfformat` command in CommandBox that can be used to format CFML components. It is called with a path directly to a component, or a path to a directory. When a directory is passed, that directory is crawled for component files, and every component found is formatted.
+A CommandBox module for formatting CFML components. When installed, it registers a `cfformat` namespace in CommandBox. The base command is `cfformat run` and is called with a path directly to a component, or a path to a directory. When a directory is passed, that directory is crawled for component files, and every component found is formatted.
 
 ```bash
-cfformat ./models/MyComponent.cfc
-cfformat ./models/
+cfformat run ./models/MyComponent.cfc
+cfformat run ./models/
 ```
 
 If it is passed a component path it will, by default, print the formatted component text to the console. You can redirect this output to a new file if you wish. Alternatively you can use the `--overwrite` flag to overwrite the component in place instead of printing to the console.
 
-When passed a directory, `cfformat` always overwrites component files in place, and so it will ask for confirmation before proceeding. Here you can use the `--overwrite` flag to skip this confirmation check.
+When passed a directory, `cfformat run` always overwrites component files in place, and so it will ask for confirmation before proceeding. Here you can use the `--overwrite` flag to skip this confirmation check.
 
-The `--check` flag can be used to determine whether files are formatted according to the currently defined settings (see below). When this flag is used, `cfformat` will report on the status of the file(s) and return an appropriate exit code, without actually formatting them.
+**Note**: `cfformat run` is aliased to `fmt`, so the following syntax can be used as well:
 
 ```bash
-cfformat ./models/ --check
+fmt ./models/MyComponent.cfc
+fmt ./models/
 ```
 
-`cfformat` can also be called with a directory path and the `--watch` flag. When this is done, `cfformat` will use CommandBox's built in support for file watching to watch that directory for component changes, and will perform formatting passes on those files.
+## Checking Formatting
+
+The `cfformat check` command can be used to determine whether files are formatted according to the currently defined settings. It will report on the status of the file(s) and return an appropriate exit code, without actually formatting them.
 
 ```bash
-cfformat ./ --watch
+cfformat check ./models/
+```
+
+## Watching Directories
+
+`cfformat watch` can also be called with a directory path. It uses CommandBox's built in support for file watching to watch that directory for component changes, and will perform formatting passes on those files.
+
+```bash
+cfformat watch ./
 ```
 
 ## Settings
 
-To see the settings used for formatting, use the `--settings` flag. When that is present the `cfformat` command will just dump the settings it will use to format to the console, and not perform any formatting:
+Settings are managed via the `cfformat settings` namespace. To see the settings used for formatting, use the `cfformat settings show` command. It dumps the settings that would be used for formatting to the console:
 
 ```bash
-cfformat --settings
+cfformat settings show
 # or
-cfformat /some/path --settings
+cfformat settings show /some/path
 # or
-cfformat path/to/my.cfc /path/to/.cfformat.json --settings
+cfformat settings show path/to/my.cfc /path/to/.cfformat.json
 ```
 The following order is used to resolve the settings used for formatting:
 
@@ -52,14 +63,14 @@ config set cfformat.settings=/path/to/.cfformat.json
 Specifying a settings file to use inline when running `cfformat` is done as follows:
 
 ```bash
-cfformat path/to/my.cfc /path/to/.cfformat.json
+cfformat run path/to/my.cfc /path/to/.cfformat.json
 ```
 
-For more information on the settings used and what they do please see the [reference](https://github.com/jcberquist/commandbox-cfformat/blob/master/reference.md). You can also print reference information to the console using the `settingInfo` argument. `settingInfo` can be passed either a full setting name, or just a prefix:
+For more information on the settings used and what they do please see the [reference](https://github.com/jcberquist/commandbox-cfformat/blob/master/reference.md). You can also print reference information to the console using the `cfformat settings info` command. It can be passed either a full setting name, or just a prefix:
 
 ```bash
-cfformat settingInfo=array.padding
-cfformat settingInfo=array
+cfformat settings info array.padding
+cfformat settings info array
 ```
 
 ## Ignoring Code Sections
