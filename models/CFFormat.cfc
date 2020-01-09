@@ -12,12 +12,7 @@ component accessors="true" {
         variables.reference = deserializeJSON(fileRead(rootFolder & 'data/reference.json'));
         variables.examples = deserializeJSON(fileRead(rootFolder & 'data/examples.json'));
         variables.platform = getPlatform();
-
-        // internally we use `lf` not `newline`
-        variables.defaultSettings.lf = variables.defaultSettings.newline;
-        if (variables.defaultSettings.lf == 'os') {
-            variables.defaultSettings.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
-        }
+        variables.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
 
         variables.executable = binFolder & 'cftokens' & (platform == 'windows' ? '.exe' : '_#platform#');
 
@@ -30,7 +25,7 @@ component accessors="true" {
         return this;
     }
 
-    function mergedSettings(userSettings) {
+    function mergedSettings(userSettings, internal = true) {
         var merged = duplicate(defaultSettings);
 
         var validationError = function(message) {
@@ -73,9 +68,8 @@ component accessors="true" {
         }
 
         // internally we use `lf` not `newline`
-        merged.lf = merged.newline;
-        if (merged.lf == 'os') {
-            merged.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
+        if (internal) {
+            merged.lf = merged.newline == 'os' ? variables.lf : merged.newline;
         }
 
         return merged;
@@ -114,7 +108,7 @@ component accessors="true" {
         directoryCreate(fullTempPath, true);
 
         var fullManifestPath = fullTempPath & 'manifest.txt';
-        fileWrite(fullManifestPath, paths.toList(defaultSettings.lf), 'utf-8');
+        fileWrite(fullManifestPath, paths.toList(variables.lf), 'utf-8');
         tokenizeManifest(fullManifestPath);
 
         var fileMap = {};

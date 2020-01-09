@@ -1,7 +1,5 @@
 component accessors="true" {
 
-    property defaultSettings;
-
     function init(cfformat) {
         variables.cfformat = cfformat;
         cfformat.cftags.registerElement('htmltag', this);

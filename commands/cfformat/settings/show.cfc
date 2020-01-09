@@ -55,7 +55,7 @@ component accessors="true" {
         print.text().toConsole();
 
         try {
-            print.line(cfformat.mergedSettings(userSettings));
+            print.line(cfformat.mergedSettings(userSettings, false));
         } catch (CFFormat.settings.validation e) {
             print.redLine(e.message);
         }
