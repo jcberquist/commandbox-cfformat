@@ -75,6 +75,12 @@ cfformat settings info array.padding
 cfformat settings info array
 ```
 
+There is also a settings wizard which can be used to create a `.cfformat.json` file. It walks through all of the settings, showing what each one does, and allowing you to select your preferences (the default for each setting will be preselected). Afterward it will prompt you for a location to save your new settings file.
+
+```bash
+cfformat settings wizard
+```
+
 ## Ignoring Code Sections
 
 Use the special comments `// cfformat-ignore-start` and `// cfformat-ignore-end` (or the equivalent block comment or tag comment syntax) to have `cfformat` return the contained code as is without formatting it:
