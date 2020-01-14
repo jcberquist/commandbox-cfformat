@@ -7,7 +7,7 @@ cfformat run ./models/MyComponent.cfc
 cfformat run ./models/
 ```
 
-**Important: `commandbox-cfformat` switched from a single `cfformat` commannd to a `cfformat` namepace in `v0.13.0`. If you have scripts making use of `cfformat`, they will need to be updated.**
+**Important: `commandbox-cfformat` switched from a single `cfformat` command to a `cfformat` namespace in `v0.13.0`. If you have scripts making use of `cfformat`, they will need to be updated.**
 
 If it is passed a component path it will, by default, print the formatted component text to the console. You can redirect this output to a new file if you wish. Alternatively you can use the `--overwrite` flag to overwrite the component in place instead of printing to the console.
 
