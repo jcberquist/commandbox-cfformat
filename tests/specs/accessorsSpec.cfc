@@ -14,7 +14,6 @@ component extends=tests.FormatBaseSpec {
             it('formats accessors with comments', function() {
                 runTests(loadData('accessorComments'));
             });
-
         });
     }
 

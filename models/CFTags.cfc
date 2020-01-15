@@ -105,7 +105,7 @@ component accessors="true" {
             ) {
                 cftokens.consumeWhitespace(true);
                 formattedText &= settings.lf;
-                formattedText &= repeatString('    ', indent - 1);
+                formattedText &= cfformat.indentTo(indent - 1, settings);
                 continue;
             } else if (cftokens.peekNewline()) {
                 // consume newline
