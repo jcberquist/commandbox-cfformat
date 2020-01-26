@@ -10,6 +10,7 @@ component extends=tests.FormatBaseSpec {
             });
             it('normalizes the struct separator', function() {
                 runTests(loadData('structSeparator'));
+                runTests(loadData('structFunction'));
             });
             it('splits structs onto multiple lines', function() {
                 runTests(loadData('structMultiline'));

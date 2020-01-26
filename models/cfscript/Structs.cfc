@@ -3,6 +3,11 @@ component {
     property cfformat;
 
     variables.structKeyValue = ['meta.struct-literal.cfml', 'punctuation.separator.key-value.cfml'];
+    variables.functionStructKeyValue = [
+        'meta.struct-literal.cfml',
+        'meta.function.declaration.cfml',
+        'punctuation.separator.key-value.cfml'
+    ];
 
     function init(cfformat) {
         variables.cfformat = cfformat;
@@ -17,7 +22,7 @@ component {
         indent,
         columnOffset
     ) {
-        if (cftokens.peekScopes(structKeyValue)) {
+        if (cftokens.peekScopes(structKeyValue) || cftokens.peekScopes(functionStructKeyValue)) {
             var token = cftokens.next(whitespace = false);
             cftokens.consumeWhiteSpace(true);
             return settings['struct.separator'];
