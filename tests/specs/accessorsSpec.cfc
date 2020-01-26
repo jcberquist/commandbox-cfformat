@@ -14,6 +14,9 @@ component extends=tests.FormatBaseSpec {
             it('formats accessors with comments', function() {
                 runTests(loadData('accessorComments'));
             });
+            it('formats accessors with tag in script names', function() {
+                runTests(loadData('methodWithTagName'));
+            });
         });
     }
 

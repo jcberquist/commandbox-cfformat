@@ -3,7 +3,10 @@ component {
     property cfformat;
 
     variables.attrStart = {scopes: [['entity.other.attribute-name']], elements: []};
-    variables.attrEnd = {scopes: [['punctuation.terminator.statement']], elements: ['block']};
+    variables.attrEnd = {
+        scopes: [['punctuation.terminator.statement'], ['punctuation.accessor.cfml']],
+        elements: ['block']
+    };
 
     function init(cfformat) {
         variables.cfformat = cfformat;
@@ -27,6 +30,12 @@ component {
             // next should be tag-attributes element
             var attr_tokens = cfformat.cftokens(cftokens.next(false).elements);
         } else {
+            // check to see if this tag name is followed by accessor
+            if (cftokens.peekScopeStartsWith('punctuation.accessor.cfml', true)) {
+                // this is actually not a tag in script
+                return formattedText;
+            }
+
             // tag attr=val;
             var attr_tokens = cftokens.collectTo(argumentCollection = attrEnd);
         }

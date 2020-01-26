@@ -6,7 +6,7 @@ component extends=tests.FormatBaseSpec {
                 runTests(loadData('attrTemplateExpression'));
             });
             it('correctly indents the cfelse tag', function() {
-                runTests(loadData('cfelse'), true);
+                runTests(loadData('cfelse'));
             });
         });
     }
