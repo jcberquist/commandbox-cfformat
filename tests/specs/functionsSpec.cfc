@@ -11,6 +11,9 @@ component extends=tests.FormatBaseSpec {
             it('formats anonymous functions', function() {
                 runTests(loadData('functionAnon'));
             });
+            it('handles function params typed as components', function() {
+                runTests(loadData('functionParamTyped'));
+            });
         });
     }
 
