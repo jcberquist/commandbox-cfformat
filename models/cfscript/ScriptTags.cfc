@@ -37,14 +37,11 @@ component {
             var attr_tokens = cftokens.collectTo(argumentCollection = attrEnd);
         }
 
-        var alwaysMultiline = false;
+        var tagSetting = '';
 
         // special cfproperty handling
         if (formattedText == 'property') {
-            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith(
-                'entity.other.attribute-name',
-                true
-            );
+            tagSetting = 'property';
             while (attr_tokens.hasNext() && !attr_tokens.peekScopeStartsWith('entity.other.attribute-name', true)) {
                 formattedText &= ' ' & attr_tokens.next(false, false)[1];
             }
@@ -52,10 +49,6 @@ component {
 
         // special cfparam handling
         if (formattedText == 'param') {
-            alwaysMultiline = attr_tokens.peekNewline() && attr_tokens.peekScopeStartsWith(
-                'entity.other.attribute-name',
-                true
-            );
             var preAttrTokens = attr_tokens.collectTo(argumentCollection = attrStart);
             var preAttrTxt = cfformat.cfscript.print(preAttrTokens, settings, indent).trim();
             if (preAttrTxt.len()) formattedText &= ' ' & preAttrTxt;
@@ -68,7 +61,7 @@ component {
             columnOffset + formattedText.len(),
             nullValue(),
             tagType == 'acf',
-            alwaysMultiline
+            tagSetting
         );
 
         if (tagType == 'acf') {

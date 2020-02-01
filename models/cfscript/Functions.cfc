@@ -38,20 +38,23 @@ component {
                 rootSettingKey
             );
 
-            columnOffset += parametersTxt.len();
             formattedText &= parametersTxt;
+            // columnOffset += parametersTxt.len();
+            columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
 
             // handle tag metadata after function parameters
             var attributesTxt = cfformat.cfscript.attributes.printAttributes(
                 cftokens,
                 settings,
                 indent,
-                columnOffset + formattedText.len(),
-                attrEnd
+                columnOffset,
+                attrEnd,
+                false,
+                'metadata'
             );
             if (attributesTxt.len()) {
-                attributesTxt = ' ' & attributesTxt;
-                columnOffset += attributesTxt.len();
+                attributesTxt = (attributesTxt.find(chr(10)) ? '' : ' ') & attributesTxt;
+                columnOffset = cfformat.nextOffset(columnOffset, attributesTxt, settings);
                 formattedText &= attributesTxt;
             }
 

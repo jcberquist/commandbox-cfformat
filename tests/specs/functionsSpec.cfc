@@ -14,6 +14,9 @@ component extends=tests.FormatBaseSpec {
             it('handles function params typed as components', function() {
                 runTests(loadData('functionParamTyped'));
             });
+            it('formats function metadata attributes', function() {
+                runTests(loadData('functionMetadata'));
+            });
         });
     }
 

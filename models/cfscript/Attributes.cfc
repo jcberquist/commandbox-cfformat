@@ -34,7 +34,7 @@ component {
         columnOffset,
         attributesEnd,
         commaDelimited = false,
-        alwaysMultiline = false
+        tagSetting = ''
     ) {
         if (!isNull(arguments.attributesEnd)) {
             var attributeTokens = cftokens.collectTo(argumentCollection = attributesEnd);
@@ -57,9 +57,14 @@ component {
         }
 
         var formattedText = attributeStrings.toList(commaDelimited ? ', ' : ' ');
+        var min_length = tagSetting.len() ? settings["#tagSetting#.multiline.min_length"] : 0;
+        var element_count = tagSetting.len()? settings["#tagSetting#.multiline.element_count"] : 100;
 
         if (
-            !alwaysMultiline &&
+            (
+                attributeStrings.len() < element_count ||
+                formattedText.len() <= min_length
+            ) &&
             !formattedText.find(chr(10)) &&
             columnOffset + formattedText.len() <= settings.max_columns
         ) {

@@ -8,6 +8,9 @@ component extends=tests.FormatBaseSpec {
             it('formats script component properties', function() {
                 runTests(loadData('scriptProperty'));
             });
+            it('it respects the min_length setting for property attributes', function() {
+                runTests(loadData('scriptPropertyShort'));
+            });
             it('formats script params', function() {
                 runTests(loadData('scriptParam'));
             });

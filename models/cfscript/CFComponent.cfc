@@ -38,7 +38,9 @@ component {
             settings,
             indent,
             columnOffset + formattedText.len(),
-            attrEnd
+            attrEnd,
+            false,
+            'metadata'
         );
         if (attributesTxt.len()) {
             if (!attributesTxt.find(chr(10))) {

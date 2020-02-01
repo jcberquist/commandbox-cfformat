@@ -798,6 +798,24 @@ Default: **120**
 When rendering a delimited item (struct, array, function call, function declaration parameters), this is the maximum number of columns to render on one line before splitting the elements onto multiple lines.
 
 
+## metadata.multiline.element_count
+
+Type: _integer_
+
+Default: **4**
+
+When a component or function declaration has this number of metadata attributes or more, print it onto multiple lines.
+
+
+## metadata.multiline.min_length
+
+Type: _integer_
+
+Default: **40**
+
+No matter how many metadata attributes a component or function declaration has, if it is shorter than this length, keep it on one line.
+
+
 ## method_call.chain.multiline
 
 Type: _integer_
@@ -831,6 +849,24 @@ a = ( 1 + 2 );
 // parentheses.padding: false
 a = (1 + 2);
 ```
+
+## property.multiline.element_count
+
+Type: _integer_
+
+Default: **4**
+
+When a property has this number of attributes or more, print it onto multiple lines.
+
+
+## property.multiline.min_length
+
+Type: _integer_
+
+Default: **40**
+
+No matter how many attributes a property has, if it is shorter than this length, keep it on one line.
+
 
 ## strings.attributes.quote
 

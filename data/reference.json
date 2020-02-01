@@ -345,6 +345,14 @@
         "description": "When rendering a delimited item (struct, array, function call, function declaration parameters), this is the maximum number of columns to render on one line before splitting the elements onto multiple lines.",
         "type": "integer"
     },
+    "metadata.multiline.element_count": {
+        "description": "When a component or function declaration has this number of metadata attributes or more, print it onto multiple lines.",
+        "type": "integer"
+    },
+    "metadata.multiline.min_length": {
+        "description": "No matter how many metadata attributes a component or function declaration has, if it is shorter than this length, keep it on one line.",
+        "type": "integer"
+    },
     "method_call.chain.multiline": {
         "description": "When a method call chain has this many method calls, always split them onto multiple lines.",
         "type": "integer"
@@ -364,6 +372,14 @@
             "code": "a=(1+2);"
         },
         "type": "boolean"
+    },
+    "property.multiline.element_count": {
+        "description": "When a property has this number of attributes or more, print it onto multiple lines.",
+        "type": "integer"
+    },
+    "property.multiline.min_length": {
+        "description": "No matter how many attributes a property has, if it is shorter than this length, keep it on one line.",
+        "type": "integer"
     },
     "strings.attributes.quote": {
         "description": "Whether to use a single or double quote for attribute values. If set to \"ignored\", leaves attribute value quotes as they are found.",
