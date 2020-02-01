@@ -57,8 +57,8 @@ component {
         }
 
         var formattedText = attributeStrings.toList(commaDelimited ? ', ' : ' ');
-        var min_length = tagSetting.len() ? settings["#tagSetting#.multiline.min_length"] : 0;
-        var element_count = tagSetting.len()? settings["#tagSetting#.multiline.element_count"] : 100;
+        var min_length = tagSetting.len() ? settings['#tagSetting#.multiline.min_length'] : 0;
+        var element_count = tagSetting.len() ? settings['#tagSetting#.multiline.element_count'] : 100;
 
         if (
             (

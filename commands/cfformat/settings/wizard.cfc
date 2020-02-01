@@ -5,7 +5,7 @@
  * cfformat settings wizard
  * {code}
  */
- component {
+component {
 
     property cfformat inject="CFFormat@commandbox-cfformat";
     property fileSystemUtil inject="FileSystem";

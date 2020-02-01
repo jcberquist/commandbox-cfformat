@@ -22,6 +22,10 @@
         "type":"git",
         "URL":"https://github.com/jcberquist/commandbox-cfformat"
     },
+    "scripts":{
+        "format":"cfformat run ./*.cfc,commands,models,tests/*.cfc,tests/specs --overwrite",
+        "format:check":"cfformat check ./*.cfc,commands,models,tests/*.cfc,tests/specs"
+    },
     "shortDescription":"A CommandBox module for formatting CFML component files.",
     "slug":"commandbox-cfformat",
     "type":"commandbox-modules",
