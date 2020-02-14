@@ -41,7 +41,7 @@ component {
             // print inline
             var formatted = '';
             for (var accessor in accessors) {
-                formatted &= '.' & accessor.tokens[1][1];
+                formatted &= accessor.operator & accessor.tokens[1][1];
                 columnOffset = cfformat.nextOffset(columnOffset, formatted, settings);
                 if (accessor.tokens.len() == 2) {
                     formatted &= cfformat.cfscript.FunctionCalls.print(
@@ -91,7 +91,7 @@ component {
                 formatted &= settings.lf & cfformat.indentTo(indent + 1, settings);
             }
 
-            formatted &= '.' & accessor.tokens[1][1];
+            formatted &= accessor.operator & accessor.tokens[1][1];
             columnOffset = cfformat.nextOffset(columnOffset, formatted, settings);
 
             if (accessor.tokens.len() > 1) {
@@ -117,7 +117,7 @@ component {
     }
 
     function collectAccessors(cftokens, settings, accessors = []) {
-        var accessor = {startComments: [], tokens: [], endComment: ''};
+        var accessor = {startComments: [], tokens: [], operator: '', endComment: ''};
 
         // are there comments
         while (
@@ -129,8 +129,8 @@ component {
             accessor.startComments.append(cfformat.cfscript.comments.print(cftokens, settings, 0).trim());
         }
 
-        // collect the period
-        cftokens.next(false, true);
+        // collect the punctuation
+        accessor.operator = cftokens.next(false, true)[1];
         accessor.tokens.append(cftokens.next(false));
         if (['variable.function.cfml', 'support.function.member.cfml'].find(accessor.tokens[1][2].last())) {
             // this is a method call, collect arguments

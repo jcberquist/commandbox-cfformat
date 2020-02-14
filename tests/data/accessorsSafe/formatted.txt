@@ -1,0 +1,7 @@
+variables?.foo?.bar;
+getFoo()?.getBar()?.getBaz();
+~
+variables?.foo?.bar;
+getFoo()
+    ?.getBar()
+    ?.getBaz();

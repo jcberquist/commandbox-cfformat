@@ -17,6 +17,9 @@ component extends=tests.FormatBaseSpec {
             it('formats accessors with tag in script names', function() {
                 runTests(loadData('methodWithTagName'));
             });
+            it('formats the safe navigation operator', function() {
+                runTests(loadData('accessorsSafe'));
+            });
         });
     }
 
