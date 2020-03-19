@@ -16,6 +16,7 @@ component accessors="true" {
         'Functions',
         'CFComponent',
         'Attributes',
+        'Colons',
         'Semicolons'
     ];
 

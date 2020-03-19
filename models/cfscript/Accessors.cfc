@@ -117,7 +117,12 @@ component {
     }
 
     function collectAccessors(cftokens, settings, accessors = []) {
-        var accessor = {startComments: [], tokens: [], operator: '', endComment: ''};
+        var accessor = {
+            startComments: [],
+            tokens: [],
+            operator: '',
+            endComment: ''
+        };
 
         // are there comments
         while (
