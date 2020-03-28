@@ -5,6 +5,9 @@ component extends=tests.FormatBaseSpec {
             it('formats tags in script', function() {
                 runTests(loadData('tagsInScript'));
             });
+            it('formats ACF style tags in script', function() {
+                runTests(loadData('cfTagsInScript'), true);
+            });
             it('formats script component properties', function() {
                 runTests(loadData('scriptProperty'));
             });

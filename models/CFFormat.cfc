@@ -215,7 +215,12 @@ component accessors="true" {
 
     function tokenizeFile(fullFilePath) {
         var tokens = '';
-        cfexecute(name=executable, arguments="""#fullFilePath#""", variable="tokens", timeout=10);
+        cfexecute(
+            name=executable,
+            arguments="""#fullFilePath#""",
+            variable="tokens",
+            timeout=10
+        );
         if (!isJSON(tokens)) {
             throw(tokens);
         }
