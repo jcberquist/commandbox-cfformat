@@ -22,8 +22,14 @@ component accessors="true" {
      * @settingsPath path to a JSON settings file
      * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
+     * @verbose print the file diff to the console when check fails
      */
-    function run(string path = '', string settingsPath = '', boolean timeit = false) {
+    function run(
+        string path = '',
+        string settingsPath = '',
+        boolean timeit = false,
+        boolean verbose = false
+    ) {
         var pathData = cfformatUtils.resolveFormatPath(path);
 
         if (path.len() && !pathData.filePaths.len()) {
@@ -34,13 +40,23 @@ component accessors="true" {
         var userSettings = cfformatUtils.resolveSettings(pathData.filePaths, settingsPath);
 
         if (pathData.pathType == 'file') {
-            checkFile(pathData.filePaths[1], userSettings.paths[pathData.filePaths[1]], timeit)
+            checkFile(
+                pathData.filePaths[1],
+                userSettings.paths[pathData.filePaths[1]],
+                timeit,
+                verbose
+            );
         } else {
-            checkFiles(pathData.filePaths, userSettings.paths, timeit);
+            checkFiles(
+                pathData.filePaths,
+                userSettings.paths,
+                timeit,
+                verbose
+            );
         }
     }
 
-    function checkFile(fullPath, settings, timeit) {
+    function checkFile(fullPath, settings, timeit, verbose) {
         var start = getTickCount();
         var formatted = cfformat.formatFile(fullPath, settings);
         var timeTaken = getTickCount() - start;
@@ -50,6 +66,9 @@ component accessors="true" {
             print.greenLine('File is formatted according to cfformat rules.');
         } else {
             print.redLine('File is not formatted according to cfformat rules.');
+            if (verbose) {
+                printDiff(diff(original, formatted), true);
+            }
         }
 
         if (timeit) {
@@ -58,7 +77,7 @@ component accessors="true" {
         }
     }
 
-    function checkFiles(paths, settings, timeit) {
+    function checkFiles(paths, settings, timeit, verbose) {
         var interactive = shell.isTerminalInteractive();
         var fullTempPath = resolvePath(tempDir & '/' & createUUID().lcase() & '/');
         var result = {count: 0, failures: []};
@@ -81,7 +100,10 @@ component accessors="true" {
             }
             print.line();
             for (var f in failures) {
-                print.indentedLine(f);
+                print.yellowLine(f.file);
+                if (verbose) {
+                    printDiff(f.diffString);
+                }
             }
             print.line();
         }
@@ -100,11 +122,11 @@ component accessors="true" {
                 if (compare(original, formatted) == 0) {
                     logFile(file, true);
                 } else {
-                    result.failures.append(file);
+                    result.failures.append({file: file, diffString: verbose ? diff(original, formatted) : ''});
                     logFile(file, false);
                 }
             } else {
-                result.failures.append(file);
+                result.failures.append({file: file, diffString: ''});
                 logFile(file, false);
             }
 
@@ -148,6 +170,38 @@ component accessors="true" {
             }
             print.aquaLine('Check completed in ' & totalTime);
         }
+    }
+
+    private function printDiff(diffString, interactive) {
+        if (interactive) {
+            for (var line in reMatch('[^\r\n]*\r?\n', diffString)) {
+                if (line.startsWith('+')) {
+                    print.greenText(line);
+                } else if (line.startsWith('-')) {
+                    print.redText(line);
+                } else if (line.startsWith('@@')) {
+                    print.blueText(line);
+                } else {
+                    print.text(line);
+                }
+            }
+            print.line();
+        } else {
+            print.line(diffString);
+        }
+    }
+
+    private function diff(source, formatted) {
+        var differ = createObject('java', 'org.eclipse.jgit.diff.HistogramDiff').init();
+        var comparator = createObject('java', 'org.eclipse.jgit.diff.RawTextComparator').DEFAULT;
+        var rawSource = createObject('java', 'org.eclipse.jgit.diff.RawText').init(source.getBytes());
+        var rawFormatted = createObject('java', 'org.eclipse.jgit.diff.RawText').init(formatted.getBytes());
+        var out = createObject('java', 'java.io.ByteArrayOutputStream').init();
+        var formatter = createObject('java', 'org.eclipse.jgit.diff.DiffFormatter').init(out);
+        formatter.setContext(1);
+        var edits = differ.diff(comparator, rawSource, rawFormatted);
+        formatter.format(edits, rawSource, rawFormatted);
+        return out.toString();
     }
 
 }

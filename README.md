@@ -28,6 +28,8 @@ The `cfformat check` command can be used to determine whether files are formatte
 cfformat check ./models/
 ```
 
+If the `--verbose` flag is specified when running a check, the diff between source files and the formatted versions that file the check will be printed to the console.
+
 ## Watching Directories
 
 `cfformat watch` can also be called with a directory path. It uses CommandBox's built in support for file watching to watch that directory for component changes, and will perform formatting passes on those files.
