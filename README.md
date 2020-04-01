@@ -28,7 +28,7 @@ The `cfformat check` command can be used to determine whether files are formatte
 cfformat check ./models/
 ```
 
-If the `--verbose` flag is specified when running a check, the diff between source files and the formatted versions that file the check will be printed to the console.
+If the `--verbose` flag is specified when running a check, the diff between source files and the formatted versions of those files that fail the check will be printed to the console.
 
 ## Watching Directories
 
