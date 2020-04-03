@@ -13,3 +13,6 @@ var s = {
 };
 
 f(a=1,ab=2,abc=3);
+
+var value = arguments.dictionary[ arguments.key ];
+return arguments.type == "one" ? value[ 1 ] : value;

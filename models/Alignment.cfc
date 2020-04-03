@@ -11,7 +11,7 @@ component accessors="true" {
         '|',
         '(?i:required[ \t]+)?#identifier#(?:[ \t]+#identifier#)?', // function parameters
         ')',
-        '([ \t]*[:=][^\r\n]*)\r?\n'
+        '([ \t]*[:=](?!=)[^\r\n]*)\r?\n'
     ];
     variables.commentRegex = '^[ \t]*//[^\r\n]*\r?\n';
     variables.propertiesRegex = [
