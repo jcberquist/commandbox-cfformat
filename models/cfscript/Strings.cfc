@@ -45,17 +45,19 @@ component {
         columnOffset
     ) {
         var element = cftokens.next(false);
-        var quote = element.type.startswith('string-double') ? '"' : '''';
-        var requiresConversion = false;
+        var currentQuote = element.type.startswith('string-double') ? '"' : '''';
+        var targetQuote = currentQuote;
+        var elementContainsQuotes = element.elements.some((t) => isArray(t) && t[1].refind('[''"]'));
 
-        for (q in quotes) {
-            if (
-                element.type == q.type &&
-                settings[q.setting] == q.value
-            ) {
-                quote = q.quote;
-                requiresConversion = true;
-                break;
+        if (!elementContainsQuotes || settings['strings.convertNestedQuotes']) {
+            for (var q in quotes) {
+                if (
+                    element.type == q.type &&
+                    settings[q.setting] == q.value
+                ) {
+                    targetQuote = q.quote;
+                    break;
+                }
             }
         }
 
@@ -63,7 +65,7 @@ component {
         for (var token in element.elements) {
             if (isArray(token)) {
                 var fragment = token[1];
-                if (requiresConversion) {
+                if (targetQuote != currentQuote) {
                     if (element.type.startswith('string-double')) {
                         fragment = fragment.replace('''', '''''', 'all').replace('""', '"', 'all');
                     } else if (element.type.startswith('string-single')) {
@@ -79,7 +81,7 @@ component {
             }
         }
 
-        return quote & formatted & quote;
+        return targetQuote & formatted & targetQuote;
     }
 
 }

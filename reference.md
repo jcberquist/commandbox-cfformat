@@ -912,6 +912,22 @@ a = "One";
 b = 'Two';
 ```
 
+## strings.convertNestedQuotes
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to convert the quote character for strings that contain quotes within them.
+
+```cfc
+// strings.convertNestedQuotes: true
+a = '''';
+
+// strings.convertNestedQuotes: false
+a = "'";
+```
+
 ## struct.empty_padding
 
 Type: _boolean_

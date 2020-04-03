@@ -157,6 +157,10 @@
         "double":"// strings.quote: \"double\"\na = \"One\";\nb = \"Two\";",
         "ignored":"// strings.quote: \"ignored\"\na = \"One\";\nb = 'Two';"
     },
+    "strings.convertNestedQuotes":{
+        "true":"// strings.convertNestedQuotes: true\na = '''';",
+        "false":"// strings.convertNestedQuotes: false\na = \"'\";"
+    },
     "struct.empty_padding":{
         "true":"// struct.empty_padding: true\nmyStruct = { };",
         "false":"// struct.empty_padding: false\nmyStruct = {};"

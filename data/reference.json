@@ -405,6 +405,13 @@
             "ignored"
         ]
     },
+    "strings.convertNestedQuotes": {
+        "description": "Whether to convert the quote character for strings that contain quotes within them.",
+        "example": {
+            "code": "a=\"'\";"
+        },
+        "type": "boolean"
+    },
     "struct.empty_padding": {
         "description": "When true, non-empty structs are padded with spaces.",
         "example": {
