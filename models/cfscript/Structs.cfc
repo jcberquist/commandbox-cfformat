@@ -2,6 +2,7 @@ component {
 
     property cfformat;
 
+    variables.structKey = 'meta.struct-literal.key.cfml';
     variables.structKeyValue = ['meta.struct-literal.cfml', 'punctuation.separator.key-value.cfml'];
     variables.functionStructKeyValue = [
         'meta.struct-literal.cfml',
@@ -12,6 +13,7 @@ component {
     function init(cfformat) {
         variables.cfformat = cfformat;
         cfformat.cfscript.registerElement('struct', this);
+        cfformat.cfscript.register('meta.struct-literal.key.', this);
         cfformat.cfscript.register('punctuation.separator.key-value.', this);
         return this;
     }
@@ -22,6 +24,15 @@ component {
         indent,
         columnOffset
     ) {
+        if (cftokens.peekScopeStartsWith(structKey)) {
+            var token = cftokens.next(whitespace = false);
+            if (settings['struct.quote_keys']) {
+                var quote = settings['strings.quote'] == 'double' ? '"' : '''';
+                return quote & token[1] & quote;
+            }
+            return token[1];
+        }
+
         if (cftokens.peekScopes(structKeyValue) || cftokens.peekScopes(functionStructKeyValue)) {
             var token = cftokens.next(whitespace = false);
             cftokens.consumeWhiteSpace(true);

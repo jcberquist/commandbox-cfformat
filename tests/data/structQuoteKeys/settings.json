@@ -1,0 +1,10 @@
+[
+    {},
+    {
+        "struct.quote_keys": true
+    },
+    {
+        "struct.quote_keys": true,
+        "strings.quote": "double"
+    }
+]

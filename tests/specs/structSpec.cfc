@@ -24,6 +24,9 @@ component extends=tests.FormatBaseSpec {
             it('preserves line comments', function() {
                 runTests(loadData('structWithComments'));
             });
+            it('can quote struct keys', function() {
+                runTests(loadData('structQuoteKeys'));
+            });
         });
     }
 

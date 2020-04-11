@@ -1030,6 +1030,22 @@ myStruct = { a: 1, b: 2 };
 myStruct = {a: 1, b: 2};
 ```
 
+## struct.quote_keys
+
+Type: _boolean_
+
+Default: **false**
+
+When true, struct keys are quoted.
+
+```cfc
+// struct.quote_keys: true
+myStruct = {'a': 1, 'b': 2};
+
+// struct.quote_keys: false
+myStruct = {a: 1, 'b': 2};
+```
+
 ## struct.separator
 
 Default: **": "**

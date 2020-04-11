@@ -455,6 +455,13 @@
         },
         "type": "boolean"
     },
+    "struct.quote_keys": {
+        "description": "When true, struct keys are quoted.",
+        "example": {
+            "code": "myStruct={a: 1, 'b': 2};"
+        },
+        "type": "boolean"
+    },
     "struct.separator": {
         "description": "The key value separator to use in structs - it must contain either a single `:` or `=` and be no more than 3 characters in length.",
         "example": {

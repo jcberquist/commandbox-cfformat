@@ -58,6 +58,7 @@
     "struct.multiline.leading_comma.padding": true,
     "struct.multiline.min_length": 40,
     "struct.padding": false,
+    "struct.quote_keys": false,
     "struct.separator": ": ",
     "tab_indent": false
 }

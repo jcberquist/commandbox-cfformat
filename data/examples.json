@@ -177,6 +177,10 @@
         "true":"// struct.padding: true\nmyStruct = { a: 1, b: 2 };",
         "false":"// struct.padding: false\nmyStruct = {a: 1, b: 2};"
     },
+    "struct.quote_keys":{
+        "true":"// struct.quote_keys: true\nmyStruct = {'a': 1, 'b': 2};",
+        "false":"// struct.quote_keys: false\nmyStruct = {a: 1, 'b': 2};"
+    },
     "struct.separator":{
         ": ":"// struct.separator: \": \"\nmyStruct = {a: 1, b: 2};",
         " = ":"// struct.separator: \" = \"\nmyStruct = {a = 1, b = 2};",
