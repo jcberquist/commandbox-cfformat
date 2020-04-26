@@ -17,7 +17,7 @@ component accessors=true {
         return globber;
     }
 
-    function resolveFormatPath(path) {
+    function resolveFormatPath(path, allowCfm) {
         var fullPath = resolvePath(path);
 
         var pathType = 'glob';
@@ -25,25 +25,28 @@ component accessors=true {
             pathType = 'dir';
         } else if (fileExists(fullPath)) {
             pathType = 'file';
-            if (!fullPath.endsWith('.cfc')) {
+            allowCfm = true;
+            if (!fullPath.endsWith('.cfc') && !fullPath.endsWith('.cfm')) {
                 return [];
             }
         }
 
-        return {pathType: pathType, filePaths: resolveFilePaths(fullPath, pathType)};
+        return {pathType: pathType, filePaths: resolveFilePaths(fullPath, pathType, allowCfm)};
     }
 
-    function resolveFilePaths(fullPath, pathType) {
+    function resolveFilePaths(fullPath, pathType, allowCfm) {
         if (pathType == 'file') return [fullPath];
 
+        var fileEndingGlob = allowCfm ? '**.cf?' : '**.cfc';
+
         if (pathType == 'dir') {
-            var pathGlobs = [fullPath & '**.cfc'];
+            var pathGlobs = [fullPath & fileEndingGlob];
         } else {
             var pathGlobs = fullPath
                 .listToArray(chr(10) & ',')
                 .map((p) => {
                     var glob = resolvePath(p.trim());
-                    if (directoryExists(glob)) glob &= '**.cfc';
+                    if (directoryExists(glob)) glob &= fileEndingGlob;
                     return glob;
                 });
         }
@@ -53,7 +56,10 @@ component accessors=true {
             globber(g)
                 .matches()
                 .each((m) => {
-                    if (m.lcase().endswith('.cfc') && !paths.find(m)) {
+                    if (
+                        (m.lcase().endswith('.cfc') || (allowCfm && m.lcase().endswith('.cfm'))) &&
+                        !paths.find(m)
+                    ) {
                         paths.append(m);
                     }
                 })

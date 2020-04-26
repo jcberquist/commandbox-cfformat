@@ -14,20 +14,40 @@ component accessors="true" extends="run" aliases="" {
      * @settingsPath path to a JSON settings file
      * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
+     * @cfm format cfm files as well as cfc - use with caution, preferably on pure CFML cfm files
      */
     function run(
         string path = '',
         string settingsPath = '',
         boolean overwrite = false,
-        boolean timeit = false
+        boolean timeit = false,
+        boolean cfm = false
     ) {
-        var paths = path.listToArray().map((p) => p & (p.endswith('.cfc') ? '' : '**.cfc'));
+        var paths = path
+            .listToArray()
+            .map((p) => {
+                var globEnding = '**.cf?';
+                if (p.endswith('.cfc') || (cfm && p.endswith('cfm'))) {
+                    globEnding = '';
+                }
+                return p & globEnding;
+            });
 
         this.watch()
             .paths(argumentCollection = paths)
             .onChange((files) => {
                 // files could contain absolute paths
                 var allFiles = files.added.append(files.changed, true).map((p) => fileExists(p) ? p : shell.pwd() & p);
+
+                // filter files based on cfm setting
+                allFiles = allFiles.filter((p) => {
+                    return p.endswith('.cfc') || (cfm && p.endswith('.cfm'));
+                });
+
+                if (allFiles.len() == 0) {
+                    return;
+                }
+
                 var userSettings = cfformatUtils.resolveSettings(allFiles, settingsPath);
                 if (allFiles.len() == 1) {
                     formatFile(

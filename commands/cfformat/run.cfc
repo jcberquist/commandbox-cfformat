@@ -21,14 +21,16 @@ component accessors="true" aliases="fmt" {
      * @settingsPath path to a JSON settings file
      * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
+     * @cfm format cfm files as well as cfc - use with caution, preferably on pure CFML cfm files
      */
     function run(
         string path = '',
         string settingsPath = '',
         boolean overwrite = false,
-        boolean timeit = false
+        boolean timeit = false,
+        boolean cfm = false
     ) {
-        var pathData = cfformatUtils.resolveFormatPath(path);
+        var pathData = cfformatUtils.resolveFormatPath(path, cfm);
 
         if (path.len() && !pathData.filePaths.len()) {
             print.redLine(path & ' is not a valid file or directory.');
@@ -49,7 +51,8 @@ component accessors="true" aliases="fmt" {
                 pathData.filePaths,
                 userSettings.paths,
                 overwrite,
-                timeit
+                timeit,
+                cfm
             );
         }
     }
@@ -71,7 +74,13 @@ component accessors="true" aliases="fmt" {
         }
     }
 
-    function formatFiles(paths, settings, overwrite, timeit) {
+    function formatFiles(
+        paths,
+        settings,
+        overwrite,
+        timeit,
+        cfm
+    ) {
         if (!overwrite) {
             overwrite = confirm(
                 'Running `cfformat` on multiple files will overwrite your components in place. Are you sure? [y/n]'
@@ -131,7 +140,7 @@ component accessors="true" aliases="fmt" {
             progressBarGeneric.update(percent = percent, currentCount = count, totalCount = total);
         }
 
-        var startMessage = 'Formatting components...';
+        var startMessage = 'Formatting files...';
         if (interactive) {
             job.start(startMessage, 10);
         } else {
@@ -139,7 +148,7 @@ component accessors="true" aliases="fmt" {
         }
 
         var start = getTickCount();
-        cfformat.formatFiles(paths, fullTempPath, settings, cb);
+        cfformat.formatFiles(paths, fullTempPath, settings, cb, cfm);
         var timeTaken = getTickCount() - start;
         setExitCode(min(result.failures.len(), 1));
 

@@ -22,15 +22,17 @@ component accessors="true" {
      * @settingsPath path to a JSON settings file
      * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
-     * @verbose print the file diff to the console when check fails
+     * @verbose print the file diff to the console when check fails,
+     * @cfm format cfm files as well as cfc - use with caution, preferably on pure CFML cfm files
      */
     function run(
         string path = '',
         string settingsPath = '',
         boolean timeit = false,
-        boolean verbose = false
+        boolean verbose = false,
+        boolean cfm = false
     ) {
-        var pathData = cfformatUtils.resolveFormatPath(path);
+        var pathData = cfformatUtils.resolveFormatPath(path, cfm);
 
         if (path.len() && !pathData.filePaths.len()) {
             print.redLine(path & ' is not a valid file or directory.');
@@ -51,7 +53,8 @@ component accessors="true" {
                 pathData.filePaths,
                 userSettings.paths,
                 timeit,
-                verbose
+                verbose,
+                cfm
             );
         }
     }
@@ -77,7 +80,7 @@ component accessors="true" {
         }
     }
 
-    function checkFiles(paths, settings, timeit, verbose) {
+    function checkFiles(paths, settings, timeit, verbose, cfm) {
         var interactive = shell.isTerminalInteractive();
         var fullTempPath = resolvePath(tempDir & '/' & createUUID().lcase() & '/');
         var result = {count: 0, failures: []};
@@ -143,7 +146,7 @@ component accessors="true" {
         }
 
         var start = getTickCount();
-        cfformat.formatFiles(paths, fullTempPath, settings, cb);
+        cfformat.formatFiles(paths, fullTempPath, settings, cb, cfm);
         var timeTaken = getTickCount() - start;
         setExitCode(min(result.failures.len(), 1));
 

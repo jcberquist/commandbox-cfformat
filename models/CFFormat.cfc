@@ -84,9 +84,11 @@ component accessors="true" {
         fullSrcPath,
         fullTempPath,
         settings = {},
-        any callback
+        callback,
+        cfm
     ) {
         tokenizeDirectory(fullSrcPath, fullTempPath);
+        var filter = cfm ? '*.cfc|*.cfm' : '*.cfc';
         var fileArray = directoryList(fullSrcPath, true, 'path', '*.cfc');
         var settingsMap = {};
         var fileMap = {};
@@ -103,7 +105,8 @@ component accessors="true" {
         paths,
         fullTempPath,
         settingsMap,
-        callback
+        callback,
+        cfm
     ) {
         directoryCreate(fullTempPath, true);
 
