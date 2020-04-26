@@ -1,28 +1,28 @@
 //! This was cobbled together by looking at the syntect library and its examples
 //! It does compile :)
 
-extern crate syntect;
 extern crate serde;
+extern crate syntect;
 #[macro_use]
 extern crate serde_json;
-extern crate walkdir;
 extern crate md5;
+extern crate walkdir;
 
 pub mod scopes;
 
+use std::error::Error;
+use std::fs::{create_dir_all, File};
 use std::io::prelude::*;
 use std::io::{BufRead, BufReader};
-use std::fs::{File, create_dir_all};
-use std::str::FromStr;
 use std::path::Path;
-use std::error::Error;
+use std::str::FromStr;
 
-use syntect::parsing::{SyntaxSet, ParseState, ScopeStack};
-use syntect::easy::{ScopeRegionIterator};
+use scopes::{ContainerScope, DelimitedScope, CONTAINER_SCOPES, DELIMITED_SCOPES};
+use serde::ser::{Serialize, SerializeSeq, SerializeStruct, Serializer};
+use syntect::easy::ScopeRegionIterator;
 use syntect::highlighting::ScopeSelector;
-use serde::ser::{Serialize, Serializer, SerializeStruct, SerializeSeq};
+use syntect::parsing::{ParseState, ScopeStack, SyntaxSet};
 use walkdir::{DirEntry, WalkDir};
-use scopes::{DelimitedScope, ContainerScope, DELIMITED_SCOPES, CONTAINER_SCOPES};
 
 pub struct Token {
     text: String,
@@ -32,50 +32,42 @@ pub struct Token {
 pub struct Element {
     element_type: String,
     elements: Vec<Elements>,
-    pop: String
+    pop: String,
 }
 
 pub struct DelimitedElement {
     element_type: String,
     delimited_elements: Vec<Vec<Elements>>,
     pop: String,
-    delimiter: String
+    delimiter: String,
 }
 
 pub enum Elements {
     Token(Token),
     Element(Element),
-    DelimitedElement(DelimitedElement)
+    DelimitedElement(DelimitedElement),
 }
 
 impl Elements {
-
     pub fn add_element(&mut self, element: Elements) {
         match self {
             Elements::DelimitedElement(ref mut e) => {
                 e.add_element(element);
-            },
+            }
             Elements::Element(ref mut e) => {
                 e.add_element(element);
-            },
+            }
             Elements::Token(_e) => {}
         }
     }
 
     pub fn will_pop(&mut self, token: &str, scope_string: &String) -> bool {
         match self {
-            Elements::DelimitedElement(ref mut e) => {
-                e.will_pop(token, scope_string)
-            },
-            Elements::Element(ref mut e) => {
-                e.will_pop(token, scope_string)
-            },
-            Elements::Token(_e) => {
-                false
-            }
+            Elements::DelimitedElement(ref mut e) => e.will_pop(token, scope_string),
+            Elements::Element(ref mut e) => e.will_pop(token, scope_string),
+            Elements::Token(_e) => false,
         }
     }
-
 }
 
 impl Serialize for Elements {
@@ -89,13 +81,13 @@ impl Serialize for Elements {
                 state.serialize_field("type", &e.element_type)?;
                 state.serialize_field("delimited_elements", &e.delimited_elements)?;
                 state.end()
-            },
+            }
             Elements::Element(e) => {
                 let mut state = serializer.serialize_struct("Element", 2)?;
                 state.serialize_field("type", &e.element_type)?;
                 state.serialize_field("elements", &e.elements)?;
                 state.end()
-            },
+            }
             Elements::Token(e) => {
                 let mut seq = serializer.serialize_seq(Some(2))?;
                 seq.serialize_element(&e.text)?;
@@ -107,47 +99,44 @@ impl Serialize for Elements {
 }
 
 impl Element {
-
     pub fn new(element_type: &str, token: &str, scope_string: &String, end: &str) -> Element {
         // special string handling
         if element_type.contains("string") {
             let mut string_type = String::from(element_type);
             let script_count = scope_string.matches("source.cfml.script").count();
-            if (
-                scope_string.contains("meta.tag") &&
-                !scope_string.contains("meta.tag.cfml source.cfml.script") &&
-                script_count < 2
-            ) ||
-               (scope_string.contains("meta.class.declaration") && script_count < 2) ||
-               (
-                scope_string.contains("meta.function.declaration") && !scope_string.contains("meta.parameter")) {
+            if (scope_string.contains("meta.tag")
+                && !scope_string.contains("meta.tag.cfml source.cfml.script")
+                && script_count < 2)
+                || (scope_string.contains("meta.class.declaration") && script_count < 2)
+                || (scope_string.contains("meta.function.declaration")
+                    && !scope_string.contains("meta.parameter"))
+            {
                 string_type.push_str("-tag");
             }
             Element {
                 element_type: string_type,
                 elements: Vec::new(),
-                pop: scope_string.clone() + " " + end
+                pop: scope_string.clone() + " " + end,
             }
         } else if element_type == "cftag" && token == "</" {
             Element {
                 element_type: String::from("cftag-closed"),
                 elements: Vec::new(),
-                pop: scope_string.clone() + " " + end
+                pop: scope_string.clone() + " " + end,
             }
         } else if element_type == "htmltag" && token == "</" {
             Element {
                 element_type: String::from("htmltag-closed"),
                 elements: Vec::new(),
-                pop: scope_string.clone() + " " + end
+                pop: scope_string.clone() + " " + end,
             }
         } else {
             Element {
                 element_type: String::from(element_type),
                 elements: Vec::new(),
-                pop: scope_string.clone() + " " + end
+                pop: scope_string.clone() + " " + end,
             }
         }
-
     }
 
     pub fn add_element(&mut self, element: Elements) {
@@ -165,17 +154,20 @@ impl Element {
         }
         pop
     }
-
 }
 
 impl DelimitedElement {
-
-    pub fn new(element_type: &str, scope_string: &String, delimiter: &str, end: &str) -> DelimitedElement {
+    pub fn new(
+        element_type: &str,
+        scope_string: &String,
+        delimiter: &str,
+        end: &str,
+    ) -> DelimitedElement {
         DelimitedElement {
             element_type: String::from(element_type),
             delimited_elements: vec![vec![]],
             pop: scope_string.clone() + " " + end,
-            delimiter: scope_string.clone() + " " + delimiter
+            delimiter: scope_string.clone() + " " + delimiter,
         }
     }
 
@@ -193,14 +185,18 @@ impl DelimitedElement {
     pub fn will_pop(&self, _token: &str, scope_string: &String) -> bool {
         scope_string == &self.pop
     }
-
 }
 
-fn is_ignored(entry: &DirEntry) -> bool {
-    entry.file_name()
-         .to_str()
-         .map(|s| s.starts_with(".") && s.len() > 1 || !s.ends_with(".cfc") && !entry.file_type().is_dir())
-         .unwrap_or(false)
+fn is_ignored(entry: &DirEntry, cfm: &bool) -> bool {
+    entry
+        .file_name()
+        .to_str()
+        .map(|s| {
+            s.starts_with(".") && s.len() > 1
+                || !(s.ends_with(".cfc") || (*cfm && s.ends_with(".cfm")))
+                    && !entry.file_type().is_dir()
+        })
+        .unwrap_or(false)
 }
 
 fn write_to_file(path_string: &String, json: &String) {
@@ -208,21 +204,21 @@ fn write_to_file(path_string: &String, json: &String) {
     let display = path.display();
 
     match create_dir_all(&path.parent().unwrap()) {
-        Err(e) => {
-            panic!("couldn't create directory to {}: {}", display, e.description())
-        },
+        Err(e) => panic!(
+            "couldn't create directory to {}: {}",
+            display,
+            e.description()
+        ),
         Ok(_) => {}
     }
 
     let mut file = match File::create(&path) {
         Err(e) => panic!("couldn't create {}: {}", display, e.description()),
-        Ok(file) => file
+        Ok(file) => file,
     };
 
     match file.write_all(&json.as_bytes()) {
-        Err(e) => {
-            panic!("couldn't write to {}: {}", display, e.description())
-        },
+        Err(e) => panic!("couldn't write to {}: {}", display, e.description()),
         Ok(_) => {}
     }
 }
@@ -248,7 +244,7 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
     let mut line = String::new();
     let mut stack = ScopeStack::new();
 
-    let mut token_stack : Vec<Elements> = Vec::new();
+    let mut token_stack: Vec<Elements> = Vec::new();
     let cfscript = Element::new("cfml", "", &String::new(), "");
     token_stack.push(Elements::Element(cfscript));
 
@@ -262,12 +258,17 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
                 }
 
                 let stack_index = token_stack.len() - 1;
-                let scopes: Vec<String> = stack.as_slice().iter().skip(1).map(|e| e.build_string()).collect();
+                let scopes: Vec<String> = stack
+                    .as_slice()
+                    .iter()
+                    .skip(1)
+                    .map(|e| e.build_string())
+                    .collect();
                 let scope_string = scopes.join(" ");
 
                 if token_stack[stack_index].will_pop(&s, &scope_string) {
                     if let Some(last) = token_stack.pop() {
-                        token_stack[stack_index-1].add_element(last);
+                        token_stack[stack_index - 1].add_element(last);
                         continue;
                     } else {
                         panic!("The stack is empty.");
@@ -281,7 +282,12 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
 
                     for ds in delimited_scopes.iter() {
                         if scope_string.ends_with(ds.start) {
-                            let de = DelimitedElement::new(ds.name, &base_scope_string, ds.delimiter, ds.end);
+                            let de = DelimitedElement::new(
+                                ds.name,
+                                &base_scope_string,
+                                ds.delimiter,
+                                ds.end,
+                            );
                             token_stack.push(Elements::DelimitedElement(de));
                             matched = true;
                             break;
@@ -306,13 +312,10 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
 
                 let mut text = s.to_owned();
                 if !scope_string.ends_with("cfformat.ignore.cfml") {
-                    text = text.replace("\r","")
+                    text = text.replace("\r", "")
                 }
 
-                let token = Token {
-                    text: text,
-                    scopes
-                };
+                let token = Token { text: text, scopes };
                 token_stack[stack_index].add_element(Elements::Token(token));
             }
         }
@@ -320,38 +323,41 @@ pub fn tokenize(ss: &SyntaxSet, path: String) -> Result<String, String> {
     }
 
     if token_stack.len() != 1 {
-        return Err(format!("Unable to parse {}", path))
+        return Err(format!("Unable to parse {}", path));
     }
 
     Ok(format!("{}", json!(token_stack.last().unwrap())))
 }
 
-
 pub fn tokenize_file(ss: &SyntaxSet, path: String) -> String {
     match tokenize(&ss, path) {
         Ok(json) => json,
-        Err(e) => e
+        Err(e) => e,
     }
 }
 
-pub fn tokenize_dir(ss: &SyntaxSet, src_path: String, target_path: String) -> String {
+pub fn tokenize_dir(ss: &SyntaxSet, src_path: String, target_path: String, cfm: bool) -> String {
     let walker = WalkDir::new(&src_path).into_iter();
     let mut output = Vec::new();
 
-    for entry in walker.filter_entry(|e| !is_ignored(e)) {
+    for entry in walker.filter_entry(|e| !is_ignored(e, &cfm)) {
         let entry = entry.unwrap();
         if entry.file_type().is_file() {
             let entry_path = entry.path().to_str().unwrap();
             let output_path = entry_path.replace(&src_path, &target_path);
             match tokenize(&ss, entry_path.to_string()) {
                 Ok(json) => {
-                    let output_file_path = output_path.replace(".cfc", ".json");
+                    let output_file_path = output_path
+                        .replace(".cfc", ".json")
+                        .replace(".cfm", ".json");
                     write_to_file(&output_file_path, &json);
                     output.push((entry_path.to_string(), output_file_path));
-                },
+                }
                 Err(e) => {
                     eprintln!("{}", e);
-                    let output_file_path = output_path.replace(".cfc", ".error");
+                    let output_file_path = output_path
+                        .replace(".cfc", ".error")
+                        .replace(".cfm", ".error");
                     write_to_file(&output_file_path, &e);
                 }
             }
@@ -373,14 +379,14 @@ pub fn tokenize_manifest(ss: &SyntaxSet, src_path: String) -> String {
         let hash = &format!("{:x}", md5::compute(path.as_bytes()));
         let target_path = base_path.join(hash);
 
-        if path.ends_with(".cfc") {
+        if path.ends_with(".cfc") || path.ends_with(".cfm") {
             let mut output_file_path = target_path.to_str().unwrap().to_string();
             match tokenize(&ss, path.to_string()) {
                 Ok(json) => {
                     output_file_path.push_str(".json");
                     write_to_file(&output_file_path, &json);
                     output.push((path, output_file_path));
-                },
+                }
                 Err(e) => {
                     eprintln!("{}", e);
                     output_file_path.push_str(".error");

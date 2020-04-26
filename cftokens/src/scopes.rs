@@ -2,17 +2,21 @@ pub struct DelimitedScope<'a> {
     pub name: &'a str,
     pub start: &'a str,
     pub delimiter: &'a str,
-    pub end: &'a str
+    pub end: &'a str,
 }
 
 impl<'a> DelimitedScope<'a> {
-
-    pub fn new(name: &'a str, start: &'a str, delimiter: &'a str, end: &'a str) -> DelimitedScope<'a> {
+    pub fn new(
+        name: &'a str,
+        start: &'a str,
+        delimiter: &'a str,
+        end: &'a str,
+    ) -> DelimitedScope<'a> {
         DelimitedScope {
             name,
             start,
             delimiter,
-            end
+            end,
         }
     }
 }
@@ -20,17 +24,12 @@ impl<'a> DelimitedScope<'a> {
 pub struct ContainerScope<'a> {
     pub name: &'a str,
     pub start: &'a str,
-    pub end: &'a str
+    pub end: &'a str,
 }
 
 impl<'a> ContainerScope<'a> {
-
     pub fn new(name: &'a str, start: &'a str, end: &'a str) -> ContainerScope<'a> {
-        ContainerScope {
-            name,
-            start,
-            end
-        }
+        ContainerScope { name, start, end }
     }
 }
 
@@ -39,44 +38,44 @@ pub const DELIMITED_SCOPES: [(&str, &str, &str, &str); 7] = [
         "struct",
         "meta.struct-literal.cfml punctuation.section.block.begin.cfml",
         "punctuation.separator.struct-literal.cfml",
-        "punctuation.section.block.end.cfml"
+        "punctuation.section.block.end.cfml",
     ),
     (
         "array",
         "meta.sequence.cfml punctuation.section.brackets.begin.cfml",
         "punctuation.separator.sequence.cfml",
-        "punctuation.section.brackets.end.cfml"
+        "punctuation.section.brackets.end.cfml",
     ),
     (
         "function-call",
         "meta.function-call.parameters.cfml punctuation.section.group.begin.cfml",
         "punctuation.separator.function-call.cfml",
-        "punctuation.section.group.end.cfml"
+        "punctuation.section.group.end.cfml",
     ),
     (
         "function-call",
         "meta.function-call.parameters.method.cfml punctuation.section.group.begin.cfml",
         "punctuation.separator.function-call.method.cfml",
-        "punctuation.section.group.end.cfml"
+        "punctuation.section.group.end.cfml",
     ),
     (
         "function-call",
         "meta.function-call.parameters.support.cfml punctuation.section.group.begin.cfml",
         "punctuation.separator.function-call.support.cfml",
-        "punctuation.section.group.end.cfml"
+        "punctuation.section.group.end.cfml",
     ),
     (
         "function-call",
         "meta.function-call.parameters.method.support.cfml punctuation.section.group.begin.cfml",
         "punctuation.separator.function-call.method.support.cfml",
-        "punctuation.section.group.end.cfml"
+        "punctuation.section.group.end.cfml",
     ),
     (
         "function-parameters",
         "meta.function.parameters.cfml punctuation.section.parameters.begin.cfml",
         "punctuation.separator.parameter.function.cfml",
-        "punctuation.section.parameters.end.cfml"
-    )
+        "punctuation.section.parameters.end.cfml",
+    ),
 ];
 
 pub const CONTAINER_SCOPES: [(&str, &str, &str); 14] = [
