@@ -27,7 +27,7 @@ component accessors=true {
             pathType = 'file';
             allowCfm = true;
             if (!fullPath.endsWith('.cfc') && !fullPath.endsWith('.cfm')) {
-                return [];
+                return {pathType: pathType, filePaths: []};
             }
         }
 
