@@ -27,7 +27,7 @@ component accessors="true" {
                 'cfreturn',
                 'cfif',
                 'cfelseif'
-            ].find(tagName)
+            ].findNoCase(tagName)
         ) {
             var scriptTxt = cfformat.cfscript
                 .print(
