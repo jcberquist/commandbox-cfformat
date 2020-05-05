@@ -1,2 +1,4 @@
 //
-earlier = OneDayAgo();
+a = DoSomething();
+b = doSomething();
+c = DOSomething();

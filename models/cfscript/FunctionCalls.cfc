@@ -42,7 +42,11 @@ component {
         if (cftokens.peekScopeStartsWith('variable.function.cfml')) {
             var token = cftokens.next(whitespace = false);
             var key = settings['function_call.casing.userdefined'];
-            if (key != 'ignored' && token[2][token[2].len() - 1] == 'meta.function-call.cfml') {
+            if (
+                key != 'ignored' &&
+                token[2][token[2].len() - 1] == 'meta.function-call.cfml' &&
+                !reFind('^[A-Z]{2}', token[1])
+            ) {
                 var replacement = key == 'camel' ? '\l\1' : '\u\1';
                 return reReplace(token[1], '(.)', replacement);
             }

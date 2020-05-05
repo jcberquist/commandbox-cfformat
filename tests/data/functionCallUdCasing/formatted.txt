@@ -1,5 +1,11 @@
-earlier = OneDayAgo();
+a = DoSomething();
+b = doSomething();
+c = DOSomething();
 ~
-earlier = oneDayAgo();
+a = doSomething();
+b = doSomething();
+c = DOSomething();
 ~
-earlier = OneDayAgo();
+a = DoSomething();
+b = DoSomething();
+c = DOSomething();
