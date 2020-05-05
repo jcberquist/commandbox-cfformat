@@ -18,6 +18,10 @@ component accessors="true" {
         var tagTokens = cfformat.cftokens(element.elements);
         var tagName = tagTokens.next(false)[1];
 
+        if (settings['tags.lowercase']) {
+            tagName = tagName.lCase();
+        }
+
         var formattedText = element.type == 'htmltag-closed' ? '</' : '<';
         formattedText &= tagName;
 

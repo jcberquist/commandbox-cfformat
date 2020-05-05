@@ -186,5 +186,9 @@
         " = ":"// struct.separator: \" = \"\nmyStruct = {a = 1, b = 2};",
         " : ":"// struct.separator: \" : \"\nmyStruct = {a : 1, b : 2};",
         "=":"// struct.separator: \"=\"\nmyStruct = {a=1, b=2};"
+    },
+    "tags.lowercase":{
+        "true":"<cfif a eq b>\n    <div></div>\n</cfif>",
+        "false":"<CFIF a eq b>\n    <DIV></DIV>\n</CFIF>"
     }
 }

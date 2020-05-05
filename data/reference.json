@@ -478,5 +478,12 @@
     "tab_indent": {
         "description": "Whether to indent using tab characters or not.",
         "type": "boolean"
+    },
+    "tags.lowercase": {
+        "description": "When true, tag names are lowercased. If false, tag name case is left as is.",
+        "example": {
+            "code": "<CFIF a eq b><DIV></DIV></CFIF>"
+        },
+        "type": "boolean"
     }
 }

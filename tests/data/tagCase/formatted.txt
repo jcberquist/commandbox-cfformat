@@ -1,1 +1,7 @@
-<CFSET a = 1>
+<cfif a eq b>
+    <div></div>
+</cfif>
+~
+<CFIF a eq b>
+    <DIV></DIV>
+</CFIF>

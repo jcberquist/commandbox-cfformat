@@ -1,1 +1,6 @@
-[{}]
+[
+    {},
+    {
+        "tags.lowercase": false
+    }
+]

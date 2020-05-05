@@ -152,7 +152,11 @@ component accessors="true" {
 
         for (var setting in reference) {
             if (reference[setting].keyExists('example')) {
-                fileWrite(codeDir & setting & '.cfc', '//' & chr(10) & reference[setting].example.code);
+                var startString = '//' & chr(10);
+                if (reFindNoCase('^\s*<[a-z]+', reference[setting].example.code)) {
+                    startString = '';
+                }
+                fileWrite(codeDir & setting & '.cfc', startString & reference[setting].example.code);
             }
         }
 

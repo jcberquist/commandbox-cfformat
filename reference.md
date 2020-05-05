@@ -1073,3 +1073,22 @@ Type: _boolean_
 Default: **false**
 
 Whether to indent using tab characters or not.
+
+
+## tags.lowercase
+
+Type: _boolean_
+
+Default: **true**
+
+When true, tag names are lowercased. If false, tag name case is left as is.
+
+```cfc
+<cfif a eq b>
+    <div></div>
+</cfif>
+
+<CFIF a eq b>
+    <DIV></DIV>
+</CFIF>
+```

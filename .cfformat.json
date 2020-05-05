@@ -60,5 +60,6 @@
     "struct.padding": false,
     "struct.quote_keys": false,
     "struct.separator": ": ",
-    "tab_indent": false
+    "tab_indent": false,
+    "tags.lowercase": true
 }

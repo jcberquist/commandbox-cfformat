@@ -1,1 +1,3 @@
-<CFSET a=1>
+<CFIF a eq b>
+<DIV></DIV>
+</CFIF>
