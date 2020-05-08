@@ -26,6 +26,10 @@ component extends=tests.FormatBaseSpec {
                 runTests(loadData('wordOperators'));
                 runTests(loadData('tagWordOperators'));
             });
+
+            it('formats the mod operator', function() {
+                runTests(loadData('structWithTernaryAndMod'));
+            });
         });
     }
 
