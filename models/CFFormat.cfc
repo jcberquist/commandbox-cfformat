@@ -275,6 +275,11 @@ component accessors="true" {
             }
         }
 
+        // verify that all tags were matched before continuing
+        if (stack.len() > 1) {
+            throw('Unbalanced closing tag found - &lt;/#stack.last().tagname#&gt;.')
+        }
+
         stack.last().elements = stack.last().elements.reverse();
         return stack[1];
     }
