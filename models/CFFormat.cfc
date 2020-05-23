@@ -299,8 +299,8 @@ component accessors="true" {
     function nextOffset(currentOffset, text, settings) {
         var tabSpaces = repeatString(' ', settings.indent_size);
         if (text.find(chr(10))) {
-            var lastLine = reMatch('\n[^\n]*$', text)[1];
-            return lastLine.replace(chr(9), tabSpaces, 'all').len();
+            var lastLine = reMatch('\n[^\n]*$', text).last();
+            return lastLine.replace(chr(9), tabSpaces, 'all').len() - 1;
         }
 
         return currentOffset + text.replace(chr(9), tabSpaces, 'all').len();

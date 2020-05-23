@@ -78,7 +78,7 @@ pub const DELIMITED_SCOPES: [(&str, &str, &str, &str); 7] = [
     ),
 ];
 
-pub const CONTAINER_SCOPES: [(&str, &str, &str); 14] = [
+pub const CONTAINER_SCOPES: [(&str, &str, &str); 15] = [
     (
         "block",
         "meta.block.cfml punctuation.section.block.begin.cfml",
@@ -148,5 +148,10 @@ pub const CONTAINER_SCOPES: [(&str, &str, &str); 14] = [
         "htmltag",
         "punctuation.definition.tag.begin.html",
         "punctuation.definition.tag.end.html"
+    ),
+    (
+        "tag-island",
+        "punctuation.definition.raw.code-fence.begin.cfml",
+        "punctuation.definition.raw.code-fence.end.cfml"
     )
 ];

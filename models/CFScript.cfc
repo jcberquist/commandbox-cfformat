@@ -8,6 +8,7 @@ component accessors="true" {
         'Strings',
         'Blocks',
         'Brackets',
+        'TagIsland',
         'Accessors',
         'Comments',
         'FunctionCalls',

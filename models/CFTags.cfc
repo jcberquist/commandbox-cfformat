@@ -118,13 +118,16 @@ component accessors="true" {
                     cftokens.consumeWhitespace(true);
                 }
                 formattedText &= cfformat.indentTo(indent, settings);
-                columnOffset = indent * settings.indent_size;
             } else {
                 // next token is not a newline so just add it
                 var txt = cftokens.next()[1];
+                if (!formattedText.endsWith(chr(10)) && reFind('\n\s+$', formattedText)) {
+                    txt = txt.ltrim();
+                }
                 formattedText &= txt;
-                columnOffset += txt.len();
             }
+
+            columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
         }
 
         return formattedText;
