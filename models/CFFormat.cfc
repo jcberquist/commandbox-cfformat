@@ -76,7 +76,7 @@ component accessors="true" {
     }
 
     function formatFile(fullFilePath, settings = {}) {
-        var tokens = tokenizeFile(fullFilePath);
+        var tokens = cftokensFile('parse', fullFilePath);
         return format(tokens, mergedSettings(settings));
     }
 
@@ -87,9 +87,9 @@ component accessors="true" {
         callback,
         cfm
     ) {
-        tokenizeDirectory(fullSrcPath, fullTempPath);
+        cftokensDirectory('parse', fullSrcPath, fullTempPath);
         var filter = cfm ? '*.cfc|*.cfm' : '*.cfc';
-        var fileArray = directoryList(fullSrcPath, true, 'path', '*.cfc');
+        var fileArray = directoryList(fullSrcPath, true, 'path', filter);
         var settingsMap = {};
         var fileMap = {};
         for (var path in fileArray) {
@@ -105,14 +105,13 @@ component accessors="true" {
         paths,
         fullTempPath,
         settingsMap,
-        callback,
-        cfm
+        callback
     ) {
         directoryCreate(fullTempPath, true);
 
         var fullManifestPath = fullTempPath & 'manifest.txt';
         fileWrite(fullManifestPath, paths.toList(variables.lf), 'utf-8');
-        tokenizeManifest(fullManifestPath);
+        cftokensManifest('parse', fullManifestPath);
 
         var fileMap = {};
         for (var path in paths) {
@@ -216,11 +215,11 @@ component accessors="true" {
         return 'cftags';
     }
 
-    function tokenizeFile(fullFilePath) {
+    function cftokensFile(cmd, fullFilePath) {
         var tokens = '';
         cfexecute(
             name=executable,
-            arguments="""#fullFilePath#""",
+            arguments="#cmd# ""#fullFilePath#""",
             variable="tokens",
             timeout=10
         );
@@ -230,12 +229,12 @@ component accessors="true" {
         return deserializeJSON(tokens);
     }
 
-    function tokenizeDirectory(fullSrcPath, fullTempPath) {
-        cfexecute(name=executable, arguments="""#fullSrcPath#"" ""#fullTempPath#""");
+    function cftokensDirectory(cmd, fullSrcPath, fullTempPath) {
+        cfexecute(name=executable, arguments="#cmd# ""#fullSrcPath#"" ""#fullTempPath#""");
     }
 
-    function tokenizeManifest(fullManifestPath) {
-        cfexecute(name=executable, arguments="""#fullManifestPath#""");
+    function cftokensManifest(cmd, fullManifestPath) {
+        cfexecute(name=executable, arguments="#cmd# ""#fullManifestPath#""");
     }
 
     function postProcess(tokens) {

@@ -7,7 +7,7 @@ executable = new models.CFFormat(binFolder, expandPath('/')).getExecutable();
 // generate token json files
 cfexecute(
     name=executable,
-    arguments='"#expandPath('/tests/data/')#" "#expandPath('/tests/json/')#"',
+    arguments='parse "#expandPath('/tests/data/')#" "#expandPath('/tests/json/')#"',
     timeout=10,
     variable='fileArray'
 );

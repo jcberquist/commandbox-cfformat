@@ -4,7 +4,7 @@ component {
     this.autoMapModels = false;
 
     function configure() {
-        settings = {downloadURL: 'https://github.com/jcberquist/commandbox-cfformat/releases/download/{version}/'};
+        settings = {downloadURL: 'https://github.com/jcberquist/cftokens/releases/download/{version}/'};
     }
 
     function onLoad() {

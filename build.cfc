@@ -3,130 +3,10 @@ component accessors="true" {
     property tempDir inject="tempDir@constants";
     property filesystem inject="filesystem";
     property JSONService inject="JSONService";
-    property JSONPrettyPrint inject="provider:JSONPrettyPrint";
-
 
     function run() {
-        syntect();
-        cftokens();
-    }
-
-    function cftokens() {
-        var dir = resolvePath('./cftokens/');
-        command('!cargo build --release').inWorkingDirectory(dir).run();
-
-        print.line('Copying binary to "./bin/" folder...');
-        var cftokensVersion = deserializeJSON(fileRead(dir & '../box.json')).cftokens;
-        var srcBinaryName = filesystem.isWindows() ? 'cftokens.exe' : 'cftokens';
-        var targetBinaryName = getTargetBinaryName();
-        var src = resolvePath('./cftokens/target/release/#srcBinaryName#');
-        var dest = resolvePath('./bin/#cftokensVersion#/');
-        directoryCreate(dest, true, true);
-        fileCopy(src, dest & targetBinaryName);
-
-        if (!filesystem.isWindows()) {
-            print.line('Ensuring that it is executable...');
-            command('!chmod +x "#dest & targetBinaryName#"').run();
-        }
-
-        print.text('Binary is at: ');
-        print.greenLine(dest & targetBinaryName);
-    }
-
-    function syntect() {
-        var cftokensLibDir = resolvePath('./cftokens/lib/');
-
-        if (!directoryExists(cftokensLibDir & 'syntect')) {
-            print.line('Cloning Syntect repo from GitHub...').toConsole();
-            command('!git clone https://github.com/trishume/syntect.git ./syntect').inWorkingDirectory(cftokensLibDir).run();
-        } else {
-            print.line('Pulling Syntect repo from GitHub...').toConsole();
-            command('!git pull').inWorkingDirectory(cftokensLibDir & 'syntect').run();
-        }
-
-        print.line('Cleaning testdata folder...')
-        directoryDelete(cftokensLibDir & 'syntect/testdata', true);
-        directoryCreate(cftokensLibDir & 'syntect/testdata');
-
-        if (!directoryExists(cftokensLibDir & 'Packages')) {
-            print.line('Cloning sublimehq Packages repo from GitHub...').toConsole();
-            command('!git clone https://github.com/sublimehq/Packages.git ./Packages')
-                .inWorkingDirectory(cftokensLibDir)
-                .run();
-            command('!git checkout st3').inWorkingDirectory(cftokensLibDir & 'Packages').run();
-        } else {
-            print.line('Pulling sublimehq Packages repo from GitHub...').toConsole();
-            command('!git fetch').inWorkingDirectory(cftokensLibDir & 'Packages').run();
-            command('!git checkout st3').inWorkingDirectory(cftokensLibDir & 'Packages').run();
-            command('!git merge FETCH_HEAD').inWorkingDirectory(cftokensLibDir & 'Packages').run();
-        }
-
-        if (!directoryExists(cftokensLibDir & 'CFML')) {
-            print.line('Cloning CFML repo from GitHub...').toConsole();
-            command('!git clone https://github.com/jcberquist/sublimetext-cfml.git ./CFML')
-                .inWorkingDirectory(cftokensLibDir)
-                .run();
-        } else {
-            print.line('Pulling CFML repo from GitHub...').toConsole();
-            command('!git pull').inWorkingDirectory(cftokensLibDir & 'CFML').run();
-        }
-
-        print.line('Copyinging syntaxes...');
-        for (var syntax in ['HTML', 'JavaScript', 'SQL', 'CSS']) {
-            print.line('Copying ' & syntax & '...').toConsole();
-            directoryCopy(
-                cftokensLibDir & 'Packages/' & syntax,
-                cftokensLibDir & 'syntect/testdata/' & syntax,
-                false,
-                '*.sublime-syntax'
-            );
-        }
-
-        print.line('Copying CFML...').toConsole();
-        directoryCopy(
-            cftokensLibDir & 'CFML/syntaxes/',
-            cftokensLibDir & 'syntect/testdata/CFML',
-            false,
-            (p) => p.contains('cfml') || p.contains('cfscript')
-        );
-
-        print.line('Adding UTF-8 BOM check to CFML syntax...').toConsole();
-
-        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
-        var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfml.sublime-syntax';
-        syntax = fileRead(syntaxPath, 'utf-8');
-        syntax = syntax.replace('match: (?i)(?=^', 'match: ^\xef\xbb\xbf#lf#      scope: bom#lf#    - match: (?i)(?=');
-        fileWrite(syntaxPath, syntax, 'utf-8');
-
-        var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfscript.sublime-syntax';
-        syntax = fileRead(syntaxPath, 'utf-8');
-        syntax = syntax.replace(
-            'match: (?i)^\s*(?:(abstract|final)',
-            'match: (?i)^(?:\xef\xbb\xbf)?\s*(?:(abstract|final)'
-        );
-        fileWrite(syntaxPath, syntax, 'utf-8');
-
-        print.line('Adding CFFormat ignore scopes to CFML syntax...').toConsole();
-
-        var scopes = fileRead(resolvePath('./data/ignoreScopes.txt')).listToArray('~');
-        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
-        var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/cfml.sublime-syntax';
-        syntax = fileRead(syntaxPath, 'utf-8');
-        syntax = syntax.replace('  comments:', '  comments:' & lf & scopes[1]);
-        fileWrite(syntaxPath, syntax, 'utf-8');
-
-        for (var fn in ['cfscript', 'cfscript-in-tags']) {
-            var syntaxPath = cftokensLibDir & 'syntect/testdata/CFML/#fn#.sublime-syntax';
-            syntax = fileRead(syntaxPath, 'utf-8');
-            syntax = syntax.replace('  comments:', '  comments:' & lf & scopes[2].rtrim());
-            fileWrite(syntaxPath, syntax, 'utf-8');
-        }
-
-        print.line();
-        print.line('Building syntect packs...').toConsole();
-        command(
-            '!cargo run --features=metadata --example gendata -- synpack testdata assets/default_newlines.packdump assets/default_nonewlines.packdump assets/default_metadata.packdump'
-        ).inWorkingDirectory(cftokensLibDir & 'syntect/').run();
+        examples();
+        reference();
     }
 
     function testdata(string name) {
@@ -163,7 +43,7 @@ component accessors="true" {
         // generate token json files
         cfexecute(
             name=expandPath(dir & "bin/#cftokensVersion#/#binary#"),
-            arguments="""#codeDir#"" ""#tokensDir#""",
+            arguments="parse ""#codeDir#"" ""#tokensDir#""",
             timeout=10
         );
 
@@ -197,7 +77,7 @@ component accessors="true" {
             }
         }
 
-        fileWrite(dir & 'data/examples.json', JSONPrettyPrint.formatJSON(examples));
+        JSONService.writeJSONFile(dir & 'data/examples.json', examples);
     }
 
     function reference() {
@@ -249,7 +129,7 @@ component accessors="true" {
         var tokenjson = '';
         cfexecute(
             name=expandPath(dir & "bin/#cftokensVersion#/#binary#"),
-            arguments="""#resolvePath(path)#""",
+            arguments="parse ""#resolvePath(path)#""",
             variable="tokenjson",
             timeout=10
         );

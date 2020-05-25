@@ -51,8 +51,7 @@ component accessors="true" aliases="fmt" {
                 pathData.filePaths,
                 userSettings.paths,
                 overwrite,
-                timeit,
-                cfm
+                timeit
             );
         }
     }
@@ -78,8 +77,7 @@ component accessors="true" aliases="fmt" {
         paths,
         settings,
         overwrite,
-        timeit,
-        cfm
+        timeit
     ) {
         if (!overwrite) {
             overwrite = confirm(
@@ -148,7 +146,7 @@ component accessors="true" aliases="fmt" {
         }
 
         var start = getTickCount();
-        cfformat.formatFiles(paths, fullTempPath, settings, cb, cfm);
+        cfformat.formatFiles(paths, fullTempPath, settings, cb);
         var timeTaken = getTickCount() - start;
         setExitCode(min(result.failures.len(), 1));
 
