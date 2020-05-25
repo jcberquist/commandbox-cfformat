@@ -11,6 +11,7 @@ component accessors="true" {
         variables.defaultSettings = deserializeJSON(fileRead(rootFolder & '.cfformat.json'));
         variables.reference = deserializeJSON(fileRead(rootFolder & 'data/reference.json'));
         variables.examples = deserializeJSON(fileRead(rootFolder & 'data/examples.json'));
+        variables.nonClosingTags = deserializeJSON(fileRead(rootFolder & 'data/nonClosingTags.json'));
         variables.platform = getPlatform();
         variables.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
 
@@ -20,6 +21,7 @@ component accessors="true" {
         this.cftags = new CFTags(this);
         this.delimited = new Delimited(this);
         this.alignment = new Alignment();
+        this.tagcheck = new TagCheck(this, nonClosingTags, lf);
         this.cfscript.construct();
         this.cftags.construct();
         return this;

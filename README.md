@@ -102,6 +102,15 @@ if (true) {
     // cfformat-ignore-end
 }
 ```
+## Checking Tag structure
+
+The `cfformat tag-check` command is a utilty command that will check a file or directory of files for tags that are unbalanced or incorrectly structured. When it finds such tags, it will report on the the files and line numbers for you.
+
+```bash
+cfformat tag-check ./views/
+```
+
+If the `--verbose` flag is specified when running a check, the diff between source files and the formatted versions of those files that fail the check will be printed to the console.
 
 ## Syntect
 
