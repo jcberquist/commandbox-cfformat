@@ -232,7 +232,12 @@ component accessors="true" {
     function cftokensDirectory(cmd, fullSrcPath, fullTempPath) {
         var devnull = createObject('java', 'java.io.File').init(getPlatform() == 'windows' ? 'NUL' : '/dev/null');
         var p = createObject('java', 'java.lang.ProcessBuilder')
-            .init([executable, cmd, fullSrcPath, fullTempPath])
+            .init([
+                executable,
+                cmd,
+                fullSrcPath,
+                fullTempPath
+            ])
             .redirectErrorStream(true)
             .redirectOutput(devnull)
             .start();

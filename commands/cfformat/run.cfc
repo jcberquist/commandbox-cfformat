@@ -73,12 +73,7 @@ component accessors="true" aliases="fmt" {
         }
     }
 
-    function formatFiles(
-        paths,
-        settings,
-        overwrite,
-        timeit
-    ) {
+    function formatFiles(paths, settings, overwrite, timeit) {
         if (!overwrite) {
             overwrite = confirm(
                 'Running `cfformat` on multiple files will overwrite your components in place. Are you sure? [y/n]'
