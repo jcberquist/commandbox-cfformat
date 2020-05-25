@@ -230,11 +230,21 @@ component accessors="true" {
     }
 
     function cftokensDirectory(cmd, fullSrcPath, fullTempPath) {
-        cfexecute(name=executable, arguments="#cmd# ""#fullSrcPath#"" ""#fullTempPath#""");
+        var devnull = createObject('java', 'java.io.File').init(getPlatform() == 'windows' ? 'NUL' : '/dev/null');
+        var p = createObject('java', 'java.lang.ProcessBuilder')
+            .init([executable, cmd, fullSrcPath, fullTempPath])
+            .redirectErrorStream(true)
+            .redirectOutput(devnull)
+            .start();
     }
 
     function cftokensManifest(cmd, fullManifestPath) {
-        cfexecute(name=executable, arguments="#cmd# ""#fullManifestPath#""");
+        var devnull = createObject('java', 'java.io.File').init(getPlatform() == 'windows' ? 'NUL' : '/dev/null');
+        var p = createObject('java', 'java.lang.ProcessBuilder')
+            .init([executable, cmd, fullManifestPath])
+            .redirectErrorStream(true)
+            .redirectOutput(devnull)
+            .start();
     }
 
     function postProcess(tokens) {
