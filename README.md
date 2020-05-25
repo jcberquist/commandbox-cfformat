@@ -105,8 +105,4 @@ if (true) {
 
 ## Syntect
 
-Behind the scenes, `cfformat` makes use of the [syntect](https://github.com/trishume/syntect) library along with syntax files from Sublime Text's [Packages](https://github.com/sublimehq/Packages) repository to create an executable that uses the CFML syntax for Sublime Text to generate syntax scopes for component files. `cfformat` attempts to download this executable from GitHub when installed, or when it is updated (if necessary). If it is unable to download the executable, it should print a message to the console prompting you to download from GitHub, and indicating where to put it. If you have Rust installed, you can also build the executable yourself by running the `build.cfc` task runner in the root of this repository:
-
-```bash
-task run build.cfc
-```
+Behind the scenes, `cfformat` makes use of the [cftokens](https://github.com/jcberquist/cftokens) project, which is based on the [syntect](https://github.com/trishume/syntect) library along with syntax files from Sublime Text's [Packages](https://github.com/sublimehq/Packages). `cfformat` attempts to download this executable from GitHub when installed, or when it is updated (if necessary). If it is unable to download the executable, it should print a message to the console prompting you to download from GitHub, and indicating where to put it.
