@@ -76,8 +76,8 @@ component accessors="true" {
             for (var f in failures) {
                 print.yellowLine(f.file);
                 print.redLine(f.message);
+                print.line();
             }
-            print.line();
         }
 
         var cb = function(file, success, message, count, total) {

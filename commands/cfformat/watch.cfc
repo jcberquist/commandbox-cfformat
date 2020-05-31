@@ -24,12 +24,21 @@ component accessors="true" extends="run" aliases="" {
         boolean cfm = false
     ) {
         var paths = path
-            .listToArray()
+            .listToArray(',', true)
             .map((p) => {
                 var globEnding = '**.cf?';
-                if (p.endswith('.cfc') || (cfm && p.endswith('cfm'))) {
+                if (p.endswith('.cfc') || (cfm && p.endswith('.cfm'))) {
                     globEnding = '';
                 }
+
+                p = p.replace('\', '/', 'all');
+
+                if (p.startsWith('./')) {
+                    p = p.mid(3, p.len() - 2);
+                } else if (p == '.') {
+                    p = p.mid(2, p.len() - 1);
+                }
+
                 return p & globEnding;
             });
 
