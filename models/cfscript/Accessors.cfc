@@ -40,20 +40,26 @@ component {
         ) {
             // print inline
             var formatted = '';
+            var localOffset = columnOffset;
+
             for (var accessor in accessors) {
                 formatted &= accessor.operator & accessor.tokens[1][1];
-                columnOffset = cfformat.nextOffset(columnOffset, formatted, settings);
+                localOffset = cfformat.nextOffset(columnOffset, formatted, settings);
                 if (accessor.tokens.len() == 2) {
                     formatted &= cfformat.cfscript.FunctionCalls.print(
                         cfformat.cftokens([accessor.tokens[2]]),
                         settings,
                         indent,
-                        columnOffset
+                        localOffset
                     )
                 }
+                localOffset = cfformat.nextOffset(columnOffset, formatted, settings);
             }
 
-            if (counts.methods == 1 || !formatted.find(chr(10))) {
+            if (
+                counts.methods == 1 ||
+                (!formatted.find(chr(10)) && localOffset <= settings['max_columns'])
+            ) {
                 if (accessors.last().endComment.len()) {
                     // we have an ending comment
                     formatted &= ' ' & accessor.endComment;
