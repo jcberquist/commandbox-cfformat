@@ -138,19 +138,26 @@ component accessors="true" {
         var output = [];
         for (var match in group) {
             var key = match.group(2);
-            key &= repeatString(' ', longestKey - key.len());
+            key &= repeatString(' ', longestKey.longest - key.len());
 
-            output.append({start: match.start(2), end: match.end(3), line: key & match.group(3)});
+            var value = longestKey.space & match.group(3).ltrim();
+            output.append({start: match.start(2), end: match.end(3), line: key & value});
         }
         return output;
     }
 
     private function getLongestAssignmentKey(group) {
-        var longestKey = 0;
+        var r = {
+            longest: 0,
+            space: ' '
+        };
         for (var m in group) {
-            longestKey = max(longestKey, m.end(2) - m.start(2));
+            r.longest = max(r.longest, m.end(2) - m.start(2));
+            if (!m.group(3).startswith(' ')) {
+                r.space = '';
+            }
         }
-        return longestKey;
+        return r;
     }
 
     private function parseAttributes(match) {
