@@ -259,11 +259,15 @@ function() {
 
 Type: _string_
 
-Values: [**"spaced"**, "compact", "newline"]
+Values: ["expanded", **"spaced"**, "compact", "newline"]
 
 How to space from the anonymous function parameters to the function block.
 
 ```cfc
+// function_anonymous.group_to_block_spacing: "expanded"
+function () {
+}
+
 // function_anonymous.group_to_block_spacing: "spaced"
 function() {
 }
@@ -711,11 +715,15 @@ if () {
 
 Type: _string_
 
-Values: [**"spaced"**, "compact", "newline"]
+Values: ["expanded", **"spaced"**, "compact", "newline"]
 
 Spacing from a keyword group to the following block.
 
 ```cfc
+// keywords.group_to_block_spacing: "expanded"
+function () {
+}
+
 // keywords.group_to_block_spacing: "spaced"
 if (true) {
 }

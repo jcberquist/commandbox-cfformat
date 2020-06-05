@@ -69,6 +69,11 @@ component {
                 !attributesTxt.find(chr(10))
             ) {
                 formattedText = formattedText & ' ';
+            } else if (
+                settings['#rootSettingKey#.group_to_block_spacing'] == 'expanded' &&
+                !attributesTxt.find(chr(10))
+            ) {
+                formattedText = formattedText.replace('(', ' (') & ' ';
             } else if (settings['#rootSettingKey#.group_to_block_spacing'] == 'newline') {
                 formattedText &= settings.lf & cfformat.indentTo(indent, settings);
             }

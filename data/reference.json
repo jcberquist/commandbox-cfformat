@@ -110,6 +110,7 @@
         },
         "type": "string",
         "values": [
+            "expanded",
             "spaced",
             "compact",
             "newline"
@@ -232,6 +233,7 @@
         },
         "type": "string",
         "values": [
+            "expanded",
             "spaced",
             "compact",
             "newline"
