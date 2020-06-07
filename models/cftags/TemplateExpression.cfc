@@ -17,9 +17,7 @@ component {
     ) {
         var element = cftokens.next(false);
 
-        var template_expression = cfformat.cfscript
-            .print(cfformat.cftokens(element.elements), settings, indent)
-            .trim();
+        var template_expression = cfformat.cfscript.print(cfformat.cftokens(element.elements), settings, indent).trim();
         return '##' & template_expression & '##';
     }
 
