@@ -1,1 +1,6 @@
-[{}]
+[
+    {},
+    {
+        "alignment.consecutive.assignments": true
+    }
+]
