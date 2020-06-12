@@ -18,7 +18,9 @@ component accessors="true" {
         var tagTokens = cfformat.cftokens(element.elements);
         var tagName = tagTokens.next(false)[1];
 
-        if (settings['tags.lowercase']) {
+        if (tagTokens.next(false)[2].find('keyword.declaration.doctype.html')) {
+            tagName = "!#tagName.uCase()#";
+        } else if (settings['tags.lowercase']) {
             tagName = tagName.lCase();
         }
 
