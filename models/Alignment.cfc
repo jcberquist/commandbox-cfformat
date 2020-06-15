@@ -39,6 +39,7 @@ component accessors="true" {
 
     function init() {
         var patternClass = createObject('java', 'java.util.regex.Pattern');
+        variables.stringRanges = new StringRanges();
         variables.assignmentPattern = patternClass.compile(assignmentRegex.toList(''), 8);
         variables.commentPattern = patternClass.compile(commentRegex, 8);
         variables.propertiesPattern = patternClass.compile(propertiesRegex.toList(''), 8);
@@ -51,17 +52,26 @@ component accessors="true" {
         var aMatcher = assignmentPattern.matcher(src);
         var cMatcher = commentPattern.matcher(src);
         var index = 0;
+        var strRanges = {index: 1, ranges: stringRanges.walk(src)};
         var replacements = [];
 
         while (aMatcher.find(index)) {
             index = aMatcher.end();
+
+            if (inStringRange(aMatcher.start(2), strRanges)) {
+                continue;
+            }
+
             var group = [aMatcher.toMatchResult()];
             var indent = aMatcher.group(1);
 
             while (true) {
                 aMatcher.region(index, len(src));
                 if (aMatcher.lookingAt()) {
-                    if (len(indent) == len(aMatcher.group(1))) {
+                    if (
+                        !inStringRange(aMatcher.start(2), strRanges) &&
+                        len(indent) == len(aMatcher.group(1))
+                    ) {
                         group.append(aMatcher.toMatchResult());
                         index = aMatcher.end();
                         continue;
@@ -92,24 +102,32 @@ component accessors="true" {
         var aMatcher = type == 'properties' ? propertiesPattern.matcher(src) : paramsPattern.matcher(src);
         var cMatcher = commentPattern.matcher(src);
         var index = 0;
+        var strRanges = {index: 1, ranges: stringRanges.walk(src)};
         var replacements = [];
 
         while (aMatcher.find(index)) {
             index = aMatcher.end();
+
+            if (inStringRange(aMatcher.start(2), strRanges)) {
+                continue;
+            }
+
             var group = [parseAttributes(aMatcher)];
             var indent = aMatcher.group(1);
 
             while (true) {
                 aMatcher.region(index, len(src));
                 if (aMatcher.lookingAt()) {
-                    var parsed = parseAttributes(aMatcher);
-                    if (
-                        len(indent) == len(aMatcher.group(1)) &&
-                        group.last().names == parsed.names
-                    ) {
-                        group.append(parsed);
-                        index = aMatcher.end();
-                        continue;
+                    if (!inStringRange(aMatcher.start(2), strRanges)) {
+                        var parsed = parseAttributes(aMatcher);
+                        if (
+                            len(indent) == len(aMatcher.group(1)) &&
+                            group.last().names == parsed.names
+                        ) {
+                            group.append(parsed);
+                            index = aMatcher.end();
+                            continue;
+                        }
                     }
                 } else {
                     cMatcher.region(index, len(src));
@@ -147,10 +165,7 @@ component accessors="true" {
     }
 
     private function getLongestAssignmentKey(group) {
-        var r = {
-            longest: 0,
-            space: ' '
-        };
+        var r = {longest: 0, space: ' '};
         for (var m in group) {
             r.longest = max(r.longest, m.end(2) - m.start(2));
             if (!m.group(3).startswith(' ')) {
@@ -197,6 +212,19 @@ component accessors="true" {
             longestValues.append(longest);
         }
         return longestValues;
+    }
+
+    private function inStringRange(idx, strRanges) {
+        while (
+            strRanges.ranges.len() >= strRanges.index &&
+            strRanges.ranges[strRanges.index].end < idx
+        ) {
+            strRanges.index++;
+        }
+        return (
+            strRanges.ranges.len() >= strRanges.index &&
+            strRanges.ranges[strRanges.index].start < idx
+        );
     }
 
 }

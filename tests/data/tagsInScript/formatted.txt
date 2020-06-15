@@ -1,9 +1,9 @@
-cfhttp(url="www.google.com", result="res");
+cfhttp(url = "www.google.com", result = "res");
 
 http url="www.google.com" result="res";
 
 cfhttp() {
-    cfhttpparam(type="formfield", name="test", value="value")
+    cfhttpparam(type = "formfield", name = "test", value = "value")
 }
 
 http {
@@ -11,8 +11,8 @@ http {
 }
 ~
 cfhttp(
-    url="www.google.com",
-    result="res"
+    url = "www.google.com",
+    result = "res"
 );
 
 http
@@ -21,9 +21,9 @@ http
 
 cfhttp() {
     cfhttpparam(
-        type="formfield",
-        name="test",
-        value="value"
+        type = "formfield",
+        name = "test",
+        value = "value"
     )
 }
 

@@ -26,9 +26,7 @@ component extends=testbox.system.BaseSpec {
         var data = {
             'tokens': deserializeJSON(fileRead(tokenPath & '#testKey#/source.json')),
             'settings': deserializeJSON(fileRead(testPath & '#testKey#/settings.json')),
-            'formatted': fileRead(testPath & '#testKey#/formatted.txt')
-                .reReplace('~\r?\n', '~', 'all')
-                .listToArray('~')
+            'formatted': fileRead(testPath & '#testKey#/formatted.txt').reReplace('~\r?\n', '~', 'all').listToArray('~')
         };
         if (!data.formatted[1].trim().startsWith('<')) {
             data.tokens.elements = data.tokens.elements.slice(3);

@@ -92,9 +92,7 @@ component {
         columnOffset
     ) {
         var attrTokens = cftokens.next(false).elements;
-        var delimited = cfformat.cfscript.attributes.convertAttrTokensToDelimited(
-            attrTokens
-        );
+        var delimited = cfformat.cfscript.attributes.convertAttrTokensToDelimited(attrTokens);
 
         var printedElements = cfformat.delimited.printElements(delimited, settings, indent);
 

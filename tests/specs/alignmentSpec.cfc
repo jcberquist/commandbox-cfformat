@@ -5,6 +5,9 @@ component extends=tests.FormatBaseSpec {
             it('aligns assignments', function() {
                 runTests(loadData('alignAssignments'));
             });
+            it('correctly ignores the contents of strings and comments', function() {
+                runTests(loadData('alignAssignments'));
+            });
             it('aligns assignments with brackets', function() {
                 runTests(loadData('alignAssignmentsWithBrackets'));
             });

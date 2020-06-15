@@ -33,7 +33,8 @@ component {
                 cftokens,
                 settings,
                 indent,
-                columnOffset
+                columnOffset,
+                settings['binary_operators.padding']
             );
         }
     }
@@ -93,7 +94,8 @@ component {
         cftokens,
         settings,
         indent,
-        columnOffset
+        columnOffset,
+        padding = false
     ) {
         if (
             !cftokens.peekScopeStartsWith('entity.other.attribute-name', true) &&
@@ -108,7 +110,8 @@ component {
         }
 
         // collect the '='
-        formattedText &= cftokens.next(false, true)[1];
+        var spacer = padding ? ' ' : '';
+        formattedText &= spacer & cftokens.next(false, true)[1] & spacer;
 
         // stop at the next attribute name
         formattedText &= cfformat.cfscript
