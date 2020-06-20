@@ -88,9 +88,9 @@ component accessors="true" {
         var logFile = function(file, success) {
             if (interactive) {
                 if (success) {
-                    job.addSuccessLog(file);
+                    job.addSuccessLog(cfformatUtils.osPath(file));
                 } else {
-                    job.addErrorLog(file);
+                    job.addErrorLog(cfformatUtils.osPath(file));
                 }
             }
         }
@@ -103,7 +103,7 @@ component accessors="true" {
             }
             print.line();
             for (var f in failures) {
-                print.yellowLine(f.file);
+                print.yellowLine(cfformatUtils.osPath(f.file));
                 if (verbose) {
                     printDiff(f.diffString);
                 }

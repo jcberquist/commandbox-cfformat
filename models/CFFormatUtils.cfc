@@ -6,7 +6,12 @@ component accessors=true {
     property name="ConfigService" inject="ConfigService";
 
     function resolvePath(required string path, basePath = shell.pwd()) {
-        return filesystemUtil.resolvepath(path, basePath);
+        return filesystemUtil.resolvepath(path, basePath).replace('\', '/', 'all');
+    }
+
+    function osPath(required string path) {
+        if (filesystemUtil.isWindows()) return path.replace('/', '\', 'all');
+        return path;
     }
 
     function globber(pattern = '') {
@@ -56,6 +61,7 @@ component accessors=true {
             globber(g)
                 .matches()
                 .each((m) => {
+                    m = m.replace('\', '/', 'all');
                     if (
                         (m.lcase().endswith('.cfc') || (allowCfm && m.lcase().endswith('.cfm'))) &&
                         !paths.find(m)

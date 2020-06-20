@@ -91,9 +91,9 @@ component accessors="true" aliases="fmt" {
         var logFile = function(file, success) {
             if (interactive) {
                 if (success) {
-                    job.addSuccessLog(file);
+                    job.addSuccessLog(cfformatUtils.osPath(file));
                 } else {
-                    job.addErrorLog(file);
+                    job.addErrorLog(cfformatUtils.osPath(file));
                 }
             }
         }
@@ -106,7 +106,7 @@ component accessors="true" aliases="fmt" {
             }
             print.line();
             for (var f in failures) {
-                print.indentedLine(f);
+                print.indentedLine(cfformatUtils.osPath(f));
             }
             print.line();
         }
