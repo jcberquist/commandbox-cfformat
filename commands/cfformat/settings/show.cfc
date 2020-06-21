@@ -39,13 +39,13 @@ component accessors="true" {
             userSettings = settings.paths[paths[1]];
             print.line('User setting sources:');
             for (var source in settings.sources[paths[1]]) {
-                print.indentedGreenLine(source);
+                print.indentedGreenLine(cfformatUtils.osPath(source));
             }
         } else if (settings.config.len() || settings.inline.len()) {
             print.line('User setting sources:');
             for (var key in ['config', 'inline']) {
                 if (settings[key].len()) {
-                    print.indentedGreenLine(settings[key].path);
+                    print.indentedGreenLine(cfformatUtils.osPath(settings[key].path));
                     userSettings.append(settings[key].settings);
                 }
             }

@@ -59,9 +59,6 @@ component {
             job.addErrorLog('#e.message##chr(10)##e.detail#');
             job.addLog('Please manually place the file here:');
             job.addLog(executablePath);
-            job.addLog(
-                'Alternatively if you have Rust installed on your machine you can compile the executable yourself by running the `build.cfc` task in the root of this module.'
-            );
 
             // Remove any partial download.
             if (fileExists(executablePath)) {
@@ -71,7 +68,7 @@ component {
         }
 
         if (!wirebox.getInstance('filesystem').isWindows()) {
-            cfexecute(name="chmod +x ""#executablePath#""", timeout=10);
+            cfexecute(name = "chmod +x ""#executablePath#""", timeout = 10);
         }
     }
 

@@ -220,10 +220,10 @@ component accessors="true" {
     function cftokensFile(cmd, fullFilePath) {
         var tokens = '';
         cfexecute(
-            name=executable,
-            arguments="#cmd# ""#fullFilePath#""",
-            variable="tokens",
-            timeout=10
+            name = executable,
+            arguments = "#cmd# ""#fullFilePath#""",
+            variable = "tokens",
+            timeout = 10
         );
         if (!isJSON(tokens)) {
             throw(tokens);

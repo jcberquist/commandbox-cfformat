@@ -42,9 +42,9 @@ component accessors="true" {
 
         // generate token json files
         cfexecute(
-            name=expandPath(dir & "bin/#cftokensVersion#/#binary#"),
-            arguments="parse ""#codeDir#"" ""#tokensDir#""",
-            timeout=10
+            name = expandPath(dir & "bin/#cftokensVersion#/#binary#"),
+            arguments = "parse ""#codeDir#"" ""#tokensDir#""",
+            timeout = 10
         );
 
         // generate examples
@@ -128,10 +128,10 @@ component accessors="true" {
         // generate tokens
         var tokenjson = '';
         cfexecute(
-            name=expandPath(dir & "bin/#cftokensVersion#/#binary#"),
-            arguments="parse ""#resolvePath(path)#""",
-            variable="tokenjson",
-            timeout=10
+            name = expandPath(dir & "bin/#cftokensVersion#/#binary#"),
+            arguments = "parse ""#resolvePath(path)#""",
+            variable = "tokenjson",
+            timeout = 10
         );
 
         print.line(deserializeJSON(tokenjson));

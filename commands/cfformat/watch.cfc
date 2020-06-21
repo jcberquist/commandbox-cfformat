@@ -46,7 +46,12 @@ component accessors="true" extends="run" aliases="" {
             .paths(argumentCollection = paths)
             .onChange((files) => {
                 // files could contain absolute paths
-                var allFiles = files.added.append(files.changed, true).map((p) => fileExists(p) ? p : shell.pwd() & p);
+                var allFiles = files.added
+                    .append(files.changed, true)
+                    .map((p) => {
+                        p = fileExists(p) ? p : shell.pwd() & p;
+                        return p.replace('\', '/', 'all');
+                    });
 
                 // filter files based on cfm setting
                 allFiles = allFiles.filter((p) => {
@@ -58,7 +63,14 @@ component accessors="true" extends="run" aliases="" {
                 }
 
                 var userSettings = cfformatUtils.resolveSettings(allFiles, settingsPath);
+
                 if (allFiles.len() == 1) {
+                    print.text('Formatting ');
+                    print.greenLine(cfformatutils.osPath(allFiles[1])).toConsole();
+                    print.line('Setting sources:');
+                    for (var source in userSettings.sources[allFiles[1]]) {
+                        print.indentedYellowLine(cfformatutils.osPath(source)).toConsole();
+                    }
                     formatFile(
                         allFiles[1],
                         userSettings.paths[allFiles[1]],
@@ -73,7 +85,7 @@ component accessors="true" extends="run" aliases="" {
                         true
                     );
                 }
-                print.line('Formatting complete!').toConsole();
+                print.line().toConsole();
             })
             .start();
     }

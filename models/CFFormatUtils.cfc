@@ -6,7 +6,12 @@ component accessors=true {
     property name="ConfigService" inject="ConfigService";
 
     function resolvePath(required string path, basePath = shell.pwd()) {
-        return filesystemUtil.resolvepath(path, basePath);
+        return filesystemUtil.resolvepath(path, basePath).replace('\', '/', 'all');
+    }
+
+    function osPath(required string path) {
+        if (filesystemUtil.isWindows()) return path.replace('/', '\', 'all');
+        return path;
     }
 
     function globber(pattern = '') {
@@ -51,20 +56,18 @@ component accessors=true {
                 });
         }
 
-        var paths = [];
+        var paths = {};
         pathGlobs.each((g) => {
             globber(g)
                 .matches()
                 .each((m) => {
-                    if (
-                        (m.lcase().endswith('.cfc') || (allowCfm && m.lcase().endswith('.cfm'))) &&
-                        !paths.find(m)
-                    ) {
-                        paths.append(m);
+                    m = m.replace('\', '/', 'all');
+                    if (m.lcase().endswith('.cfc') || (allowCfm && m.lcase().endswith('.cfm'))) {
+                        paths[m] = true;
                     }
                 })
         });
-        return paths;
+        return paths.keyArray().sort('text');
     }
 
     function resolveSettings(paths, inlineSettingsPath) {
@@ -83,15 +86,18 @@ component accessors=true {
 
         // inline settings
         if (inlineSettingsPath.len()) {
-            inlineSettingsPath = resolvePath(inlineSettingsPath);
-            if (!fileExists(inlineSettingsPath)) {
+            var resolvedInlineSettingsPath = resolvePath(inlineSettingsPath);
+            if (!fileExists(resolvedInlineSettingsPath)) {
                 throw(inlineSettingsPath & ' is not a valid path.');
             }
-            settings.inline = {path: inlineSettingsPath, settings: deserializeJSON(fileRead(inlineSettingsPath))};
+            settings.inline = {
+                path: resolvedInlineSettingsPath,
+                settings: deserializeJSON(fileRead(resolvedInlineSettingsPath))
+            };
         }
 
         // per path settings
-        var settingsCache = {dirs: {}, settings: {}}
+        var settingsCache = {dirs: {}, settings: {}};
         for (var path in paths) {
             settings.paths[path] = {};
             settings.sources[path] = [];
