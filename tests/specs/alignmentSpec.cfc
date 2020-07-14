@@ -6,7 +6,10 @@ component extends=tests.FormatBaseSpec {
                 runTests(loadData('alignAssignments'));
             });
             it('correctly ignores the contents of strings and comments', function() {
-                runTests(loadData('alignAssignments'));
+                runTests(loadData('alignAssignmentsNoStrings'));
+            });
+            it('correctly ignores the contents of cfquery tags', function() {
+                runTests(loadData('alignAssignmentsNoSQL'));
             });
             it('aligns assignments with brackets', function() {
                 runTests(loadData('alignAssignmentsWithBrackets'));

@@ -72,7 +72,7 @@ component {
                         fragment = fragment.replace('"', '""', 'all').replace('''''', '''', 'all');
                     }
                 }
-                formatted &= fragment;
+                formatted &= fragment.replace(chr(10), settings.lf, 'all');
             } else {
                 var template_expression = cfformat.cfscript
                     .print(cfformat.cftokens(token.elements), settings, indent)
