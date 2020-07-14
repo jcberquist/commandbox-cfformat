@@ -140,8 +140,6 @@ component accessors="true" {
         columnOffset = indent * settings.indent_size,
         stopAt = []
     ) {
-        cftokens.consumeWhitespace(true);
-
         var formattedText = '';
         var afterNewline = false;
 
@@ -179,28 +177,28 @@ component accessors="true" {
                 var txt = token[1];
 
                 if (afterNewline) {
+                    txt = txt.ltrim();
                     var wsIndent = cfformat.calculateIndentSize(token[1], settings);
                     if (wsIndent > indent * settings.indent_size) {
-                        formattedText &= cfformat.indentToColumn(wsIndent, settings);
+                        txt = cfformat.indentToColumn(wsIndent, settings) & txt;
                         columnOffset = wsIndent;
                     } else {
-                        formattedText &= cfformat.indentTo(indent, settings);
+                        txt = cfformat.indentTo(indent, settings) & txt;
                         columnOffset = indent * settings.indent_size;
                     }
-                    txt = txt.ltrim();
                     afterNewline = false;
                 }
 
-                formattedText &= txt;
-
-                // does this token contain a new line?
+                // does this token end with a new line?
                 if (token[1].endswith(chr(10))) {
-                    formattedText = formattedText.rtrim() & settings.lf;
+                    txt = txt.rtrim() & settings.lf;
                     columnOffset = indent * settings.indent_size;
                     afterNewline = true;
                 } else {
-                    columnOffset += txt.len();
+                    columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
                 }
+
+                formattedText &= txt;
             }
         }
 
