@@ -35,6 +35,10 @@ component {
 
         cftokens.consumeWhitespace(false);
 
+        if (!cftokens.peekNewline()) {
+            formatted &= cfformat.indentTo(indent, settings);
+        }
+
         return formatted;
     }
 
