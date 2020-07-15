@@ -41,7 +41,7 @@ component accessors="true" {
                     [],
                     'sql'
                 )
-                .trim();
+                .rtrim();
         } else {
             var body = cfformat.cftags
                 .print(
@@ -55,8 +55,10 @@ component accessors="true" {
                 .trim();
         }
 
-        if (element.tagName == 'cfscript' || element.tagName == 'cfquery') {
+        if (element.tagName == 'cfscript') {
             formattedText &= settings.lf & cfformat.indentTo(indent, settings);
+        } else if (element.tagName == 'cfquery') {
+            // pass
         } else if (containsTags || body.find(chr(10))) {
             formattedText &= settings.lf & cfformat.indentTo(indent + 1, settings);
         }

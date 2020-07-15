@@ -217,13 +217,13 @@ component accessors="true" {
     private function inStringRange(idx, strRanges) {
         while (
             strRanges.ranges.len() >= strRanges.index &&
-            strRanges.ranges[strRanges.index].end < idx
+            strRanges.ranges[strRanges.index].end - 1 < idx // end is first index after the range
         ) {
             strRanges.index++;
         }
         return (
             strRanges.ranges.len() >= strRanges.index &&
-            strRanges.ranges[strRanges.index].start < idx
+            strRanges.ranges[strRanges.index].start <= idx
         );
     }
 

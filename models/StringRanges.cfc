@@ -5,9 +5,15 @@ component {
         'multiline_comment',
         'string_single',
         'string_double',
-        'tag_comment'
+        'tag_comment',
+        'tag_island'
     ];
-    variables.CFTAGS = ['tag_comment', 'cfscript_tag', 'cftag'];
+    variables.CFTAGS = [
+        'tag_comment',
+        'cfscript_tag',
+        'cfquery_tag',
+        'cftag'
+    ];
     variables.cfscriptStart = '(?=^\s*(?:/\*|//|import\b|(?:component|abstract\s*component|final\s*component|interface)(?:\s+|\{)))';
     variables.RangeDefinitions = {
         cfml: [
@@ -27,6 +33,12 @@ component {
             '<' & 'cfscript>',
             '</' & 'cfscript>',
             CFSCRIPT,
+            'first'
+        ],
+        cfquery_tag: [
+            '<' & 'cfquery\b',
+            '</' & 'cfquery>',
+            ['tag_comment'],
             'first'
         ],
         cftag: [
@@ -53,7 +65,8 @@ component {
             ['escaped_hash', 'hash', 'escaped_single_quote'],
             'last'
         ],
-        tag_comment: ['<!---', '--->', [], 'first']
+        tag_comment: ['<!---', '--->', [], 'first'],
+        tag_island: ['```', '```', CFTAGS, 'first']
     };
 
     function init() {
@@ -98,7 +111,8 @@ component {
                         'string_double',
                         'line_comment',
                         'multiline_comment',
-                        'tag_comment'
+                        'tag_comment',
+                        'cfquery_tag'
                     ].find(name)
                 ) {
                     strRanges.append(currentRange);
@@ -107,7 +121,7 @@ component {
         }
 
         return strRanges.map(function(r) {
-            return {start: r.start, end: r.end};
+            return {name: r.name, start: r.start, end: r.end};
         });
     }
 
