@@ -58,7 +58,7 @@ component accessors="true" {
         while (aMatcher.find(index)) {
             index = aMatcher.end();
 
-            if (inStringRange(aMatcher.start(2), strRanges)) {
+            if (inStringRange(aMatcher.start(3), strRanges)) {
                 continue;
             }
 
@@ -69,7 +69,7 @@ component accessors="true" {
                 aMatcher.region(index, len(src));
                 if (aMatcher.lookingAt()) {
                     if (
-                        !inStringRange(aMatcher.start(2), strRanges) &&
+                        !inStringRange(aMatcher.start(3), strRanges) &&
                         len(indent) == len(aMatcher.group(1))
                     ) {
                         group.append(aMatcher.toMatchResult());

@@ -9,7 +9,8 @@ var s = {
     abc:3,
     // comment
     ab:2,
-    'a':1
+    'a':1,
+    'abcd':4
 };
 
 f(a=1,ab=2,abc=3);
