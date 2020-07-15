@@ -27,52 +27,43 @@ component accessors="true" {
         );
         formattedText &= startTagTxt;
 
+        if (element.tagName == 'cfquery') {
+            context = 'sql';
+        }
         var bodyTokens = cfformat.cftokens(element.elements);
+        var bodyIndent = context == 'sql' || element.tagName == 'cfscript' ? indent : indent + 1;
 
         if (element.tagName == 'cfscript') {
-            var body = cfformat.cfscript.print(bodyTokens, settings, indent).trim();
-        } else if (element.tagName == 'cfquery') {
-            var body = cfformat.cftags
-                .print(
-                    bodyTokens,
-                    settings,
-                    indent,
-                    indent * settings.indent_size,
-                    [],
-                    'sql'
-                )
-                .rtrim();
+            var body = cfformat.cfscript.print(bodyTokens, settings, bodyIndent);
         } else {
-            var body = cfformat.cftags
-                .print(
-                    bodyTokens,
-                    settings,
-                    indent + 1,
-                    (indent + 1) * settings.indent_size,
-                    [],
-                    context
-                )
-                .trim();
+            var body = cfformat.cftags.print(
+                bodyTokens,
+                settings,
+                bodyIndent,
+                bodyIndent * settings.indent_size,
+                [],
+                context
+            );
         }
 
+        // process the padding and indent surrounding the body
         if (element.tagName == 'cfscript') {
-            formattedText &= settings.lf & cfformat.indentTo(indent, settings);
-        } else if (element.tagName == 'cfquery') {
-            // pass
+            body = settings.lf & cfformat.indentTo(bodyIndent, settings) & body.trim();
+            body &= settings.lf & cfformat.indentTo(indent, settings);
+        } else if (context == 'sql') {
+            if (element.tagName == 'cfquery') {
+                if (containsTags || body.find(chr(10))) {
+                    body = body.rtrim() & settings.lf & cfformat.indentTo(indent, settings);
+                }
+            } else {
+                body = cfformat.trailingIndentTo(body, bodyIndent, settings);
+            }
         } else if (containsTags || body.find(chr(10))) {
-            formattedText &= settings.lf & cfformat.indentTo(indent + 1, settings);
+            body = settings.lf & cfformat.indentTo(bodyIndent, settings) & body.trim();
+            body &= settings.lf & cfformat.indentTo(indent, settings);
         }
 
         formattedText &= body;
-
-        if (
-            containsTags ||
-            element.tagName == 'cfscript' ||
-            element.tagName == 'cfquery' ||
-            body.find(chr(10))
-        ) {
-            formattedText &= settings.lf & cfformat.indentTo(indent, settings);
-        }
 
         var endTagTxt = cfformat.cftags.cftag.print(
             cfformat.cftokens([element.endTag]),
@@ -82,7 +73,7 @@ component accessors="true" {
         );
         formattedText &= endTagTxt;
 
-        if (!cftokens.peekNewline()) {
+        if (context != 'sql' && !cftokens.peekNewline()) {
             cftokens.consumeWhitespace();
             formattedText &= settings.lf & cfformat.indentTo(indent, settings);
         }
