@@ -141,7 +141,6 @@ component accessors="true" {
         stopAt = []
     ) {
         var formattedText = '';
-        var afterNewline = false;
 
         if (stopAt.len() && !isArray(stopAt[1])) {
             stopAt = [stopAt];
@@ -154,52 +153,33 @@ component accessors="true" {
             var token = cftokens.next();
 
             if (isStruct(token)) {
-                // look for cfelse and cfelseif
-                // dedent by one to print them
-                if (
-                    (token.type == 'cftag' || token.type == 'cftag-selfclosed')
-                    && ['cfelse', 'cfelseif'].find(token.tagName)
-                ) {
-                    formattedText = formattedText.rtrim() & settings.lf;
-                    formattedText &= repeatString('    ', indent - 1);
-                }
-
-                var tagTxt = elementPrinters[token.type].print(
+                var txt = elementPrinters[token.type].print(
                     cfformat.cftokens([token]),
                     settings,
                     indent,
                     columnOffset,
                     'sql'
                 );
-                formattedText &= tagTxt;
-                afterNewline = false;
             } else {
                 var txt = token[1];
-
-                if (afterNewline) {
-                    txt = txt.ltrim();
-                    var wsIndent = cfformat.calculateIndentSize(token[1], settings);
-                    if (wsIndent > indent * settings.indent_size) {
-                        txt = cfformat.indentToColumn(wsIndent, settings) & txt;
-                        columnOffset = wsIndent;
-                    } else {
-                        txt = cfformat.indentTo(indent, settings) & txt;
-                        columnOffset = indent * settings.indent_size;
-                    }
-                    afterNewline = false;
-                }
-
-                // does this token end with a new line?
-                if (token[1].endswith(chr(10))) {
+                if (txt.endswith(chr(10))) {
                     txt = txt.rtrim() & settings.lf;
-                    columnOffset = indent * settings.indent_size;
-                    afterNewline = true;
-                } else {
-                    columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
                 }
-
-                formattedText &= txt;
             }
+
+            if (
+                formattedText.endswith(chr(10)) &&
+                (txt.trim().len() || !txt.endswith(chr(10)))
+            ) {
+                var wsIndent = cfformat.calculateIndentSize(txt, settings);
+                if (wsIndent > indent * settings.indent_size) {
+                    txt = cfformat.indentToColumn(wsIndent, settings) & txt.ltrim();
+                } else {
+                    txt = cfformat.indentTo(indent, settings) & txt.ltrim();
+                }
+            }
+
+            formattedText &= txt;
         }
 
         return formattedText;

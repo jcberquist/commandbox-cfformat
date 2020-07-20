@@ -306,6 +306,29 @@ component accessors="true" {
         return repeatString(' ', numSpaces);
     }
 
+    function trailingIndentTo(text, indent, settings) {
+        var tabSpaces = repeatString(' ', settings.indent_size);
+        var numSpaces = settings.indent_size * indent;
+        var lines = listToArray(text, settings.lf, true, true);
+
+        if (
+            !lines
+                .last()
+                .trim()
+                .len()
+        ) {
+            var lineIndent = lines
+                .last()
+                .replace(chr(9), tabSpaces, 'all')
+                .len();
+            if (lineIndent < numSpaces) {
+                lines[lines.len()] = indentTo(indent, settings);
+            }
+        }
+
+        return lines.toList(settings.lf);
+    }
+
     function indentToColumn(count, settings) {
         var indentCount = int(count / settings.indent_size);
         var numSpaces = count % settings.indent_size;
