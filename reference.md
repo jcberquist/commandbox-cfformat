@@ -255,19 +255,33 @@ function() {
 }
 ```
 
+## function_anonymous.spacing_to_group
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to space a function name from following group.
+
+```cfc
+// function_anonymous.spacing_to_group: true
+function () {
+}
+
+// function_anonymous.spacing_to_group: false
+function() {
+}
+```
+
 ## function_anonymous.group_to_block_spacing
 
 Type: _string_
 
-Values: ["expanded", **"spaced"**, "compact", "newline"]
+Values: [**"spaced"**, "compact", "newline"]
 
 How to space from the anonymous function parameters to the function block.
 
 ```cfc
-// function_anonymous.group_to_block_spacing: "expanded"
-function () {
-}
-
 // function_anonymous.group_to_block_spacing: "spaced"
 function() {
 }
@@ -532,6 +546,24 @@ function example() {
 }
 ```
 
+## function_declaration.spacing_to_group
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to space a function name from following group.
+
+```cfc
+// function_declaration.spacing_to_group: true
+function example () {
+}
+
+// function_declaration.spacing_to_group: false
+function example() {
+}
+```
+
 ## function_declaration.group_to_block_spacing
 
 Type: _string_
@@ -715,15 +747,11 @@ if () {
 
 Type: _string_
 
-Values: ["expanded", **"spaced"**, "compact", "newline"]
+Values: [**"spaced"**, "compact", "newline"]
 
 Spacing from a keyword group to the following block.
 
 ```cfc
-// keywords.group_to_block_spacing: "expanded"
-function () {
-}
-
 // keywords.group_to_block_spacing: "spaced"
 if (true) {
 }

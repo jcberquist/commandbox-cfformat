@@ -27,7 +27,12 @@ component {
             }
 
             var formattedText = words.toList(' ');
-            var rootSettingKey = token[2].last() == 'entity.name.function.cfml' ? 'function_declaration' : 'function_anonymous';
+            var rootSettingKey = token[2].last() == 'entity.name.function.cfml' ? 'function_declaration' : '    function_anonymous';
+
+            //function_declaration|function_anonymous.spacing_to_group,
+            if (settings['#rootSettingKey#.spacing_to_group']) {
+                formattedText &= ' ';
+            }
 
             // parameters
             var parametersTxt = printFunctionParameters(
@@ -37,7 +42,6 @@ component {
                 columnOffset + formattedText.len(),
                 rootSettingKey
             );
-
             formattedText &= parametersTxt;
             // columnOffset += parametersTxt.len();
             columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
@@ -52,6 +56,7 @@ component {
                 false,
                 'metadata'
             );
+
             if (attributesTxt.len()) {
                 attributesTxt = (attributesTxt.find(chr(10)) ? '' : ' ') & attributesTxt;
                 columnOffset = cfformat.nextOffset(columnOffset, attributesTxt, settings);

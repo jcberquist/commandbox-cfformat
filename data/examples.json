@@ -48,6 +48,10 @@
         "true":"// function_anonymous.empty_padding: true\nfunction( ) {\n}",
         "false":"// function_anonymous.empty_padding: false\nfunction() {\n}"
     },
+    "function_anonymous.spacing_to_group":{
+        "true":"// function_anonymous.spacing_to_group: true\nif (true) {\n}",
+        "false":"// function_anonymous.spacing_to_group: false\nif(true) {\n}"
+    },
     "function_anonymous.group_to_block_spacing":{
         "spaced":"// function_anonymous.group_to_block_spacing: \"spaced\"\nfunction() {\n}",
         "compact":"// function_anonymous.group_to_block_spacing: \"compact\"\nfunction(){\n}",
@@ -94,6 +98,10 @@
     "function_declaration.empty_padding":{
         "true":"// function_declaration.empty_padding: true\nfunction example( ) {\n}",
         "false":"// function_declaration.empty_padding: false\nfunction example() {\n}"
+    },
+    "function_declaration.spacing_to_group":{
+        "true":"// function_declaration.spacing_to_group: true\nif (true) {\n}",
+        "false":"// function_declaration.spacing_to_group: false\nif(true) {\n}"
     },
     "function_declaration.group_to_block_spacing":{
         "spaced":"// function_declaration.group_to_block_spacing: \"spaced\"\nfunction example() {\n}",

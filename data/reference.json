@@ -103,6 +103,13 @@
         },
         "type": "boolean"
     },
+    "function_anonymous.spacing_to_group": {
+        "description": "Whether to space a function name from following group.",
+        "example": {
+            "code": "if (true){}"
+        },
+        "type": "boolean"
+    },
     "function_anonymous.group_to_block_spacing": {
         "description": "How to space from the anonymous function parameters to the function block.",
         "example": {
@@ -110,7 +117,6 @@
         },
         "type": "string",
         "values": [
-            "expanded",
             "spaced",
             "compact",
             "newline"
@@ -226,6 +232,13 @@
         },
         "type": "boolean"
     },
+    "function_declaration.spacing_to_group": {
+        "description": "Whether to space a function name from following group.",
+        "example": {
+            "code": "if (true){}"
+        },
+        "type": "boolean"
+    },
     "function_declaration.group_to_block_spacing": {
         "description": "How to space from the function parameters to the function block.",
         "example": {
@@ -233,7 +246,6 @@
         },
         "type": "string",
         "values": [
-            "expanded",
             "spaced",
             "compact",
             "newline"
