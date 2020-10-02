@@ -14,6 +14,9 @@ component extends=tests.FormatBaseSpec {
             it('correctly indents the cfelse tag', function() {
                 runTests(loadData('cfelse'));
             });
+            it('correctly renders prefixed custom tags', function() {
+                runTests(loadData('tagCustom'));
+            });
         });
     }
 

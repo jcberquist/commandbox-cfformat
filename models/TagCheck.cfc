@@ -73,36 +73,53 @@ component accessors="true" {
 
         var currentTag = {};
 
-        for (var token in tokens) {
-            if (token[1].endswith(chr(10))) {
+        for (var i = 1; i <= tokens.len(); i++) {
+            if (tokens[i][1].endswith(chr(10))) {
                 lineNum++;
             }
 
-            if (!token[2].len()) {
+            if (!tokens[i][2].len()) {
                 continue;
             }
 
-            if (token[2].some((t) => t.startswith('comment.block'))) {
+            if (tokens[i][2].some((t) => t.startswith('comment.block'))) {
                 continue;
             }
 
-            if (token[2].last().startswith('punctuation.definition.tag.begin')) {
+            if (tokens[i][2].last().startswith('punctuation.definition.tag.begin')) {
                 currentTag = {
-                    closing: token[1] == '</',
+                    closing: tokens[i][1] == '</',
                     name: '',
                     requiresClosing: true,
                     line: lineNum
                 };
-                continue;
+                var endScopes = tokens[i][2].slice(1, tokens[i][2].len() - 1);
+                endScopes.append(tokens[i][2].last().replace('begin', 'end'));
+
+                if (tokens[i + 1][2].last().startswith('entity.name.tag')) {
+                    currentTag.name = tokens[++i][1].trim();
+                    if (tokens[i][2].last() == 'entity.name.tag.custom.cfml') {
+                        while (tokens[i + 1][2].find('entity.name.tag.custom.cfml')) {
+                            currentTag.name &= tokens[++i][1];
+                        }
+                    }
+
+                    // walk to end of tag
+                    while (endScopes.toList() != tokens[i][2].toList()) {
+                        i++;
+                        if (tokens[i][1].endswith(chr(10))) {
+                            lineNum++;
+                        }
+                    };
+                    currentTag.requiresClosing = (
+                        tokens[i][1] != '/>' &&
+                        !nonClosingTags.cfml.contains(currentTag.name) &&
+                        !nonClosingTags.html.contains(currentTag.name)
+                    );
+                }
             }
 
-            if (!currentTag.isEmpty() && token[2].last().startswith('entity.name.tag')) {
-                currentTag.name = token[1].trim();
-                currentTag.requiresClosing = (
-                    !nonClosingTags.cfml.contains(currentTag.name) &&
-                    !nonClosingTags.html.contains(currentTag.name)
-                );
-
+            if (!currentTag.isEmpty() && currentTag.name.len()) {
                 if (!currentTag.closing) {
                     tags.append(currentTag);
                 } else {

@@ -16,7 +16,14 @@ component accessors="true" {
     ) {
         var element = cftokens.next(false);
         var tagTokens = cfformat.cftokens(element.elements);
-        var tagName = tagTokens.next(false)[1];
+        var tagNameToken = tagTokens.next(false);
+        var tagName = tagNameToken[1];
+
+        if (tagNameToken[2].last() == 'entity.name.tag.custom.cfml') {
+            while (tagTokens.peek()[2].find('entity.name.tag.custom.cfml')) {
+                tagName &= tagTokens.next(false)[1];
+            }
+        }
 
         if (settings['tags.lowercase']) {
             tagName = tagName.lCase();
