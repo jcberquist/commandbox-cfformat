@@ -49,8 +49,8 @@
         "false":"// function_anonymous.empty_padding: false\nfunction() {\n}"
     },
     "function_anonymous.spacing_to_group":{
-        "true":"// function_anonymous.spacing_to_group: true\nif (true) {\n}",
-        "false":"// function_anonymous.spacing_to_group: false\nif(true) {\n}"
+        "true":"// function_anonymous.spacing_to_group: true\nfunction () {\n}",
+        "false":"// function_anonymous.spacing_to_group: false\nfunction() {\n}"
     },
     "function_anonymous.group_to_block_spacing":{
         "spaced":"// function_anonymous.group_to_block_spacing: \"spaced\"\nfunction() {\n}",
@@ -100,8 +100,8 @@
         "false":"// function_declaration.empty_padding: false\nfunction example() {\n}"
     },
     "function_declaration.spacing_to_group":{
-        "true":"// function_declaration.spacing_to_group: true\nif (true) {\n}",
-        "false":"// function_declaration.spacing_to_group: false\nif(true) {\n}"
+        "true":"// function_declaration.spacing_to_group: true\nfunction example () {\n}",
+        "false":"// function_declaration.spacing_to_group: false\nfunction example() {\n}"
     },
     "function_declaration.group_to_block_spacing":{
         "spaced":"// function_declaration.group_to_block_spacing: \"spaced\"\nfunction example() {\n}",

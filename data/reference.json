@@ -106,7 +106,7 @@
     "function_anonymous.spacing_to_group": {
         "description": "Whether to space a function name from following group.",
         "example": {
-            "code": "if (true){}"
+            "code": "function (){}"
         },
         "type": "boolean"
     },
@@ -235,7 +235,7 @@
     "function_declaration.spacing_to_group": {
         "description": "Whether to space a function name from following group.",
         "example": {
-            "code": "if (true){}"
+            "code": "function example (){}"
         },
         "type": "boolean"
     },
