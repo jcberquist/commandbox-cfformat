@@ -29,7 +29,7 @@ component {
             var formattedText = words.toList(' ');
             var rootSettingKey = token[2].last() == 'entity.name.function.cfml' ? 'function_declaration' : 'function_anonymous';
 
-            //function_declaration|function_anonymous.spacing_to_group,
+            // spacing_to_group
             if (settings['#rootSettingKey#.spacing_to_group']) {
                 formattedText &= ' ';
             }
@@ -42,7 +42,7 @@ component {
                 columnOffset + formattedText.len(),
                 rootSettingKey
             );
-            
+
             formattedText &= parametersTxt;
             // columnOffset += parametersTxt.len();
             columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);

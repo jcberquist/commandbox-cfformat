@@ -103,13 +103,6 @@
         },
         "type": "boolean"
     },
-    "function_anonymous.spacing_to_group": {
-        "description": "Whether to space a function name from following group.",
-        "example": {
-            "code": "function (){}"
-        },
-        "type": "boolean"
-    },
     "function_anonymous.group_to_block_spacing": {
         "description": "How to space from the anonymous function parameters to the function block.",
         "example": {
@@ -155,6 +148,13 @@
         "description": "Whether to pad non-empty anonymous function declarations with spaces.",
         "example": {
             "code": "function(a,b) {}"
+        },
+        "type": "boolean"
+    },
+    "function_anonymous.spacing_to_group": {
+        "description": "Whether to space a function keyword from following group.",
+        "example": {
+            "code": "function (){}"
         },
         "type": "boolean"
     },
@@ -232,13 +232,6 @@
         },
         "type": "boolean"
     },
-    "function_declaration.spacing_to_group": {
-        "description": "Whether to space a function name from following group.",
-        "example": {
-            "code": "function example (){}"
-        },
-        "type": "boolean"
-    },
     "function_declaration.group_to_block_spacing": {
         "description": "How to space from the function parameters to the function block.",
         "example": {
@@ -284,6 +277,13 @@
         "description": "Whether to pad non-empty function declarations with spaces.",
         "example": {
             "code": "function example(a,b) {}"
+        },
+        "type": "boolean"
+    },
+    "function_declaration.spacing_to_group": {
+        "description": "Whether to space a function name from following group.",
+        "example": {
+            "code": "function example (){}"
         },
         "type": "boolean"
     },
@@ -407,6 +407,13 @@
             "ignored"
         ]
     },
+    "strings.convertNestedQuotes": {
+        "description": "Whether to convert the quote character for strings that contain quotes within them.",
+        "example": {
+            "code": "a=\"'\";"
+        },
+        "type": "boolean"
+    },
     "strings.quote": {
         "description": "Whether to use a single or double quote for strings. If set to \"ignored\", leaves string quotes as they are found.",
         "example": {
@@ -418,13 +425,6 @@
             "double",
             "ignored"
         ]
-    },
-    "strings.convertNestedQuotes": {
-        "description": "Whether to convert the quote character for strings that contain quotes within them.",
-        "example": {
-            "code": "a=\"'\";"
-        },
-        "type": "boolean"
     },
     "struct.empty_padding": {
         "description": "When true, non-empty structs are padded with spaces.",

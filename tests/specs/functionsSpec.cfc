@@ -17,6 +17,9 @@ component extends=tests.FormatBaseSpec {
             it('formats function metadata attributes', function() {
                 runTests(loadData('functionMetadata'));
             });
+            it('formats function keyword and name spacing to the params', function() {
+                runTests(loadData('functionSpacingToGroup'));
+            });
         });
     }
 

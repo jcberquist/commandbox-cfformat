@@ -1,0 +1,14 @@
+function test() {
+}
+function() {
+}
+~
+function test () {
+}
+function() {
+}
+~
+function test() {
+}
+function () {
+}

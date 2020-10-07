@@ -255,24 +255,6 @@ function() {
 }
 ```
 
-## function_anonymous.spacing_to_group
-
-Type: _boolean_
-
-Default: **false**
-
-Whether to space a function name from following group.
-
-```cfc
-// function_anonymous.spacing_to_group: true
-function () {
-}
-
-// function_anonymous.spacing_to_group: false
-function() {
-}
-```
-
 ## function_anonymous.group_to_block_spacing
 
 Type: _string_
@@ -385,6 +367,24 @@ function( a, b ) {
 
 // function_anonymous.padding: false
 function(a, b) {
+}
+```
+
+## function_anonymous.spacing_to_group
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to space a function keyword from following group.
+
+```cfc
+// function_anonymous.spacing_to_group: true
+function () {
+}
+
+// function_anonymous.spacing_to_group: false
+function() {
 }
 ```
 
@@ -546,24 +546,6 @@ function example() {
 }
 ```
 
-## function_declaration.spacing_to_group
-
-Type: _boolean_
-
-Default: **false**
-
-Whether to space a function name from following group.
-
-```cfc
-// function_declaration.spacing_to_group: true
-function example () {
-}
-
-// function_declaration.spacing_to_group: false
-function example() {
-}
-```
-
 ## function_declaration.group_to_block_spacing
 
 Type: _string_
@@ -676,6 +658,24 @@ function example( a, b ) {
 
 // function_declaration.padding: false
 function example(a, b) {
+}
+```
+
+## function_declaration.spacing_to_group
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to space a function name from following group.
+
+```cfc
+// function_declaration.spacing_to_group: true
+function example () {
+}
+
+// function_declaration.spacing_to_group: false
+function example() {
 }
 ```
 
@@ -926,6 +926,22 @@ http url='www.google.com';
 param name="key";
 ```
 
+## strings.convertNestedQuotes
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to convert the quote character for strings that contain quotes within them.
+
+```cfc
+// strings.convertNestedQuotes: true
+a = '''';
+
+// strings.convertNestedQuotes: false
+a = "'";
+```
+
 ## strings.quote
 
 Type: _string_
@@ -946,22 +962,6 @@ b = "Two";
 // strings.quote: "ignored"
 a = "One";
 b = 'Two';
-```
-
-## strings.convertNestedQuotes
-
-Type: _boolean_
-
-Default: **true**
-
-Whether to convert the quote character for strings that contain quotes within them.
-
-```cfc
-// strings.convertNestedQuotes: true
-a = '''';
-
-// strings.convertNestedQuotes: false
-a = "'";
 ```
 
 ## struct.empty_padding

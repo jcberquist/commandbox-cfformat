@@ -48,10 +48,6 @@
         "true":"// function_anonymous.empty_padding: true\nfunction( ) {\n}",
         "false":"// function_anonymous.empty_padding: false\nfunction() {\n}"
     },
-    "function_anonymous.spacing_to_group":{
-        "true":"// function_anonymous.spacing_to_group: true\nfunction () {\n}",
-        "false":"// function_anonymous.spacing_to_group: false\nfunction() {\n}"
-    },
     "function_anonymous.group_to_block_spacing":{
         "spaced":"// function_anonymous.group_to_block_spacing: \"spaced\"\nfunction() {\n}",
         "compact":"// function_anonymous.group_to_block_spacing: \"compact\"\nfunction(){\n}",
@@ -68,6 +64,10 @@
     "function_anonymous.padding":{
         "true":"// function_anonymous.padding: true\nfunction( a, b ) {\n}",
         "false":"// function_anonymous.padding: false\nfunction(a, b) {\n}"
+    },
+    "function_anonymous.spacing_to_group":{
+        "true":"// function_anonymous.spacing_to_group: true\nfunction () {\n}",
+        "false":"// function_anonymous.spacing_to_group: false\nfunction() {\n}"
     },
     "function_call.casing.builtin":{
         "cfdocs":"// function_call.casing.builtin: \"cfdocs\"\narrayAppend(myarray, 1);",
@@ -99,10 +99,6 @@
         "true":"// function_declaration.empty_padding: true\nfunction example( ) {\n}",
         "false":"// function_declaration.empty_padding: false\nfunction example() {\n}"
     },
-    "function_declaration.spacing_to_group":{
-        "true":"// function_declaration.spacing_to_group: true\nfunction example () {\n}",
-        "false":"// function_declaration.spacing_to_group: false\nfunction example() {\n}"
-    },
     "function_declaration.group_to_block_spacing":{
         "spaced":"// function_declaration.group_to_block_spacing: \"spaced\"\nfunction example() {\n}",
         "compact":"// function_declaration.group_to_block_spacing: \"compact\"\nfunction example(){\n}",
@@ -119,6 +115,10 @@
     "function_declaration.padding":{
         "true":"// function_declaration.padding: true\nfunction example( a, b ) {\n}",
         "false":"// function_declaration.padding: false\nfunction example(a, b) {\n}"
+    },
+    "function_declaration.spacing_to_group":{
+        "true":"// function_declaration.spacing_to_group: true\nfunction example () {\n}",
+        "false":"// function_declaration.spacing_to_group: false\nfunction example() {\n}"
     },
     "indent_size":{
         "4":"// indent_size: 4\ndo {\n    myFunc();\n}",
@@ -160,14 +160,14 @@
         "double":"// strings.attributes.quote: \"double\"\nhttp url=\"www.google.com\";\nparam name=\"key\";",
         "ignored":"// strings.attributes.quote: \"ignored\"\nhttp url='www.google.com';\nparam name=\"key\";"
     },
+    "strings.convertNestedQuotes":{
+        "true":"// strings.convertNestedQuotes: true\na = '''';",
+        "false":"// strings.convertNestedQuotes: false\na = \"'\";"
+    },
     "strings.quote":{
         "single":"// strings.quote: \"single\"\na = 'One';\nb = 'Two';",
         "double":"// strings.quote: \"double\"\na = \"One\";\nb = \"Two\";",
         "ignored":"// strings.quote: \"ignored\"\na = \"One\";\nb = 'Two';"
-    },
-    "strings.convertNestedQuotes":{
-        "true":"// strings.convertNestedQuotes: true\na = '''';",
-        "false":"// strings.convertNestedQuotes: false\na = \"'\";"
     },
     "struct.empty_padding":{
         "true":"// struct.empty_padding: true\nmyStruct = { };",
