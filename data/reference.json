@@ -103,6 +103,13 @@
         },
         "type": "boolean"
     },
+    "function_anonymous.spacing_to_group": {
+        "description": "Whether to space a function name from following group.",
+        "example": {
+            "code": "function (){}"
+        },
+        "type": "boolean"
+    },
     "function_anonymous.group_to_block_spacing": {
         "description": "How to space from the anonymous function parameters to the function block.",
         "example": {
@@ -222,6 +229,13 @@
         "description": "When true, pad function declarations that have no parameters with a space.",
         "example": {
             "code": "function example() {}"
+        },
+        "type": "boolean"
+    },
+    "function_declaration.spacing_to_group": {
+        "description": "Whether to space a function name from following group.",
+        "example": {
+            "code": "function example (){}"
         },
         "type": "boolean"
     },

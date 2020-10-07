@@ -255,6 +255,24 @@ function() {
 }
 ```
 
+## function_anonymous.spacing_to_group
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to space a function name from following group.
+
+```cfc
+// function_anonymous.spacing_to_group: true
+function () {
+}
+
+// function_anonymous.spacing_to_group: false
+function() {
+}
+```
+
 ## function_anonymous.group_to_block_spacing
 
 Type: _string_
@@ -524,6 +542,24 @@ function example( ) {
 }
 
 // function_declaration.empty_padding: false
+function example() {
+}
+```
+
+## function_declaration.spacing_to_group
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to space a function name from following group.
+
+```cfc
+// function_declaration.spacing_to_group: true
+function example () {
+}
+
+// function_declaration.spacing_to_group: false
 function example() {
 }
 ```
