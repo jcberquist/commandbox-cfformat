@@ -144,7 +144,7 @@ component {
     ) {
         var printedElements = cfformat.delimited.printElements(element, settings, indent);
 
-        if (printedElements.printed.len() == 1 && printedElements.printed[1].trim() == '') {
+        if (!printedElements.printed.len()) {
             return settings['#rootSettingKey#.empty_padding'] ? '( )' : '()';
         }
 

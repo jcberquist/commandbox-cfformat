@@ -20,6 +20,9 @@ component extends=tests.FormatBaseSpec {
             it('preserves line comments', function() {
                 runTests(loadData('arrayWithComments'));
             });
+            it('correctly handles a trailing comma', function() {
+                runTests(loadData('arrayTrailingComma'));
+            });
         });
     }
 

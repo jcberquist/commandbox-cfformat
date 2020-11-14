@@ -116,7 +116,7 @@ component {
             }
         }
 
-        if (printedElements.printed.len() == 1 && printedElements.printed[1].trim() == '') {
+        if (!printedElements.printed.len()) {
             return settings['function_call.empty_padding'] ? '( )' : '()';
         }
 

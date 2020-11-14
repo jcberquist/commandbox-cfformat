@@ -38,6 +38,14 @@ component accessors="true" {
             result.printed.append(printedElement);
         }
 
+        result.printed = result.printed.filter((el, idx) => {
+            return (
+                el.trim().len() ||
+                result.endingComments.keyExists(idx) ||
+                result.afterCommaComments.keyExists(idx)
+            );
+        });
+
         return result;
     }
 
@@ -61,7 +69,13 @@ component accessors="true" {
 
             formattedText &= printed;
 
-            if (!settings['#type#.multiline.leading_comma'] && i < printedElements.printed.len()) {
+            if (
+                !settings['#type#.multiline.leading_comma'] &&
+                (
+                    i < printedElements.printed.len() ||
+                    settings['#type#.multiline.comma_dangle']
+                )
+            ) {
                 formattedText &= ',';
             }
 
@@ -86,7 +100,7 @@ component accessors="true" {
             }
         });
 
-        return formattedText;
+        return formattedText.rtrim();
     }
 
     function endswithLineComments(cftokens) {

@@ -16,7 +16,7 @@ component {
     ) {
         var printedElements = cfformat.delimited.printElements(cftokens.next(false), settings, indent);
 
-        if (printedElements.printed.len() == 1 && printedElements.printed[1].trim() == '') {
+        if (!printedElements.printed.len()) {
             return settings['array.empty_padding'] ? '[ ]' : '[]';
         }
 

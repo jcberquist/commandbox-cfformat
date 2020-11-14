@@ -1,0 +1,15 @@
+[
+    {
+        "array.multiline.comma_dangle": true,
+        "array.multiline.element_count": 2,
+        "array.multiline.min_length": 0
+    },
+    {
+        "array.multiline.comma_dangle": false,
+        "array.multiline.element_count": 2,
+        "array.multiline.min_length": 0
+    },
+    {
+        "array.multiline.comma_dangle": true
+    }
+]

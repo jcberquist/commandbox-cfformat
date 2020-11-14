@@ -27,6 +27,17 @@
         },
         "type": "boolean"
     },
+    "array.multiline.comma_dangle": {
+        "description": "Whether to use a dangling comma after the last array element when an array is printed on multiple lines.",
+        "example": {
+            "code": "myArray = [1,2,3,4];",
+            "settings": {
+                "array.multiline.comma_dangle": true,
+                "array.multiline.min_length": 1
+            }
+        },
+        "type": "boolean"
+    },
     "array.multiline.element_count": {
         "description": "When an array has this number of elements or more, print it onto multiple lines.",
         "type": "integer"
@@ -115,6 +126,17 @@
             "newline"
         ]
     },
+    "function_anonymous.multiline.comma_dangle": {
+        "description": "Whether to use a dangling comma after the last anonymous function parameter when the parameters are printed on multiple lines.",
+        "example": {
+            "code": "function(a,b,c,d) {};",
+            "settings": {
+                "function_anonymous.multiline.comma_dangle": true,
+                "function_anonymous.multiline.min_length": 1
+            }
+        },
+        "type": "boolean"
+    },
     "function_anonymous.multiline.element_count": {
         "description": "When an anonymous function declaration has this number of parameters, split them onto multiple lines.",
         "type": "integer"
@@ -189,6 +211,17 @@
         },
         "type": "boolean"
     },
+    "function_call.multiline.comma_dangle": {
+        "description": "Whether to use a dangling comma after the last function call argument when the arguments are printed on multiple lines.",
+        "example": {
+            "code": "test(1,2,3,4);",
+            "settings": {
+                "function_call.multiline.comma_dangle": true,
+                "function_call.multiline.min_length": 1
+            }
+        },
+        "type": "boolean"
+    },
     "function_call.multiline.element_count": {
         "description": "When a function call has this number of arguments, split them onto multiple lines.",
         "type": "integer"
@@ -243,6 +276,17 @@
             "compact",
             "newline"
         ]
+    },
+    "function_declaration.multiline.comma_dangle": {
+        "description": "Whether to use a dangling comma after the last function parameter when the parameters are printed on multiple lines.",
+        "example": {
+            "code": "function test(a,b,c,d) {};",
+            "settings": {
+                "function_declaration.multiline.comma_dangle": true,
+                "function_declaration.multiline.min_length": 1
+            }
+        },
+        "type": "boolean"
     },
     "function_declaration.multiline.element_count": {
         "description": "When a function declaration has this number of parameters, split them onto multiple lines.",
@@ -430,6 +474,17 @@
         "description": "When true, non-empty structs are padded with spaces.",
         "example": {
             "code": "myStruct={};"
+        },
+        "type": "boolean"
+    },
+    "struct.multiline.comma_dangle": {
+        "description": "Whether to use a dangling comma after the last struct element when an struct is printed on multiple lines.",
+        "example": {
+            "code": "myStruct = {a:1,b:2,c:3,d:4};",
+            "settings": {
+                "struct.multiline.comma_dangle": true,
+                "struct.multiline.min_length": 1
+            }
         },
         "type": "boolean"
     },

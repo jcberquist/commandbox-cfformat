@@ -70,6 +70,32 @@ myArray = [ ];
 myArray = [];
 ```
 
+## array.multiline.comma_dangle
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to use a dangling comma after the last array element when an array is printed on multiple lines.
+
+```cfc
+// array.multiline.comma_dangle: true
+myArray = [
+    1,
+    2,
+    3,
+    4,
+];
+
+// array.multiline.comma_dangle: false
+myArray = [
+    1,
+    2,
+    3,
+    4
+];
+```
+
 ## array.multiline.element_count
 
 Type: _integer_
@@ -278,6 +304,34 @@ function()
 }
 ```
 
+## function_anonymous.multiline.comma_dangle
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to use a dangling comma after the last anonymous function parameter when the parameters are printed on multiple lines.
+
+```cfc
+// function_anonymous.multiline.comma_dangle: true
+function(
+    a,
+    b,
+    c,
+    d,
+) {
+};
+
+// function_anonymous.multiline.comma_dangle: false
+function(
+    a,
+    b,
+    c,
+    d
+) {
+};
+```
+
 ## function_anonymous.multiline.element_count
 
 Type: _integer_
@@ -442,6 +496,32 @@ myFunc( );
 myFunc();
 ```
 
+## function_call.multiline.comma_dangle
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to use a dangling comma after the last function call argument when the arguments are printed on multiple lines.
+
+```cfc
+// function_call.multiline.comma_dangle: true
+test(
+    1,
+    2,
+    3,
+    4,
+);
+
+// function_call.multiline.comma_dangle: false
+test(
+    1,
+    2,
+    3,
+    4
+);
+```
+
 ## function_call.multiline.element_count
 
 Type: _integer_
@@ -567,6 +647,34 @@ function example(){
 function example()
 {
 }
+```
+
+## function_declaration.multiline.comma_dangle
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to use a dangling comma after the last function parameter when the parameters are printed on multiple lines.
+
+```cfc
+// function_declaration.multiline.comma_dangle: true
+function test(
+    a,
+    b,
+    c,
+    d,
+) {
+};
+
+// function_declaration.multiline.comma_dangle: false
+function test(
+    a,
+    b,
+    c,
+    d
+) {
+};
 ```
 
 ## function_declaration.multiline.element_count
@@ -978,6 +1086,32 @@ myStruct = { };
 
 // struct.empty_padding: false
 myStruct = {};
+```
+
+## struct.multiline.comma_dangle
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to use a dangling comma after the last struct element when an struct is printed on multiple lines.
+
+```cfc
+// struct.multiline.comma_dangle: true
+myStruct = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: 4,
+};
+
+// struct.multiline.comma_dangle: false
+myStruct = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: 4
+};
 ```
 
 ## struct.multiline.element_count

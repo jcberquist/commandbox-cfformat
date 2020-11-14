@@ -15,6 +15,10 @@
         "true":"// array.empty_padding: true\nmyArray = [ ];",
         "false":"// array.empty_padding: false\nmyArray = [];"
     },
+    "array.multiline.comma_dangle":{
+        "true":"// array.multiline.comma_dangle: true\nmyArray = [\n    1,\n    2,\n    3,\n    4,\n];",
+        "false":"// array.multiline.comma_dangle: false\nmyArray = [\n    1,\n    2,\n    3,\n    4\n];"
+    },
     "array.multiline.leading_comma":{
         "true":"// array.multiline.leading_comma: true\nmyArray = [\n      1\n    , 2\n    , 3\n    , 4\n];",
         "false":"// array.multiline.leading_comma: false\nmyArray = [\n    1,\n    2,\n    3,\n    4\n];"
@@ -53,6 +57,10 @@
         "compact":"// function_anonymous.group_to_block_spacing: \"compact\"\nfunction(){\n}",
         "newline":"// function_anonymous.group_to_block_spacing: \"newline\"\nfunction()\n{\n}"
     },
+    "function_anonymous.multiline.comma_dangle":{
+        "true":"// function_anonymous.multiline.comma_dangle: true\nfunction(\n    a,\n    b,\n    c,\n    d,\n) {\n};",
+        "false":"// function_anonymous.multiline.comma_dangle: false\nfunction(\n    a,\n    b,\n    c,\n    d\n) {\n};"
+    },
     "function_anonymous.multiline.leading_comma":{
         "true":"// function_anonymous.multiline.leading_comma: true\nfunction(\n      a\n    , b\n    , c\n    , d\n) {\n}",
         "false":"// function_anonymous.multiline.leading_comma: false\nfunction(\n    a,\n    b,\n    c,\n    d\n) {\n}"
@@ -83,6 +91,10 @@
         "true":"// function_call.empty_padding: true\nmyFunc( );",
         "false":"// function_call.empty_padding: false\nmyFunc();"
     },
+    "function_call.multiline.comma_dangle":{
+        "true":"// function_call.multiline.comma_dangle: true\ntest(\n    1,\n    2,\n    3,\n    4,\n);",
+        "false":"// function_call.multiline.comma_dangle: false\ntest(\n    1,\n    2,\n    3,\n    4\n);"
+    },
     "function_call.multiline.leading_comma":{
         "true":"// function_call.multiline.leading_comma: true\nmyFunc(\n      1\n    , 2\n    , 3\n    , 4\n);",
         "false":"// function_call.multiline.leading_comma: false\nmyFunc(\n    1,\n    2,\n    3,\n    4\n);"
@@ -103,6 +115,10 @@
         "spaced":"// function_declaration.group_to_block_spacing: \"spaced\"\nfunction example() {\n}",
         "compact":"// function_declaration.group_to_block_spacing: \"compact\"\nfunction example(){\n}",
         "newline":"// function_declaration.group_to_block_spacing: \"newline\"\nfunction example()\n{\n}"
+    },
+    "function_declaration.multiline.comma_dangle":{
+        "true":"// function_declaration.multiline.comma_dangle: true\nfunction test(\n    a,\n    b,\n    c,\n    d,\n) {\n};",
+        "false":"// function_declaration.multiline.comma_dangle: false\nfunction test(\n    a,\n    b,\n    c,\n    d\n) {\n};"
     },
     "function_declaration.multiline.leading_comma":{
         "true":"// function_declaration.multiline.leading_comma: true\nfunction example(\n      a\n    , b\n    , c\n    , d\n) {\n}",
@@ -172,6 +188,10 @@
     "struct.empty_padding":{
         "true":"// struct.empty_padding: true\nmyStruct = { };",
         "false":"// struct.empty_padding: false\nmyStruct = {};"
+    },
+    "struct.multiline.comma_dangle":{
+        "true":"// struct.multiline.comma_dangle: true\nmyStruct = {\n    a: 1,\n    b: 2,\n    c: 3,\n    d: 4,\n};",
+        "false":"// struct.multiline.comma_dangle: false\nmyStruct = {\n    a: 1,\n    b: 2,\n    c: 3,\n    d: 4\n};"
     },
     "struct.multiline.leading_comma":{
         "true":"// struct.multiline.leading_comma: true\nmyStruct = {\n      a: 1\n    , b: 2\n    , c: 3\n    , d: 4\n};",
