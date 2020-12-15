@@ -134,7 +134,7 @@ component accessors="true" {
                 var formatted = '';
 
                 if (fileExists(target & '.json')) {
-                    var tokenJSON = fileRead(target & '.json');
+                    var tokenJSON = fileRead(target & '.json', 'utf-8');
                     if (!isJSON(tokenJSON)) {
                         // file exists, but hasn't had JSON written out to it yet
                         return;
@@ -218,13 +218,11 @@ component accessors="true" {
     }
 
     function cftokensFile(cmd, fullFilePath) {
-        var tokens = '';
-        cfexecute(
-            name = executable,
-            arguments = "#cmd# ""#fullFilePath#""",
-            variable = "tokens",
-            timeout = 10
-        );
+        var p = createObject('java', 'java.lang.ProcessBuilder').init([executable, cmd, fullFilePath]).start();
+        var inputStreamReader = createObject('java', 'java.io.InputStreamReader').init(p.getInputStream(), 'utf-8');
+        var bufferedReader = createObject('java', 'java.io.BufferedReader').init(inputStreamReader);
+        var collector = createObject('java', 'java.util.stream.Collectors').joining(variables.lf);
+        var tokens = BufferedReader.lines().collect(collector);
         if (!isJSON(tokens)) {
             throw(tokens);
         }
