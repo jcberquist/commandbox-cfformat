@@ -8,6 +8,9 @@ component extends=tests.FormatBaseSpec {
             it('formats ACF style tags in script', function() {
                 runTests(loadData('cfTagsInScript'));
             });
+            it('handles alternate comma placements in ACF style tags in script', function() {
+                runTests(loadData('cfTagsInScriptComma'));
+            });
             it('formats script component properties', function() {
                 runTests(loadData('scriptProperty'));
             });

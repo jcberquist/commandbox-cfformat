@@ -8,11 +8,9 @@ component {
     ];
     variables.attrAssignmentScope = ['punctuation.separator.key-value.cfml'];
     variables.cfAttrNameScope = ['meta.tag.script.cf.attributes.cfml', 'entity.other.attribute-name.cfml'];
-    variables.cfAttrCommaScope = ['meta.tag.script.cf.attributes.cfml', 'punctuation.separator.comma.cfml'];
 
     function init(cfformat) {
         variables.cfformat = cfformat;
-        cfformat.cfscript.register('punctuation.separator.comma', this);
         cfformat.cfscript.register('entity.other.attribute-name', this);
         return this;
     }
@@ -23,11 +21,6 @@ component {
         indent,
         columnOffset
     ) {
-        if (cftokens.peekScopes(cfAttrCommaScope)) {
-            cftokens.next(false);
-            cftokens.consumeWhitespace(true);
-            return '';
-        }
         if (cftokens.peekScopes(cfAttrNameScope)) {
             return printAttribute(
                 cftokens,
@@ -131,11 +124,20 @@ component {
         var scope = {delimited_elements: [[]], type: 'function-call'};
         var firstAttributeSeen = false;
         for (var token in tokens) {
-            if (isArray(token) && token[2].last().startswith('entity.other.attribute-name')) {
-                if (firstAttributeSeen) {
-                    scope.delimited_elements.append([]);
+            if (isArray(token)) {
+                // strip any attribute comma separators
+                if (
+                    token[2].last() == 'punctuation.separator.comma.cfml' &&
+                    token[2][token[2].len() - 1] == 'meta.tag.script.cf.attributes.cfml'
+                ) {
+                    continue;
                 }
-                firstAttributeSeen = true;
+                if (token[2].last().startswith('entity.other.attribute-name')) {
+                    if (firstAttributeSeen) {
+                        scope.delimited_elements.append([]);
+                    }
+                    firstAttributeSeen = true;
+                }
             }
             scope.delimited_elements.last().append(token);
         }
