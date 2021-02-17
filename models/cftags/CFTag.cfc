@@ -20,7 +20,15 @@ component accessors="true" {
         var tagName = tagNameToken[1];
 
         if (tagNameToken[2].last() == 'entity.name.tag.custom.cfml') {
-            while (tagTokens.peek()[2].find('entity.name.tag.custom.cfml')) {
+            while (true) {
+                var next = tagTokens.peek();
+                if (
+                    isNull(next) ||
+                    !isArray(next) ||
+                    !next[2].find('entity.name.tag.custom.cfml')
+                ) {
+                    break;
+                }
                 tagName &= tagTokens.next(false)[1];
             }
         }

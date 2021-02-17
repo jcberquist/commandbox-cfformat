@@ -267,9 +267,13 @@ component accessors="true" {
 
             var tagName = token.elements[1][1];
             if (token.elements[1][2].last() == 'entity.name.tag.custom.cfml') {
-                var idx = 1;
-                while (token.elements[idx++][2].find('entity.name.tag.custom.cfml')) {
+                var idx = 2;
+                while (
+                    idx <= token.elements.len() &&
+                    token.elements[idx][2].find('entity.name.tag.custom.cfml')
+                ) {
                     tagName &= token.elements[idx][1];
+                    idx++;
                 }
             }
 
