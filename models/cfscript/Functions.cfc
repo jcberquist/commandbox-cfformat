@@ -9,6 +9,7 @@ component {
         variables.cfformat = cfformat;
         cfformat.cfscript.register('storage.', this);
         cfformat.cfscript.registerElement('function-parameters', this);
+        cfformat.cfscript.register('variable.parameter.function.cfml', this);
         return this;
     }
 
@@ -18,7 +19,10 @@ component {
         indent,
         columnOffset
     ) {
-        if (cftokens.peekScopes(functionStart)) {
+        if (
+            cftokens.peekScopes(functionStart) &&
+            !cftokens.peekScopeStartsWith('variable.parameter.function.cfml')
+        ) {
             var words = [];
 
             while (!cftokens.nextIsElement()) {
@@ -85,18 +89,28 @@ component {
             return formattedText;
         }
 
-        if (cftokens.peekElement('function-parameters')) {
+        if (
+            cftokens.peekElement('function-parameters') ||
+            (
+                cftokens.peekScopes(functionStart) &&
+                cftokens.peekScopeStartsWith('variable.parameter.function.cfml')
+            )
+        ) {
             var parametersElement = cftokens.next(false);
             var arrowToken = cftokens.next(false);
 
             // arrow function parameters
-            var formattedText = printFunctionParameters(
-                parametersElement,
-                settings,
-                indent,
-                columnOffset,
-                'function_anonymous'
-            );
+            if (isStruct(parametersElement)) {
+                var formattedText = printFunctionParameters(
+                    parametersElement,
+                    settings,
+                    indent,
+                    columnOffset,
+                    'function_anonymous'
+                );
+            } else {
+                var formattedText = parametersElement[1];
+            }
 
             // add the arrow `=>`
             formattedText &= ' => ';
