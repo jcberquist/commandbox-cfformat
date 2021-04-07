@@ -56,7 +56,7 @@ component accessors="true" extends="run" aliases="" {
                 // filter files based on cfm setting
                 allFiles = allFiles.filter((p) => {
                     return p.endswith('.cfc') || (cfm && p.endswith('.cfm'));
-                });
+                }).map((f) => cfformatUtils.resolvePath(f));
 
                 if (allFiles.len() == 0) {
                     return;
