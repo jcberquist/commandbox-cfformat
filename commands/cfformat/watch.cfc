@@ -45,18 +45,10 @@ component accessors="true" extends="run" aliases="" {
         this.watch()
             .paths(argumentCollection = paths)
             .onChange((files) => {
-                // files could contain absolute paths
                 var allFiles = files.added
                     .append(files.changed, true)
-                    .map((p) => {
-                        p = fileExists(p) ? p : shell.pwd() & p;
-                        return p.replace('\', '/', 'all');
-                    });
-
-                // filter files based on cfm setting
-                allFiles = allFiles.filter((p) => {
-                    return p.endswith('.cfc') || (cfm && p.endswith('.cfm'));
-                }).map((f) => cfformatUtils.resolvePath(f));
+                    .filter((p) => p.endswith('.cfc') || (cfm && p.endswith('.cfm')))
+                    .map((p) => cfformatUtils.resolvePath(p));
 
                 if (allFiles.len() == 0) {
                     return;
