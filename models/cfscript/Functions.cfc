@@ -26,7 +26,7 @@ component {
             var words = [];
 
             while (!cftokens.nextIsElement()) {
-                var token = cftokens.next(false)
+                var token = cftokens.next(false);
                 words.append(token[1]);
             }
 
@@ -48,7 +48,6 @@ component {
             );
 
             formattedText &= parametersTxt;
-            // columnOffset += parametersTxt.len();
             columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
 
             // handle tag metadata after function parameters
