@@ -27,18 +27,15 @@ component accessors="true" {
         );
         formattedText &= startTagTxt;
 
-        if (containsTags) {
-            formattedText &= settings.lf & cfformat.indentTo(indent + 1, settings);
-        }
-
         var bodyTokens = cfformat.cftokens(element.elements);
         var body = cfformat.cftags.print(bodyTokens, settings, indent + 1).trim();
 
-        formattedText &= body;
-
-        if (containsTags) {
-            formattedText &= settings.lf & cfformat.indentTo(indent, settings);
+        if (containsTags || body.find(chr(10))) {
+            body = settings.lf & cfformat.indentTo(indent + 1, settings) & body.trim();
+            body &= settings.lf & cfformat.indentTo(indent, settings);
         }
+
+        formattedText &= body;
 
         var endTagTxt = cfformat.cftags.htmltag.print(
             cfformat.cftokens([element.endTag]),

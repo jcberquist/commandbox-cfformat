@@ -17,6 +17,9 @@ component extends=tests.FormatBaseSpec {
             it('correctly renders prefixed custom tags', function() {
                 runTests(loadData('tagCustom'));
             });
+            it('handles indents inside of HTML tags', function() {
+                runTests(loadData('tagHTMLIndent'));
+            });
         });
     }
 

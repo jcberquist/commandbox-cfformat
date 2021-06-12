@@ -93,20 +93,14 @@ component accessors="true" {
                     columnOffset
                 );
                 formattedText &= tagTxt;
-
-                continue;
-            }
-
-            // look for cfelse and cfelseif
-            // dedent by one to print them
-            if (
+            } else if (
                 (cftokens.peekElement('cftag') || cftokens.peekElement('cftag-selfclosed'))
                 && ['cfelse', 'cfelseif'].find(cftokens.peek(true).tagName)
             ) {
+                // dedent by one to print cfelse and cfelseif
                 cftokens.consumeWhitespace(true);
                 formattedText &= settings.lf;
                 formattedText &= cfformat.indentTo(indent - 1, settings);
-                continue;
             } else if (cftokens.peekNewline()) {
                 // consume newline
                 cftokens.next(false);
@@ -121,12 +115,18 @@ component accessors="true" {
             } else {
                 // next token is not a newline so just add it
                 var txt = cftokens.next()[1];
+                if (txt.endswith(chr(10))) {
+                    txt = txt.reReplace('\r?\n$', settings.lf);
+                }
                 if (!formattedText.endsWith(chr(10)) && reFind('\n\s+$', formattedText)) {
                     txt = txt.ltrim();
                 }
                 formattedText &= txt;
             }
 
+            if (formattedText.endswith(chr(10))) {
+                formattedText &= cfformat.indentTo(indent, settings);
+            }
             columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
         }
 
