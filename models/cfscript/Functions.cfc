@@ -142,6 +142,10 @@ component {
                     indent,
                     columnOffset
                 );
+
+                if (formattedText.reFind('\n[ ]*$')) {
+                    cftokens.consumeWhitespace();
+                }
             }
 
             return formattedText;

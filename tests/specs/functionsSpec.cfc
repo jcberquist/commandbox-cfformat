@@ -23,6 +23,9 @@ component extends=tests.FormatBaseSpec {
             it('formats arrow functions with a single parameter and no parentheses', function() {
                 runTests(loadData('functionArrowNoParens'));
             });
+            it('formats arrow functions with trailing whitespace', function() {
+                runTests(loadData('functionArrowTrailingWhitespace'), true);
+            });
         });
     }
 

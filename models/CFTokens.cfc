@@ -237,7 +237,7 @@ component accessors=true {
                 var prevToken = tokens[idx];
                 if (isArray(prevToken) && prevToken[2].last().find('keyword.')) {
                     if (
-                        prevToken[2].last().find('.binary.')  ||
+                        prevToken[2].last().find('.binary.') ||
                         prevToken[2].last().find('.ternary.')
                     ) {
                         continue;

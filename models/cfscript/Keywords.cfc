@@ -164,7 +164,7 @@ component {
                 formatted &= statement.trim();
 
                 // if statement ended with a comment there will be a newline
-                if (statement.refind('\n[ ]*$')) {
+                if (statement.reFind('\n[ ]*$')) {
                     formatted &= settings.lf & cfformat.indentTo(indent, settings);
                 }
             }
