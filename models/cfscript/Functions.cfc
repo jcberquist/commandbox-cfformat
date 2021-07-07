@@ -143,7 +143,7 @@ component {
                     columnOffset
                 );
 
-                if (formattedText.reFind('\n[ ]*$')) {
+                if (formattedText.reFind('\n[ \t]*$')) {
                     cftokens.consumeWhitespace();
                 }
             }
