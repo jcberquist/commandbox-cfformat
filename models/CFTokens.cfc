@@ -202,11 +202,66 @@ component accessors=true {
 
     function collectExpr() {
         var tokens = [];
+
         while (hasNext()) {
-            if (peekNewline() || peekText(';')) {
+            // a semicolon terminates the expression statement
+            if (peekScopeStartsWith('punctuation.terminator.statement')) {
                 break;
             }
-            tokens.append(next());
+
+            var token = next();
+            tokens.append(token);
+
+            // if latest token isn't a newline and doesn't end with a newline, continue on
+            if (!isArray(token) || !token[1].endswith(chr(10))) {
+                continue;
+            }
+
+            // a newline has been encountered, so walk back to find last code token collected
+            var idx = tokens.len() - 1;
+            while (idx > 0) {
+                if (
+                    !isArray(tokens[idx]) || (
+                        !tokens[idx][1].trim().len() == 0 &&
+                        !tokens[idx][2].last().find('comment.')
+                    )
+                ) {
+                    break;
+                }
+                idx--;
+            }
+
+            // if we found a previous code token check to see if
+            // it requires the expression statement to continue
+            if (idx) {
+                var prevToken = tokens[idx];
+                if (isArray(prevToken) && prevToken[2].last().find('keyword.')) {
+                    if (
+                        prevToken[2].last().find('.binary.')  ||
+                        prevToken[2].last().find('.ternary.')
+                    ) {
+                        continue;
+                    }
+                }
+            }
+
+            // a binary operator on the next line continues the expression
+            if (peekCodeScopeStartsWith('keyword.operator.arithmetic.binary')) {
+                continue;
+            }
+
+            // a ternary operator on the next line continues the expression
+            if (peekCodeScopeStartsWith('keyword.operator.ternary')) {
+                continue;
+            }
+
+            // an accessor on the next line continues the expression
+            if (peekCodeScopeStartsWith('punctuation.accessor')) {
+                continue;
+            }
+
+            // if we made it here, assume the newline terminated the expression implicitly
+            break;
         }
         return new CFTokens(tokens);
     }

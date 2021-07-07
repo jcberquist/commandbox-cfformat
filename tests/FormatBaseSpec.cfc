@@ -36,4 +36,13 @@ component extends=testbox.system.BaseSpec {
         return data;
     }
 
+    function loadExprTokens(testKey) {
+        var tokenPath = expandPath('/tests/json/exprTests/').replace('\', '/', 'all');
+        var tokens = deserializeJSON(fileRead(tokenPath & '#testKey#.json', 'utf-8'));
+        var cfformat = new models.CFFormat('', expandPath('/'));
+        var cftokens = cfformat.cftokens(tokens.elements.slice(3)); // ignore leading `//`
+        var expr = cftokens.collectExpr();
+        return expr.getTokens();
+    }
+
 }

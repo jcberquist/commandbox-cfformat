@@ -162,6 +162,11 @@ component {
                     formatted &= ' ';
                 }
                 formatted &= statement.trim();
+
+                // if statement ended with a comment there will be a newline
+                if (statement.refind('\n[ ]*$')) {
+                    formatted &= settings.lf & cfformat.indentTo(indent, settings);
+                }
             }
         }
 
