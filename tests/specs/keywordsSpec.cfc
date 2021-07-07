@@ -23,6 +23,9 @@ component extends=tests.FormatBaseSpec {
             it('formats for loops', function() {
                 runTests(loadData('forLoop'));
             });
+            it('formats expression statements', function() {
+                runTests(loadData('keywordExprStatement'));
+            });
         });
     }
 

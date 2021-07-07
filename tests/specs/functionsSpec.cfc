@@ -24,7 +24,7 @@ component extends=tests.FormatBaseSpec {
                 runTests(loadData('functionArrowNoParens'));
             });
             it('formats arrow functions with trailing whitespace', function() {
-                runTests(loadData('functionArrowTrailingWhitespace'), true);
+                runTests(loadData('functionArrowTrailingWhitespace'));
             });
         });
     }

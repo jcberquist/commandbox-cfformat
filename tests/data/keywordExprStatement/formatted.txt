@@ -1,0 +1,9 @@
+{
+    if (true) a // comment
+    b
+}
+~
+{
+	if (true) a // comment
+	b
+}
