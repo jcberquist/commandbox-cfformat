@@ -138,9 +138,7 @@ component accessors="true" {
     }
 
     function getTargetBinaryName() {
-        if (filesystem.isWindows()) return 'cftokens.exe';
-        if (filesystem.isMac()) return 'cftokens_osx';
-        if (filesystem.isLinux()) return 'cftokens_linux';
+        return filesystem.isWindows() ? 'cftokens.exe' : 'cftokens';
     }
 
     private function structValueArray(required struct structure) {
