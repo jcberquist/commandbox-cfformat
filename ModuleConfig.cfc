@@ -4,18 +4,21 @@ component {
     this.autoMapModels = false;
 
     function configure() {
-        settings = {downloadURL: 'https://github.com/jcberquist/cftokens/releases/download/{version}/'};
+        settings = {
+            downloadURL: 'https://github.com/jcberquist/cftokens/releases/download/{version}/',
+            executable: getExecutable()
+        };
     }
 
     function onLoad() {
         var fullModulePath = modulePath.replace('\', '/', 'all') & (modulePath.endswith('/') ? '' : '/');
         var cftokensVersion = deserializeJSON(fileRead(fullModulePath & 'box.json')).cftokens;
         var binFolder = fullModulePath & 'bin/#cftokensVersion#/';
-        var executable = getExecutableName();
+        var executableName = settings.executable.find('_') ? 'cftokens' : 'cftokens.exe';
 
         ensureExecutableExists(
-            binFolder & executable,
-            settings.downloadURL.replace('{version}', cftokensVersion) & executable
+            binFolder & executableName,
+            settings.downloadURL.replace('{version}', cftokensVersion) & settings.executable
         );
 
         binder
@@ -36,9 +39,7 @@ component {
         directoryCreate(getDirectoryFromPath(executablePath), true, true);
 
         var job = wirebox.getInstance('InteractiveJob');
-        job.start(
-            'cftokens executable [#executablePath.listLast('/')#] not found.  Please wait for a moment while it is downloaded.'
-        );
+        job.start('cftokens executable not found.  Please wait for a moment while it is downloaded.');
 
         job.addLog('Downloading [#downloadURL#]');
 
@@ -72,11 +73,23 @@ component {
         }
     }
 
-    function getExecutableName() {
+    function getExecutable() {
         var fs = wirebox.getInstance('filesystem');
         if (fs.isWindows()) return 'cftokens.exe';
         if (fs.isMac()) return 'cftokens_osx';
-        if (fs.isLinux()) return 'cftokens_linux';
+        if (fs.isLinux()) {
+            // try to detect whether we are on a system using musl
+            // note ldd --version outputs to stderr
+            var p = createObject('java', 'java.lang.ProcessBuilder')
+                .init(['ldd', '--version'])
+                .redirectErrorStream(true)
+                .start();
+            var inputStreamReader = createObject('java', 'java.io.InputStreamReader').init(p.getInputStream(), 'utf-8');
+            var bufferedReader = createObject('java', 'java.io.BufferedReader').init(inputStreamReader);
+            var collector = createObject('java', 'java.util.stream.Collectors').joining(chr(10));
+            var output = bufferedReader.lines().collect(collector);
+            return output.findNoCase('musl') ? 'cftokens_linux_musl' : 'cftokens_linux';
+        }
     }
 
 }

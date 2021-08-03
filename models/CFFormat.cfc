@@ -15,7 +15,7 @@ component accessors="true" {
         variables.platform = getPlatform();
         variables.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
 
-        variables.executable = binFolder & 'cftokens' & (platform == 'windows' ? '.exe' : '_#platform#');
+        variables.executable = binFolder & 'cftokens' & (platform == 'windows' ? '.exe' : '');
 
         this.cfscript = new CFScript(this);
         this.cftags = new CFTags(this);
@@ -222,7 +222,7 @@ component accessors="true" {
         var inputStreamReader = createObject('java', 'java.io.InputStreamReader').init(p.getInputStream(), 'utf-8');
         var bufferedReader = createObject('java', 'java.io.BufferedReader').init(inputStreamReader);
         var collector = createObject('java', 'java.util.stream.Collectors').joining(variables.lf);
-        var tokens = BufferedReader.lines().collect(collector);
+        var tokens = bufferedReader.lines().collect(collector);
         if (!isJSON(tokens)) {
             throw(tokens);
         }
