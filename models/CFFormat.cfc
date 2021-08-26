@@ -22,6 +22,7 @@ component accessors="true" {
         this.delimited = new Delimited(this);
         this.alignment = new Alignment();
         this.tagcheck = new TagCheck(this, nonClosingTags, lf);
+        this.stats = new Stats(this, lf);
         this.cfscript.construct();
         this.cftags.construct();
         return this;
