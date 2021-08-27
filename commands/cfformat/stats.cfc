@@ -1,12 +1,12 @@
 /**
- * Provide statitstics on your codebase including number of files, lines of code, and count of BIFs/Tags in use.
+ * Provide statistics on your codebase including number of files, lines of code, and count of BIFs/Tags in use.
  *
  * {code:bash}
  * cfformat stats path/to/MyComponent.cfc
  * cfformat stats path/to/mycomponents/
  * {code}
  *
- * Globs may be used when passing paths to cfformat tag-check.
+ * Globs may be used when passing paths to cfformat stats.
  *
  */
 component accessors="true" {
@@ -21,7 +21,7 @@ component accessors="true" {
      * @verbose Print out all files processed and all BIF/Tag usage
      * @JSON Output data in parsable JSON format
      */
-    function run(string path = '', boolean verbose=false, boolean JSON=false ) {
+    function run(string path = '', boolean verbose = false, boolean JSON = false) {
         var pathData = cfformatUtils.resolveFormatPath(path, true);
 
         if (path.len() && !pathData.filePaths.len()) {
@@ -49,12 +49,14 @@ component accessors="true" {
         print.aquaLine('Stats run took ' & timeTaken & 'ms');
     }
 
-    function fileStats(paths, boolean verbose=false, boolean JSON=false) {
+    function fileStats(paths, boolean verbose = false, boolean JSON = false) {
         var fullTempPath = resolvePath(tempDir & '/' & createUUID().lcase() & '/');
         var result = {count: 0, failures: []};
 
         var logFile = function(file, success) {
-            if( JSON ) { return; }
+            if (JSON) {
+                return;
+            }
             if (success) {
                 job.addSuccessLog(cfformatUtils.osPath(file));
             } else {
@@ -78,7 +80,9 @@ component accessors="true" {
                 result.failures.append({file: file, message: message});
             }
 
-            if( JSON ) { return; }
+            if (JSON) {
+                return;
+            }
 
             logFile(file, success);
             // NOTE: progress bar won't draw if shell is not interactive
@@ -87,10 +91,10 @@ component accessors="true" {
         }
 
 
-        if( !JSON ) {
+        if (!JSON) {
             job.start('Collecting stats...', 10);
-            if( verbose ) {
-                job.setDumpLog( verbose );
+            if (verbose) {
+                job.setDumpLog(verbose);
             }
         }
 
@@ -99,8 +103,7 @@ component accessors="true" {
         var timeTaken = getTickCount() - start;
         setExitCode(min(result.failures.len(), 1));
 
-
-        if( !JSON ) {
+        if (!JSON) {
             if (result.failures.len()) {
                 job.error(dumpLog = true);
             } else {
@@ -119,6 +122,7 @@ component accessors="true" {
                 r.lines += s.lines;
                 r.loc += s.loc;
                 r.methods += s.methods.len();
+                r.properties += s.properties.len();
                 for (
                     var k in [
                         'tags',
@@ -141,14 +145,15 @@ component accessors="true" {
                 return r;
             },
             {
-                'totalFiles' : result.count,
-                'timeTakenms' : timeTaken,
-                'failures' : result.failures,
+                'totalFiles': result.count,
+                'timeTakenms': timeTaken,
+                'failures': result.failures,
                 'components': 0,
                 'templates': 0,
                 'lines': 0,
                 'loc': 0,
                 'methods': 0,
+                'properties': 0,
                 'tags': {},
                 'bifs': {},
                 'functioncalls': {},
@@ -158,72 +163,77 @@ component accessors="true" {
             }
         );
 
-        
-        if( JSON ) {
-            print.line( globalStats );
+        if (JSON) {
+            print.line(globalStats);
         } else {
-            prettyPrintResults( globalStats, verbose );
+            prettyPrintResults(globalStats, verbose);
         }
-
     }
 
-    private function prettyPrintResults( globalStats, boolean verbose=false ) {
-        
-            print.line('Total files: ' & globalStats.totalFiles)
-                .line('Lines: ' & numberFormat(globalStats.lines, ','))
-                .line('Lines of Code: ' & numberFormat(globalStats.loc, ','));
-            if (globalStats.templates) {
-                print.line('Templates: ' & numberFormat(globalStats.templates, ','));
+    private function prettyPrintResults(globalStats, boolean verbose = false) {
+        print
+            .line('Total files: ' & globalStats.totalFiles)
+            .line('Lines: ' & numberFormat(globalStats.lines, ','))
+            .line('Lines of Code: ' & numberFormat(globalStats.loc, ','));
+        if (globalStats.templates) {
+            print.line('Templates: ' & numberFormat(globalStats.templates, ','));
+        }
+        if (globalStats.components) {
+            print.line('Components: ' & numberFormat(globalStats.components, ','));
+            if (globalStats.methods) {
+                print
+                    .line('Methods: ' & numberFormat(globalStats.methods, ','))
+                    .line('Methods/Component: ' & numberFormat(globalStats.methods / globalStats.components, '.00'));
             }
-            if (globalStats.components) {
-                print.line('Components: ' & numberFormat(globalStats.components, ','));
-                if (globalStats.methods) {
-                    print.line('Methods: ' & numberFormat(globalStats.methods, ','))
-                        .line('Methods/Component: ' & numberFormat(globalStats.methods / globalStats.components, '.00'));
-                }
+            if (globalStats.properties) {
+                print
+                    .line('Properties: ' & numberFormat(globalStats.properties, ','))
+                    .line(
+                        'Properties/Component: ' & numberFormat(globalStats.properties / globalStats.components, '.00')
+                    );
             }
+        }
 
-            print
-                .line()
-                .line('Function calls: ' & numberFormat(globalStats.functioncallcount, ','))
-                .line('Method calls: ' & numberFormat(globalStats.methodcallcount, ','));
-            
+        print
+            .line()
+            .line('Function calls: ' & numberFormat(globalStats.functioncallcount, ','))
+            .line('Method calls: ' & numberFormat(globalStats.methodcallcount, ','));
 
-            print.line()
-                .boldLine('Tag usage:');
-            var count = 0;
-            for (var tag in globalStats.tags.sort('numeric', 'desc')) {
-                count++;
-                if( count > 10 && !verbose ) {
-                    print.line('    View #globalStats.tags.count()-10# more with --verbose');
-                    break;
-                }
-                print.line('    #tag#: ' & numberFormat(globalStats.tags[tag], ','));
+
+        print.line().boldLine('Tag usage:');
+        var count = 0;
+        for (var tag in globalStats.tags.sort('numeric', 'desc')) {
+            count++;
+            if (count > 10 && !verbose) {
+                print.line('    View #globalStats.tags.count() - 10# more with --verbose');
+                break;
             }
+            print.line('    #tag#: ' & numberFormat(globalStats.tags[tag], ','));
+        }
 
-            print.line()
-                .boldLine('BIF usage:');
+        print.line().boldLine('BIF usage:');
 
-            var count = 0;
-            for (var bif in globalStats.bifs.sort('numeric', 'desc')) {
-                count++;
-                if( count > 10 && !verbose ) {
-                    print.line('    View #globalStats.bifs.count()-10# more with --verbose');
-                    break;
-                }
-                print.line('    #bif#: ' & numberFormat(globalStats.bifs[bif], ','));
+        var count = 0;
+        for (var bif in globalStats.bifs.sort('numeric', 'desc')) {
+            count++;
+            if (count > 10 && !verbose) {
+                print.line('    View #globalStats.bifs.count() - 10# more with --verbose');
+                break;
             }
+            print.line('    #bif#: ' & numberFormat(globalStats.bifs[bif], ','));
+        }
 
-            if (globalStats.failures.len()) {
-                printFailures('The following files have errors:', globalStats.failures);
-            }
+        if (globalStats.failures.len()) {
+            printFailures('The following files have errors:', globalStats.failures);
+        }
 
-            if (globalStats.timeTakenms > 1000) {
-                var totalTime = numberFormat(globalStats.timeTakenms / 1000, '.00') & 's';
-            } else {
-                var totalTime = globalStats.timeTakenms & 'ms';
-            }
-            print.aquaLine('Stats collected in ' & totalTime);
+        if (globalStats.timeTakenms > 1000) {
+            var totalTime = numberFormat(globalStats.timeTakenms / 1000, '.00') & 's';
+        } else {
+            var totalTime = globalStats.timeTakenms & 'ms';
+        }
+
+        print.aquaLine('Stats collected in ' & totalTime);
     }
 
 }

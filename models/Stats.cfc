@@ -6,6 +6,8 @@ component accessors="true" {
     variables.functionScope = 'variable.function.cfml';
     variables.methodCallScope = 'meta.function-call.method.cfml variable.function.cfml';
     variables.methodScope = 'meta.class.body.cfml meta.function.declaration.cfml entity.name.function.cfml';
+    variables.scriptPropertyNameScope = 'meta.tag.property.name.cfml';
+    variables.scriptPropertyScope = 'meta.tag.property.cfml entity.name.tag.script.cfml';
     variables.scriptTagScope = 'entity.name.tag.script.cfml';
     variables.tagMethodScopeRegex = 'meta.class.body.tag.cfml meta.tag.cfml meta.function.cfml.*entity.name.function.cfml$';
     variables.tagScope = 'entity.name.tag.cfml';
@@ -83,13 +85,14 @@ component accessors="true" {
 
     function stats(tokens) {
         var stats = {
-            lines: 0,
-            loc: 0,
-            methods: [],
-            tags: {},
-            bifs: {},
-            functioncalls: {},
-            methodcalls: {}
+            'lines': 0,
+            'loc': 0,
+            'methods': [],
+            'properties': [],
+            'tags': {},
+            'bifs': {},
+            'functioncalls': {},
+            'methodcalls': {}
         };
 
         var isLoc = false;
@@ -116,6 +119,8 @@ component accessors="true" {
                 } else if (reFind(tagMethodScopeRegex, scopes)) {
                     stats.methods.append(token);
                 }
+            } else if (scopes.endsWith(scriptPropertyNameScope)) {
+                stats.properties.append(token);
             } else if (scopes.endsWith(functionScope)) {
                 if (scopes.endsWith(functionCallScope)) {
                     stats.functioncalls[token] = (stats.functioncalls[token] ?: 0) + 1;
@@ -124,7 +129,13 @@ component accessors="true" {
                 }
             } else if (scopes.endsWith(bifScope)) {
                 stats.bifs[token] = (stats.bifs[token] ?: 0) + 1;
-            } else if (scopes.endsWith(tagScope) || scopes.endsWith(scriptTagScope)) {
+            } else if (
+                scopes.endsWith(tagScope) ||
+                (
+                    scopes.endsWith(scriptTagScope) &&
+                    !scopes.endsWith(scriptPropertyScope)
+                )
+            ) {
                 var tag = token.startswith('cf') ? token : 'cf' & token;
                 stats.tags[tag] = (stats.tags[tag] ?: 0) + 1;
             }
