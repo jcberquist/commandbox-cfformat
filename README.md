@@ -32,11 +32,17 @@ If the `--verbose` flag is specified when running a check, the diff between sour
 
 ## Watching Directories
 
-`cfformat watch` can also be called with a directory path. It uses CommandBox's built in support for file watching to watch that directory for component changes, and will perform formatting passes on those files.
+`cfformat watch` can also be called with a directory path glob expression. It uses CommandBox's built in support for file watching to watch that directory for component changes, and will perform formatting passes on those files.
 
 ```bash
-cfformat watch ./
+cfformat watch /relative/path/to/your/code,/another/path [/path_to_settings_file]
 ```
+
+Note that the "paths" here work more like `.gitignore` entries and less like bash paths. Specifically:
+- A path with a leading slash (or backslash), will be evaluated relative to the current working directory. E.g. `cfformat watch /foo` will only watch files in the directory at `./foo`, but not in directories like `./bar/foo`.
+- A path without a leading slash (or backslash) will be applied as a glob filter to *all files* within the current working directory. E.g. `cfformat watch foo` will result in the entire working directory being watched, but only files matching the glob `**foo/**.cfc` will be processed.
+
+If your watch command seems slow, unresponsive, or is failing to notice some file change events, it is likely that you have it watching too many files. Try specifying the paths to the directories of CFCs that you want to process, and use leading slashes in your arguments to avoid watching all files in the current working directory.
 
 ## Settings
 
