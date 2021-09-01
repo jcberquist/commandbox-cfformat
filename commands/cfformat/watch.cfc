@@ -15,13 +15,15 @@ component accessors="true" extends="run" aliases="" {
      * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
      * @cfm format cfm files as well as cfc - use with caution, preferably on pure CFML cfm files
+     * @pollDelay polling delay in milliseconds. Defaults to 500. Set a higher value (slower polling) if the watch is using too much CPU.
      */
     function run(
         string path = '',
         string settingsPath = '',
         boolean overwrite = false,
         boolean timeit = false,
-        boolean cfm = false
+        boolean cfm = false,
+        numeric pollDelay = 500
     ) {
         var paths = path
             .listToArray(',', true)
@@ -44,6 +46,7 @@ component accessors="true" extends="run" aliases="" {
 
         this.watch()
             .paths(argumentCollection = paths)
+            .delayMS(arguments.pollDelay)
             .onChange((files) => {
                 var allFiles = files.added
                     .append(files.changed, true)
