@@ -130,9 +130,7 @@ To create a local development environment to work on this module:
 2. Clone this repository: `git clone https://github.com/jcberquist/commandbox-cfformat.git`
 3. `cd commandbox-cfformat`
 4. `box install`
-5. [Download](https://github.com/jcberquist/cftokens/releases) the appropriate version of `cftokens` (as listed in the `cftokens` key in `box.json`)
-6. Place the file you just downloaded at `bin/v[version number]/cftokens`. E.g. `bin/v0.16.6/cftokens`. If you're on Windows, the file should be called `cftokens.exe` instead.
-7. If you're on macOS or Linux, run `chmod a+x bin/v[version number]/cftokens` to make the file executable.
+5. Ensure the correct cftokens binary has been downloaded: `task run build cftokens`
 8. `box start`, and wait for the test suite to open in your browser.
 9. If you're on macOS, click "Cancel" in the "unverified developer" dialog that appears. Open System Preferences and go to Security and Privacy. Click "Allow" to place the downloaded file on a safelist so that it can be executed. Reload the page in your browser, then click "Open" in the dialog that appears.
 10. You should have a passing test suite at this point.

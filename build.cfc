@@ -4,6 +4,10 @@ component accessors="true" {
     property filesystem inject="filesystem";
     property JSONService inject="JSONService";
 
+    function preTask() {
+        variables.cftokens = new cftokens(wirebox);
+    }
+
     function run() {
         examples();
         reference();
@@ -19,9 +23,7 @@ component accessors="true" {
 
     function examples() {
         var dir = resolvePath('./');
-
-        var binary = getTargetBinaryName();
-        var lf = chr(10);
+        var binary = cftokens.getExecutable().find('_') ? 'cftokens' : 'cftokens.exe';
         var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
         var reference = deserializeJSON(fileRead(dir & 'data/reference.json'));
         var refDir = tempDir & '/' & createUUID() & '/';
@@ -119,10 +121,23 @@ component accessors="true" {
         fileWrite(dir & 'reference.md', markdown.toList(lf & lf), 'utf-8');
     }
 
+    function cftokens() {
+        var dir = resolvePath('./');
+        var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
+        var binFolder = dir & 'bin/#cftokensVersion#/';
+        var executable = cftokens.getExecutable();
+        var executableName = executable.find('_') ? 'cftokens' : 'cftokens.exe';
+        var downloadURL = 'https://github.com/jcberquist/cftokens/releases/download/#cftokensVersion#/';
+
+        cftokens.ensureExecutableExists(
+            binFolder & executableName,
+            downloadURL & executable
+        );
+    }
+
     function tokens(string path) {
         var dir = resolvePath('./');
-        var binary = getTargetBinaryName();
-        var lf = filesystem.isWindows() ? chr(13) & chr(10) : chr(10);
+        var binary = cftokens.getExecutable().find('_') ? 'cftokens' : 'cftokens.exe';
         var cftokensVersion = deserializeJSON(fileRead(dir & 'box.json')).cftokens;
 
         // generate tokens
@@ -135,10 +150,6 @@ component accessors="true" {
         );
 
         print.line(deserializeJSON(tokenjson));
-    }
-
-    function getTargetBinaryName() {
-        return filesystem.isWindows() ? 'cftokens.exe' : 'cftokens';
     }
 
     private function structValueArray(required struct structure) {
