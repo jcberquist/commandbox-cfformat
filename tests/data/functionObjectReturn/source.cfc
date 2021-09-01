@@ -1,0 +1,4 @@
+//
+_test_issue function init() {
+    return this;
+}
