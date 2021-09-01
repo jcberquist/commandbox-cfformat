@@ -1,0 +1,3 @@
+<cfoutput>
+#now()#  #now()#
+</cfoutput>

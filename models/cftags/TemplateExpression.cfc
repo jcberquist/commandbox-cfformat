@@ -15,10 +15,16 @@ component {
         indent,
         columnOffset
     ) {
-        var element = cftokens.next(false);
-
+        var element = cftokens.next();
+        var leadingSpace = '';
+        if (!isStruct(element)) {
+            if (element[1].len() && !element[1].trim().len()) {
+                leadingSpace = ' ';
+            }
+            element = cftokens.next();
+        }
         var template_expression = cfformat.cfscript.print(cfformat.cftokens(element.elements), settings, indent).trim();
-        return '##' & template_expression & '##';
+        return leadingSpace & '##' & template_expression & '##';
     }
 
 }
