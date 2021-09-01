@@ -121,3 +121,18 @@ If the `--verbose` flag is specified when running a check, the diff between sour
 ## Syntect
 
 Behind the scenes, `cfformat` makes use of the [cftokens](https://github.com/jcberquist/cftokens) project, which is based on the [syntect](https://github.com/trishume/syntect) library along with syntax files from Sublime Text's [Packages](https://github.com/sublimehq/Packages). `cfformat` attempts to download this executable from GitHub when installed, or when it is updated (if necessary). If it is unable to download the executable, it should print a message to the console prompting you to download from GitHub, and indicating where to put it.
+
+# Developing
+
+To create a local development environment to work on this module:
+
+1. Install [CommandBox](https://www.ortussolutions.com/products/commandbox)
+2. Clone this repository: `git clone https://github.com/jcberquist/commandbox-cfformat.git`
+3. `cd commandbox-cfformat`
+4. `box install`
+5. [Download](https://github.com/jcberquist/cftokens/releases) the appropriate version of `cftokens` (as listed in the `cftokens` key in `box.json`)
+6. Place the file you just downloaded at `bin/v[version number]/cftokens`. E.g. `bin/v0.16.6/cftokens`. If you're on Windows, the file should be called `cftokens.exe` instead.
+7. If you're on macOS or Linux, run `chmod a+x bin/v[version number]/cftokens` to make the file executable.
+8. `box start`, and wait for the test suite to open in your browser.
+9. If you're on macOS, click "Cancel" in the "unverified developer" dialog that appears. Open System Preferences and go to Security and Privacy. Click "Allow" to place the downloaded file on a safelist so that it can be executed. Reload the page in your browser, then click "Open" in the dialog that appears.
+10. You should have a passing test suite at this point.
