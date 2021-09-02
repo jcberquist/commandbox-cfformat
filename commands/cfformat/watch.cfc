@@ -46,7 +46,7 @@ component accessors="true" extends="run" aliases="" {
 
         this.watch()
             .paths(argumentCollection = paths)
-            .delayMS(arguments.pollDelay)
+            .withDelay(arguments.pollDelay)
             .onChange((files) => {
                 var allFiles = files.added
                     .append(files.changed, true)
