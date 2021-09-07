@@ -12,7 +12,16 @@ cfexecute(
     variable='fileArray'
 );
 
-testbox = new testbox.system.Testbox();
+testbox = new testbox.system.Testbox(
+    options: {
+        coverage: {
+            blacklist: "tests,testbox",
+            browser: {
+                outputDir: "#ExpandPath('.')#/coverage"
+            }
+        }
+    }
+);
 param name="url.reporter" default="simple";
 param name="url.directory" default="tests.specs";
 args = {reporter: url.reporter, directory: url.directory};
