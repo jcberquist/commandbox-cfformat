@@ -124,9 +124,10 @@ component accessors="true" {
                 formattedText &= txt;
             }
 
-            if (formattedText.endswith(chr(10))) {
+            if (formattedText.endswith(chr(10)) && !cftokens.peekScopeStartsWith('cfformat.ignore.cfml')) {
                 formattedText &= cfformat.indentTo(indent, settings);
             }
+
             columnOffset = cfformat.nextOffset(columnOffset, formattedText, settings);
         }
 

@@ -17,6 +17,9 @@ component extends=tests.FormatBaseSpec {
             it('ignores code inside tag ignore comments', function() {
                 runTests(loadData('cfformatIgnoreTags'));
             });
+            it('preserves indent for code inside tag ignore comments', function() {
+                runTests(loadData('cfformatIgnoreIndentation'));
+            });
         });
     }
 
