@@ -4,6 +4,7 @@ component accessors="true" {
 
     function init(cfformat) {
         variables.cfformat = cfformat;
+        variables.blockTags = cfformat.getTagData().blockTags.html;
         cfformat.cftags.registerElement('htmltag-body', this);
         return this;
     }
@@ -45,7 +46,7 @@ component accessors="true" {
         );
         formattedText &= endTagTxt;
 
-        if (!cftokens.peekNewline()) {
+        if (!cftokens.peekNewline() && blockTags.findNoCase(element.tagName)) {
             cftokens.consumeWhitespace();
             formattedText &= settings.lf & cfformat.indentTo(indent, settings);
         }

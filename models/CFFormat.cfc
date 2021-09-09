@@ -5,13 +5,14 @@ component accessors="true" {
     property reference;
     property examples;
     property executable;
+    property tagData;
 
     function init(required string binFolder, required string rootFolder) {
         variables.rootFolder = arguments.rootFolder;
         variables.defaultSettings = deserializeJSON(fileRead(rootFolder & '.cfformat.json'));
         variables.reference = deserializeJSON(fileRead(rootFolder & 'data/reference.json'));
         variables.examples = deserializeJSON(fileRead(rootFolder & 'data/examples.json'));
-        variables.nonClosingTags = deserializeJSON(fileRead(rootFolder & 'data/nonClosingTags.json'));
+        variables.tagData = deserializeJSON(fileRead(rootFolder & 'data/tags.json'));
         variables.platform = getPlatform();
         variables.lf = platform == 'windows' ? chr(13) & chr(10) : chr(10);
 
@@ -21,7 +22,7 @@ component accessors="true" {
         this.cftags = new CFTags(this);
         this.delimited = new Delimited(this);
         this.alignment = new Alignment();
-        this.tagcheck = new TagCheck(this, nonClosingTags, lf);
+        this.tagcheck = new TagCheck(this, lf);
         this.stats = new Stats(this, lf);
         this.cfscript.construct();
         this.cftags.construct();

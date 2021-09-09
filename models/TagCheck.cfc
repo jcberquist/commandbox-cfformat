@@ -1,8 +1,8 @@
 component accessors="true" {
 
-    function init(required any cfformat, required struct nonClosingTags, required string lf) {
+    function init(required any cfformat, required string lf) {
         variables.cfformat = arguments.cfformat;
-        variables.nonClosingTags = arguments.nonClosingTags;
+        variables.nonClosingTags = variables.cfformat.getTagData().nonClosingTags;
         variables.lf = arguments.lf;
         return this;
     }
