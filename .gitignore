@@ -1,3 +1,4 @@
 testbox/
+tests/coverage/
 tests/json/
 out.cfc
