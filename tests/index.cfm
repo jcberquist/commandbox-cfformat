@@ -6,27 +6,38 @@ executable = new models.CFFormat(binFolder, expandPath('/')).getExecutable();
 
 // generate token json files
 cfexecute(
-    name=executable,
-    arguments='parse "#expandPath('/tests/data/')#" "#expandPath('/tests/json/')#"',
-    timeout=10,
-    variable='fileArray'
+    name = executable,
+    arguments = "parse ""#expandPath('/tests/data/')#"" ""#expandPath('/tests/json/')#""",
+    timeout = 10,
+    variable = "fileArray"
 );
 
+param name="url.reporter" default="simple";
+param name="url.bundles" default="";
+param name="url.directory" default="tests.specs";
+
+param name="url.coverageEnabled" default="false" type="boolean";
+param name="url.coveragePathToCapture" default="#expandPath('/models')#";
+param name="url.coverageBrowserOutputDir" default="#expandPath('/tests/coverage')#";
+
 testbox = new testbox.system.Testbox(
-    options: {
+    options = {
         coverage: {
-            blacklist: "tests,testbox",
-            browser: {
-                outputDir: "#ExpandPath('.')#/coverage"
-            }
+            enabled: url.coverageEnabled,
+            pathToCapture: url.coveragePathToCapture,
+            browser: {outputDir: url.coverageBrowserOutputDir}
         }
     }
 );
-param name="url.reporter" default="simple";
-param name="url.directory" default="tests.specs";
-args = {reporter: url.reporter, directory: url.directory};
-if (structKeyExists(url, 'bundles')) args.bundles = url.bundles;
-results = testBox.run(argumentCollection = args);
+
+if (len(url.bundles)) {
+    testbox.addBundles(url.bundles);
+}
+if (len(url.directory)) {
+    testbox.addDirectories(url.directory);
+}
+
+results = testBox.run(reporter = url.reporter);
 </cfscript>
 </cfsilent>
 <cfcontent reset="true">
