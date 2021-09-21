@@ -24,7 +24,7 @@ component {
             // the rest of the line comment will be "one" token ending with a newline
             var formatted = cftokens.next()[1].rtrim();
 
-            if (formatted.len() == formatted.trim().len()) {
+            if (formatted.len() && formatted.len() == formatted.trim().len()) {
                 formatted = ' ' & formatted;
             }
 

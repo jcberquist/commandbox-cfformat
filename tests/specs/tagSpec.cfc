@@ -26,6 +26,9 @@ component extends=tests.FormatBaseSpec {
             it('handles sequential template interpolations', function() {
                 runTests(loadData('sequentialTemplateInterpolations'));
             });
+            it('correctly avoids an indent on empty lines inside of a tag body', function() {
+                runTests(loadData('tagWhitespaceIndent'));
+            });
         });
     }
 

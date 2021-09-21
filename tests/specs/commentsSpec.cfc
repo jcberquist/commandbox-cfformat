@@ -17,6 +17,9 @@ component extends=tests.FormatBaseSpec {
             it('keeps specialized block comments on a single line', function() {
                 runTests(loadData('commentSingleline'));
             });
+            it('formats empty line comments', function() {
+                runTests(loadData('commentEmpty'));
+            });
         });
     }
 
