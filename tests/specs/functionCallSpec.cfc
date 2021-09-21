@@ -21,6 +21,9 @@ component extends=tests.FormatBaseSpec {
             it('can format the casing of user defined function calls', function() {
                 runTests(loadData('functionCallUdCasing'));
             });
+            it('identifies static method calls correctly', function() {
+                runTests(loadData('functionCallStatic'));
+            });
         });
     }
 
