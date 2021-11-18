@@ -155,4 +155,13 @@ component accessors=true {
         return {};
     }
 
+    function stripBOM(src) {
+        var bytes = javacast('byte[]', [-17, -69, -65]);
+        var bom = charsetEncode(bytes, 'utf-8');
+        if (src.startswith(bom)) {
+            src = src.replace(bom, '');
+        }
+        return src;
+    }
+
 }

@@ -65,7 +65,7 @@ component accessors="true" {
         var timeTaken = getTickCount() - start;
 
         var original = fileRead(fullPath, 'utf-8');
-        if (compare(original, formatted) == 0) {
+        if (compare(original, cfformatUtils.stripBOM(formatted)) == 0) {
             print.greenLine('File is formatted according to cfformat rules.');
         } else {
             print.redLine('File is not formatted according to cfformat rules.');
@@ -122,7 +122,7 @@ component accessors="true" {
             result.count++;
             if (success) {
                 var original = fileRead(file, 'utf-8');
-                if (compare(original, formatted) == 0) {
+                if (compare(original, cfformatUtils.stripBOM(formatted)) == 0) {
                     logFile(file, true);
                 } else {
                     result.failures.append({file: file, diffString: verbose ? diff(original, formatted) : ''});
