@@ -74,17 +74,17 @@
         },
         "type": "boolean"
     },
-    "binary_operators.padding": {
-        "description": "Whether to pad binary operators with spaces.",
-        "example": {
-            "code": "a=1+2;"
-        },
-        "type": "boolean"
-    },
     "binary_operators.newline_indent": {
         "description": "Whether to indent the line when a binary operator is preceded by a newline, and to indent the following line when a binary operator is followed by a newline.",
         "example": {
             "code": "a=b &&\nc;\n\na=b\n&& c;"
+        },
+        "type": "boolean"
+    },
+    "binary_operators.padding": {
+        "description": "Whether to pad binary operators with spaces.",
+        "example": {
+            "code": "a=1+2;"
         },
         "type": "boolean"
     },
@@ -410,6 +410,13 @@
         "description": "When rendering a delimited item (struct, array, function call, function declaration parameters), this is the maximum number of columns to render on one line before splitting the elements onto multiple lines.",
         "type": "integer"
     },
+    "metadata.key_value.padding": {
+        "description": "Whether to pad the key value separator when printing metadata attributes for a component or function declaration.",
+        "example": {
+            "code": "component extends=\"base.component\" output=false{}"
+        },
+        "type": "boolean"
+    },
     "metadata.multiline.element_count": {
         "description": "When a component or function declaration has this number of metadata attributes or more, print it onto multiple lines.",
         "type": "integer"
@@ -431,10 +438,32 @@
             "\r\n"
         ]
     },
+    "param.key_value.padding": {
+        "description": "Whether to pad the key value separator when printing param attributes.",
+        "example": {
+            "code": "param name=\"abc\";"
+        },
+        "type": "boolean"
+    },
+    "param.multiline.element_count": {
+        "description": "When a param has this number of attributes or more, print it onto multiple lines.",
+        "type": "integer"
+    },
+    "param.multiline.min_length": {
+        "description": "No matter how many attributes a param has, if it is shorter than this length, keep it on one line.",
+        "type": "integer"
+    },
     "parentheses.padding": {
         "description": "Whether to pad the contents of a group.",
         "example": {
             "code": "a=(1+2);"
+        },
+        "type": "boolean"
+    },
+    "property.key_value.padding": {
+        "description": "Whether to pad the key value separator when printing property attributes.",
+        "example": {
+            "code": "property name=\"test\";"
         },
         "type": "boolean"
     },

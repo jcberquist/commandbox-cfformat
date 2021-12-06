@@ -2,5 +2,8 @@
     {},
     {
         "max_columns": 30
+    },
+    {
+        "property.key_value.padding": true
     }
 ]

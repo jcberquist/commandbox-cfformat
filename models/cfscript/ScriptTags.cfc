@@ -52,6 +52,7 @@ component {
 
             // special cfparam handling
             if (formattedText == 'param') {
+                tagSetting = 'param';
                 var preAttrTokens = attr_tokens.collectTo(argumentCollection = attrStart);
                 var preAttrTxt = cfformat.cfscript.print(preAttrTokens, settings, indent).trim();
                 if (preAttrTxt.len()) formattedText &= ' ' & preAttrTxt;

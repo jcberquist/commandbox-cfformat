@@ -182,22 +182,6 @@ myArray = [ 1, 2 ];
 myArray = [1, 2];
 ```
 
-## binary_operators.padding
-
-Type: _boolean_
-
-Default: **true**
-
-Whether to pad binary operators with spaces.
-
-```cfc
-// binary_operators.padding: true
-a = 1 + 2;
-
-// binary_operators.padding: false
-a=1+2;
-```
-
 ## binary_operators.newline_indent
 
 Type: _boolean_
@@ -220,6 +204,22 @@ c;
 
 a = b
 && c;
+```
+
+## binary_operators.padding
+
+Type: _boolean_
+
+Default: **true**
+
+Whether to pad binary operators with spaces.
+
+```cfc
+// binary_operators.padding: true
+a = 1 + 2;
+
+// binary_operators.padding: false
+a=1+2;
 ```
 
 ## brackets.padding
@@ -966,6 +966,28 @@ Default: **120**
 When rendering a delimited item (struct, array, function call, function declaration parameters), this is the maximum number of columns to render on one line before splitting the elements onto multiple lines.
 
 
+## metadata.key_value.padding
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to pad the key value separator when printing metadata attributes for a component or function declaration.
+
+```cfc
+// metadata.key_value.padding: true
+component extends = "base.component" output = false {
+
+
+}
+
+// metadata.key_value.padding: false
+component extends="base.component" output=false {
+
+
+}
+```
+
 ## metadata.multiline.element_count
 
 Type: _integer_
@@ -1002,6 +1024,40 @@ Values: [**"os"**, "\n", "\r\n"]
 The new line character(s) to use. The default is "os" which uses \r\n on Windows, and \n otherwise.
 
 
+## param.key_value.padding
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to pad the key value separator when printing param attributes.
+
+```cfc
+// param.key_value.padding: true
+param name = "abc";
+
+// param.key_value.padding: false
+param name="abc";
+```
+
+## param.multiline.element_count
+
+Type: _integer_
+
+Default: **4**
+
+When a param has this number of attributes or more, print it onto multiple lines.
+
+
+## param.multiline.min_length
+
+Type: _integer_
+
+Default: **40**
+
+No matter how many attributes a param has, if it is shorter than this length, keep it on one line.
+
+
 ## parentheses.padding
 
 Type: _boolean_
@@ -1016,6 +1072,22 @@ a = ( 1 + 2 );
 
 // parentheses.padding: false
 a = (1 + 2);
+```
+
+## property.key_value.padding
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to pad the key value separator when printing property attributes.
+
+```cfc
+// property.key_value.padding: true
+property name = "test";
+
+// property.key_value.padding: false
+property name="test";
 ```
 
 ## property.multiline.element_count

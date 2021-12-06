@@ -31,13 +31,13 @@
         "true":"// array.padding: true\nmyArray = [ 1, 2 ];",
         "false":"// array.padding: false\nmyArray = [1, 2];"
     },
-    "binary_operators.padding":{
-        "true":"// binary_operators.padding: true\na = 1 + 2;",
-        "false":"// binary_operators.padding: false\na=1+2;"
-    },
     "binary_operators.newline_indent":{
         "true":"// binary_operators.newline_indent: true\na = b &&\n    c;\n\na = b\n    && c;",
         "false":"// binary_operators.newline_indent: false\na = b &&\nc;\n\na = b\n&& c;"
+    },
+    "binary_operators.padding":{
+        "true":"// binary_operators.padding: true\na = 1 + 2;",
+        "false":"// binary_operators.padding: false\na=1+2;"
     },
     "brackets.padding":{
         "true":"// brackets.padding: true\na[ 'mykey' ][ 1 ] = 7;",
@@ -171,9 +171,21 @@
         "true":"// keywords.spacing_to_group: true\nif (true) {\n}",
         "false":"// keywords.spacing_to_group: false\nif(true) {\n}"
     },
+    "metadata.key_value.padding":{
+        "true":"// metadata.key_value.padding: true\ncomponent extends = \"base.component\" output = false {\n\n\n}",
+        "false":"// metadata.key_value.padding: false\ncomponent extends=\"base.component\" output=false {\n\n\n}"
+    },
+    "param.key_value.padding":{
+        "true":"// param.key_value.padding: true\nparam name = \"abc\";",
+        "false":"// param.key_value.padding: false\nparam name=\"abc\";"
+    },
     "parentheses.padding":{
         "true":"// parentheses.padding: true\na = ( 1 + 2 );",
         "false":"// parentheses.padding: false\na = (1 + 2);"
+    },
+    "property.key_value.padding":{
+        "true":"// property.key_value.padding: true\nproperty name = \"test\";",
+        "false":"// property.key_value.padding: false\nproperty name=\"test\";"
     },
     "strings.attributes.quote":{
         "single":"// strings.attributes.quote: \"single\"\nhttp url='www.google.com';\nparam name='key';",
