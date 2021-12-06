@@ -50,7 +50,13 @@ component {
         var attributeStrings = [];
         while (attributeTokens.hasNext()) {
             var padding = tagSetting.len() && settings['#tagSetting#.key_value.padding'];
-            var attr = printAttribute(attributeTokens, settings, indent + 1, 0, padding);
+            var attr = printAttribute(
+                attributeTokens,
+                settings,
+                indent + 1,
+                0,
+                padding
+            );
             if (!isNull(attr)) {
                 attributeStrings.append(attr);
             } else {
