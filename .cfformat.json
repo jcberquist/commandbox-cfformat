@@ -10,6 +10,7 @@
     "array.multiline.min_length": 40,
     "array.padding": false,
     "binary_operators.padding": true,
+    "binary_operators.newline_indent": false,
     "brackets.padding": false,
     "comment.asterisks": "align",
     "for_loop_semicolons.padding": true,

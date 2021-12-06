@@ -4,8 +4,8 @@
     cd
 )
 (
-a&
-b
+a
+&b
 )
 (
 a // test comment

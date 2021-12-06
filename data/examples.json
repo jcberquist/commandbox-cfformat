@@ -35,6 +35,10 @@
         "true":"// binary_operators.padding: true\na = 1 + 2;",
         "false":"// binary_operators.padding: false\na=1+2;"
     },
+    "binary_operators.newline_indent":{
+        "true":"// binary_operators.newline_indent: true\na = b &&\n    c;\n\na = b\n    && c;",
+        "false":"// binary_operators.newline_indent: false\na = b &&\nc;\n\na = b\n&& c;"
+    },
     "brackets.padding":{
         "true":"// brackets.padding: true\na[ 'mykey' ][ 1 ] = 7;",
         "false":"// brackets.padding: false\na['mykey'][1] = 7;"

@@ -198,6 +198,30 @@ a = 1 + 2;
 a=1+2;
 ```
 
+## binary_operators.newline_indent
+
+Type: _boolean_
+
+Default: **false**
+
+Whether to indent the line when a binary operator is preceded by a newline, and to indent the following line when a binary operator is followed by a newline.
+
+```cfc
+// binary_operators.newline_indent: true
+a = b &&
+    c;
+
+a = b
+    && c;
+
+// binary_operators.newline_indent: false
+a = b &&
+c;
+
+a = b
+&& c;
+```
+
 ## brackets.padding
 
 Type: _boolean_

@@ -30,12 +30,27 @@ component {
 
         for (var scope in binaryOperators) {
             if (cftokens.peekScopes([scope])) {
-                var afterNewline = cftokens.peekBehindNewline();
+                var newlineBehind = cftokens.peekBehindNewline();
                 var token = cftokens.next(whitespace = false);
                 var isWord = reFindNoCase('^[a-z]', token[1]);
-                var spacer = (settings['binary_operators.padding'] || isWord) ? ' ' : '';
-                cftokens.consumeWhiteSpace();
-                return (afterNewline ? '' : spacer) & token[1] & (cftokens.peekNewline() ? '' : spacer);
+                var spaceBehind = (settings['binary_operators.padding'] || isWord) ? ' ' : '';
+                var spaceAhead = (settings['binary_operators.padding'] || isWord) ? ' ' : '';
+                var newLineAhead = cftokens.peekNewline();
+
+                if (newlineBehind) {
+                    spaceBehind = settings['binary_operators.newline_indent']
+                     ? cfformat.indentTo(1, settings)
+                     : ''
+                }
+                if (newLineAhead) {
+                    spaceAhead = settings['binary_operators.newline_indent']
+                     ? settings.lf & cfformat.indentTo(indent + 1, settings)
+                     : '';
+                }
+
+                cftokens.consumeWhiteSpace(consumeNewline = settings['binary_operators.newline_indent']);
+
+                return spaceBehind & token[1] & spaceAhead;
             }
         }
 

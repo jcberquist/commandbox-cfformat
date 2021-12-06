@@ -1,3 +1,8 @@
 [
-    {}
+    {
+        "binary_operators.newline_indent": false
+    },
+    {
+        "binary_operators.newline_indent": true
+    }
 ]

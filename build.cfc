@@ -71,7 +71,7 @@ component accessors="true" {
                     );
                     output[v] = formatted
                         .replace(chr(13), '', 'all')
-                        .reReplace('//\s?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#')
+                        .reReplace('//[ ]?', '// #setting#: #isNull(v) ? 'null' : serializeJSON(v)#')
                         .trim();
                 }
 

@@ -81,6 +81,13 @@
         },
         "type": "boolean"
     },
+    "binary_operators.newline_indent": {
+        "description": "Whether to indent the line when a binary operator is preceded by a newline, and to indent the following line when a binary operator is followed by a newline.",
+        "example": {
+            "code": "a=b &&\nc;\n\na=b\n&& c;"
+        },
+        "type": "boolean"
+    },
     "brackets.padding": {
         "description": "When true, bracketed accessors are padded with spaces.",
         "example": {
