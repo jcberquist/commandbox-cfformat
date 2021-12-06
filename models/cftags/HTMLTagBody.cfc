@@ -13,7 +13,8 @@ component accessors="true" {
         cftokens,
         settings,
         indent,
-        columnOffset
+        columnOffset,
+        context = 'base'
     ) {
         var element = cftokens.next(false);
         var containsTags = element.elements.some((e) => isStruct(e) && (e.type.startswith('cftag') || e.type.startswith('htmltag')));
@@ -28,11 +29,33 @@ component accessors="true" {
         );
         formattedText &= startTagTxt;
 
-        var bodyTokens = cfformat.cftokens(element.elements);
-        var body = cfformat.cftags.print(bodyTokens, settings, indent + 1).trim();
+        if (element.tagName == 'script') {
+            context = 'javascript';
+        }
 
-        if (containsTags || body.find(chr(10))) {
-            body = settings.lf & cfformat.indentTo(indent + 1, settings) & body.trim();
+        var bodyTokens = cfformat.cftokens(element.elements);
+        var bodyIndent = context == 'javascript' ? indent : indent + 1;
+
+        var body = cfformat.cftags.print(
+            bodyTokens,
+            settings,
+            bodyIndent,
+            bodyIndent * settings.indent_size,
+            [],
+            context
+        );
+
+        // process the padding and indent surrounding the body
+        if (context == 'javascript') {
+            if (element.tagName == 'script') {
+                if (containsTags || body.find(chr(10))) {
+                    body = body.rtrim() & settings.lf & cfformat.indentTo(indent, settings);
+                }
+            } else {
+                body = cfformat.trailingIndentTo(body, bodyIndent, settings);
+            }
+        } else if (containsTags || body.find(chr(10))) {
+            body = settings.lf & cfformat.indentTo(bodyIndent, settings) & body.trim();
             body &= settings.lf & cfformat.indentTo(indent, settings);
         }
 
@@ -46,7 +69,7 @@ component accessors="true" {
         );
         formattedText &= endTagTxt;
 
-        if (!cftokens.peekNewline() && blockTags.findNoCase(element.tagName)) {
+        if (context != 'javascript' && !cftokens.peekNewline() && blockTags.findNoCase(element.tagName)) {
             cftokens.consumeWhitespace();
             formattedText &= settings.lf & cfformat.indentTo(indent, settings);
         }

@@ -20,6 +20,9 @@ component extends=tests.FormatBaseSpec {
             it('handles indents inside of HTML tags', function() {
                 runTests(loadData('tagHTMLIndent'));
             });
+            it('tries to preserve indents inside of HTML script blocks', function() {
+                runTests(loadData('tagHTMLScriptIndent'));
+            });
             it('correctly handles whitespace following HTML inline tags', function() {
                 runTests(loadData('inlineTagWhitespace'));
             });

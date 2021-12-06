@@ -30,6 +30,7 @@ component accessors="true" {
         if (element.tagName == 'cfquery') {
             context = 'sql';
         }
+
         var bodyTokens = cfformat.cftokens(element.elements);
         var bodyIndent = context == 'sql' || element.tagName == 'cfscript' ? indent : indent + 1;
 

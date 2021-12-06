@@ -54,13 +54,14 @@ component accessors="true" {
                 stopAt
             );
         }
-        if (context == 'sql') {
-            return printSQL(
+        if (context == 'sql' || context == 'javascript') {
+            return printWithIndentPreserve(
                 cftokens,
                 settings,
                 indent,
                 columnOffset,
-                stopAt
+                stopAt,
+                context
             );
         }
         throw('Invalid context passed to tag printer.');
@@ -138,12 +139,13 @@ component accessors="true" {
         return formattedText;
     }
 
-    function printSQL(
+    function printWithIndentPreserve(
         cftokens,
         settings,
         indent,
         columnOffset = indent * settings.indent_size,
-        stopAt = []
+        stopAt = [],
+        context
     ) {
         var formattedText = '';
 
@@ -163,7 +165,7 @@ component accessors="true" {
                     settings,
                     indent,
                     columnOffset,
-                    'sql'
+                    context
                 );
             } else {
                 var txt = token[1];
