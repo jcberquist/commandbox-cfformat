@@ -29,6 +29,9 @@ component extends=tests.FormatBaseSpec {
             it('aligns param attributes', function() {
                 runTests(loadData('alignParamAttributes'));
             });
+            it('aligns doc comment param and throws descriptions', function() {
+                runTests(loadData('alignDocComments'));
+            });
         });
     }
 

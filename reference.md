@@ -54,6 +54,28 @@ property name="requestService" inject="coldbox:requestService";
 property name="log" inject="logbox:logger:{this}";
 ```
 
+## alignment.doc_comments
+
+Type: _boolean_
+
+Default: **false**
+
+When true, cfformat will attempt to align the @param descriptions and @throws descriptions in doc comments.
+
+```cfc
+// alignment.doc_comments: true
+/**
+ * @name test
+ * @b    another param
+ */
+
+// alignment.doc_comments: false
+/**
+ * @name test
+ * @b another param
+ */
+```
+
 ## array.empty_padding
 
 Type: _boolean_

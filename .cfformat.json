@@ -2,6 +2,7 @@
     "alignment.consecutive.assignments": false,
     "alignment.consecutive.params": false,
     "alignment.consecutive.properties": false,
+    "alignment.doc_comments": false,
     "array.empty_padding": false,
     "array.multiline.comma_dangle": false,
     "array.multiline.element_count": 4,

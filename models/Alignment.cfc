@@ -36,6 +36,17 @@ component accessors="true" {
         '(?:"[^"]*"|''[^'']*''|#identifier#)', // attribute value
         ')?' // attribute value is optional
     ];
+    variables.docParamRegex = [
+        '^([ \t]*\*\s*)', // leading indentation and *
+        '(?!(?i:@throws|@return))', // not @throws or @return
+        '(@#identifier#)', // param name
+        '([^\r\n]*)\r?\n' // param description (rest of the line)
+    ];
+    variables.docThrowsRegex = [
+        '^([ \t]*\*\s*)', // leading indentation and *
+        '(?i:(@throws\s+#identifier#))',
+        '([^\r\n]*)\r?\n' // throws description (rest of the line)
+    ];
 
     function init() {
         var patternClass = createObject('java', 'java.util.regex.Pattern');
@@ -45,6 +56,9 @@ component accessors="true" {
         variables.propertiesPattern = patternClass.compile(propertiesRegex.toList(''), 8);
         variables.paramsPattern = patternClass.compile(propertiesRegex.toList('').replace('property', 'param'), 8);
         variables.attributePattern = patternClass.compile(attributeRegex.toList(''), 8);
+        variables.docParamPattern = patternClass.compile(docParamRegex.toList(''), 8);
+        variables.docThrowsPattern = patternClass.compile(docThrowsRegex.toList(''), 8);
+
         return this;
     }
 
@@ -151,6 +165,59 @@ component accessors="true" {
         return src;
     }
 
+    string function alignDocComments(required string src) {
+        var replacements = [];
+        var ranges = stringRanges.walk(src);
+
+        for (var matcher in [docParamPattern.matcher(src), docThrowsPattern.matcher(src)]) {
+            var index = 0;
+            var strRanges = {index: 1, ranges: ranges};
+
+            while (matcher.find(index)) {
+                index = matcher.end();
+
+                if (!inDocRange(matcher.start(2), strRanges)) {
+                    continue;
+                }
+
+                var group = [matcher.toMatchResult()];
+                var indent = matcher.group(1);
+
+                while (true) {
+                    matcher.region(index, len(src));
+
+                    if (matcher.lookingAt()) {
+                        if (
+                            inDocRange(matcher.start(2), strRanges) &&
+                            len(indent) == len(matcher.group(1))
+                        ) {
+                            group.append(matcher.toMatchResult());
+                            index = matcher.end();
+                            continue;
+                        }
+                    }
+
+                    if (arrayLen(group) > 1) {
+                        replacements.append(parseDocParamGroup(group), true);
+                    }
+                    break;
+                }
+            }
+        }
+
+        replacements.sort(function(a, b) {
+            if (a.start > b.start) return 1;
+            if (a.start < b.start) return -1;
+            return 0;
+        });
+
+        for (var replacement in replacements.reverse()) {
+            src = src.substring(0, replacement.start) & replacement.line & src.substring(replacement.end);
+        }
+
+        return src;
+    }
+
     private function parseAssignmentGroup(group) {
         var longestKey = getLongestAssignmentKey(group);
         var output = [];
@@ -214,6 +281,26 @@ component accessors="true" {
         return longestValues;
     }
 
+    private function parseDocParamGroup(group) {
+        var longestName = getLongestDocParamName(group);
+        var output = [];
+        for (var match in group) {
+            var line = match.group(2);
+            line &= repeatString(' ', longestName - line.len());
+            line &= ' ' & match.group(3).ltrim();
+            output.append({start: match.start(2), end: match.end(3), line: line.trim()});
+        }
+        return output;
+    }
+
+    private function getLongestDocParamName(group) {
+        var longest = 0;
+        for (var m in group) {
+            longest = max(longest, m.end(2) - m.start(2));
+        }
+        return longest;
+    }
+
     private function inStringRange(idx, strRanges) {
         while (
             strRanges.ranges.len() >= strRanges.index &&
@@ -224,6 +311,23 @@ component accessors="true" {
         return (
             strRanges.ranges.len() >= strRanges.index &&
             strRanges.ranges[strRanges.index].start <= idx
+        );
+    }
+
+    private function inDocRange(idx, strRanges) {
+        while (
+            strRanges.ranges.len() >= strRanges.index &&
+            (
+                strRanges.ranges[strRanges.index].end - 1 < idx ||
+                strRanges.ranges[strRanges.index].name != 'doc_comment'
+            )
+        ) {
+            strRanges.index++;
+        }
+        return (
+            strRanges.ranges.len() >= strRanges.index &&
+            strRanges.ranges[strRanges.index].start <= idx &&
+            strRanges.ranges[strRanges.index].name == 'doc_comment'
         );
     }
 

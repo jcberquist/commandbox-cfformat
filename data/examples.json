@@ -11,6 +11,10 @@
         "true":"// alignment.consecutive.properties: true\nproperty name=\"requestService\" inject=\"coldbox:requestService\";\nproperty name=\"log\"            inject=\"logbox:logger:{this}\";",
         "false":"// alignment.consecutive.properties: false\nproperty name=\"requestService\" inject=\"coldbox:requestService\";\nproperty name=\"log\" inject=\"logbox:logger:{this}\";"
     },
+    "alignment.doc_comments":{
+        "true":"// alignment.doc_comments: true\n/**\n * @name test\n * @b    another param\n */",
+        "false":"// alignment.doc_comments: false\n/**\n * @name test\n * @b another param\n */"
+    },
     "array.empty_padding":{
         "true":"// array.empty_padding: true\nmyArray = [ ];",
         "false":"// array.empty_padding: false\nmyArray = [];"

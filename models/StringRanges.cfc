@@ -2,6 +2,7 @@ component {
 
     variables.CFSCRIPT = [
         'line_comment',
+        'doc_comment',
         'multiline_comment',
         'string_single',
         'string_double',
@@ -52,6 +53,7 @@ component {
         escaped_single_quote: ['''''', '(?=.)', [], 'first'],
         hash: ['##', '##', CFSCRIPT, 'first'],
         line_comment: ['//', '\n', [], 'first'],
+        doc_comment: ['/\*\*', '\*/', [], 'first'],
         multiline_comment: ['/\*', '\*/', [], 'first'],
         string_double: [
             '"',
@@ -110,6 +112,7 @@ component {
                         'string_single',
                         'string_double',
                         'line_comment',
+                        'doc_comment',
                         'multiline_comment',
                         'tag_comment',
                         'cfquery_tag'

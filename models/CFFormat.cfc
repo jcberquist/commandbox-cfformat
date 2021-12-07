@@ -207,6 +207,9 @@ component accessors="true" {
         if (settings['alignment.consecutive.params']) {
             formatted = this.alignment.alignAttributes(formatted, 'params');
         }
+        if (settings['alignment.doc_comments']) {
+            formatted = this.alignment.alignDocComments(formatted);
+        }
 
         return bom & formatted;
     }

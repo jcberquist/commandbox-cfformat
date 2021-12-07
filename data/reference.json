@@ -20,6 +20,13 @@
         },
         "type": "boolean"
     },
+    "alignment.doc_comments": {
+        "description": "When true, cfformat will attempt to align the @param descriptions and @throws descriptions in doc comments.",
+        "example": {
+            "code": "/**\n * @name test\n * @b another param\n */"
+        },
+        "type": "boolean"
+    },
     "array.empty_padding": {
         "description": "When true, empty arrays are padded with a space.",
         "example": {
