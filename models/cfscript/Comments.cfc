@@ -42,6 +42,17 @@ component {
 
         if (!cftokens.nextIsElement()) return;
 
+        // before collecting the comment, check to see if we are inside a tag
+        var nextElement = cftokens.peek();
+        if (nextElement.elements.len() && nextElement.elements[1][2].find('meta.tag.cfml')) {
+            return cfformat.cftags.tagComments.print(
+                cftokens,
+                settings,
+                indent,
+                columnOffset
+            );
+        }
+
         var element = cftokens.next(false);
 
         // start by rendering literally

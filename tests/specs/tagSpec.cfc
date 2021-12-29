@@ -32,6 +32,9 @@ component extends=tests.FormatBaseSpec {
             it('correctly avoids an indent on empty lines inside of a tag body', function() {
                 runTests(loadData('tagWhitespaceIndent'));
             });
+            it('preserves tag comments inside of tags with script', function() {
+                runTests(loadData('tagScriptComment'));
+            });
         });
     }
 
