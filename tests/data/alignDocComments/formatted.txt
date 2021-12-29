@@ -10,11 +10,11 @@ component {
      * @storeInContext By default, the token will be stored in the request context
      * @authenticate   By default, the token will be authenticated, you can disable it and do manual authentication.
      *
+     * @return The payload for convenience
+     *
      * @throws TokenExpiredException  If the token has expired or no longer in the storage (invalidated)
      * @throws TokenInvalidException  If the token doesn't verify decoding
      * @throws TokenNotFoundException If the token cannot be found in the headers
-     *
-     * @returns The payload for convenience
      */
     struct function parseToken(
         string token = discoverToken(),

@@ -36,16 +36,16 @@ component accessors="true" {
         '(?:"[^"]*"|''[^'']*''|#identifier#)', // attribute value
         ')?' // attribute value is optional
     ];
-    variables.docParamRegex = [
-        '^([ \t]*\*\s*)', // leading indentation and *
-        '(?!(?i:@throws|@return))', // not @throws or @return
-        '(@#identifier#)', // param name
-        '([^\r\n]*)\r?\n' // param description (rest of the line)
-    ];
-    variables.docThrowsRegex = [
-        '^([ \t]*\*\s*)', // leading indentation and *
-        '(?i:(@throws\s+#identifier#))',
-        '([^\r\n]*)\r?\n' // throws description (rest of the line)
+    variables.docLineRegex = [
+        '^([ \t]*\*)', // leading indentation and *
+        '[ \t]*', // any whitespace
+        '(',
+        '(?:@throws #identifier#)', // throws
+        '|',
+        '@#identifier#', // param or return
+        ')?', // this is optional
+        '[ \t]*', // any whitespace
+        '([^\r\n]*\r?\n)' // rest of the line
     ];
 
     function init() {
@@ -56,9 +56,7 @@ component accessors="true" {
         variables.propertiesPattern = patternClass.compile(propertiesRegex.toList(''), 8);
         variables.paramsPattern = patternClass.compile(propertiesRegex.toList('').replace('property', 'param'), 8);
         variables.attributePattern = patternClass.compile(attributeRegex.toList(''), 8);
-        variables.docParamPattern = patternClass.compile(docParamRegex.toList(''), 8);
-        variables.docThrowsPattern = patternClass.compile(docThrowsRegex.toList(''), 8);
-
+        variables.docLinePattern = patternClass.compile(docLineRegex.toList(''), 8);
         return this;
     }
 
@@ -166,53 +164,115 @@ component accessors="true" {
     }
 
     string function alignDocComments(required string src) {
-        var replacements = [];
         var ranges = stringRanges.walk(src);
+        var replacements = [];
 
-        for (var matcher in [docParamPattern.matcher(src), docThrowsPattern.matcher(src)]) {
+        for (var range in ranges) {
+            if (range.name != 'doc_comment') {
+                continue;
+            }
+
+            var docComment = src.substring(range.start, range.end);
+
+            if (!docComment.find(chr(10))) {
+                continue;
+            }
+
+            var lf = docComment.find(chr(13)) ? chr(13) & chr(10) : chr(10);
+            var matcher = docLinePattern.matcher(docComment);
             var index = 0;
-            var strRanges = {index: 1, ranges: ranges};
+            var indent = '';
+            var emptyLine = '';
+
+            var lines = {
+                docs: [],
+                params: [],
+                return: [],
+                throws: [],
+                maxThrowLen: 0,
+                maxParamLen: 0
+            }
 
             while (matcher.find(index)) {
                 index = matcher.end();
-
-                if (!inDocRange(matcher.start(2), strRanges)) {
-                    continue;
+                indent = matcher.group(1);
+                emptyLine = indent & lf;
+                var restOfLine = (matcher.group(3) ?: '');
+                if (restOfLine.trim().len()) {
+                    restOfLine = ' ' & restOfLine;
                 }
 
-                var group = [matcher.toMatchResult()];
-                var indent = matcher.group(1);
-
-                while (true) {
-                    matcher.region(index, len(src));
-
-                    if (matcher.lookingAt()) {
-                        if (
-                            inDocRange(matcher.start(2), strRanges) &&
-                            len(indent) == len(matcher.group(1))
-                        ) {
-                            group.append(matcher.toMatchResult());
-                            index = matcher.end();
-                            continue;
-                        }
+                if (isNull(matcher.group(2))) {
+                    // this is a regular line
+                    if (
+                        matcher.group(0) != emptyLine ||
+                        !lines.docs.len() ||
+                        lines.docs.last() != emptyLine
+                    ) {
+                        lines.docs.append(indent & restOfLine);
                     }
+                } else {
+                    var tag = matcher.group(2);
 
-                    if (arrayLen(group) > 1) {
-                        replacements.append(parseDocParamGroup(group), true);
+                    if (tag == '@return' || tag == '@returns') {
+                        lines.return.append(indent & ' @return' & restOfLine);
+                    } else if (tag.startswith('@throws')) {
+                        lines.maxThrowLen = max(lines.maxThrowLen, tag.len());
+                        lines.throws.append([tag, restOfLine]);
+                    } else {
+                        lines.maxParamLen = max(lines.maxParamLen, tag.len());
+                        lines.params.append([tag, restOfLine]);
                     }
-                    break;
                 }
             }
+
+            // build the comment
+            var formattedLines = [];
+
+            formattedLines.append(lines.docs, true);
+
+            // params
+            if (lines.params.len()) {
+                if (formattedLines.len() && formattedLines.last() != emptyLine) {
+                    formattedLines.append(emptyLine);
+                }
+                for (var line in lines.params) {
+                    var formattedLine = indent & ' ' & line[1];
+                    formattedLine &= repeatString(' ', lines.maxParamLen - line[1].len());
+                    formattedLine &= line[2];
+                    formattedLines.append(formattedLine)
+                }
+            }
+
+            // return
+            if (lines.return.len()) {
+                if (formattedLines.len() && formattedLines.last() != emptyLine) {
+                    formattedLines.append(emptyLine);
+                }
+                formattedLines.append(lines.return, true);
+            }
+
+            // throws
+            if (lines.throws.len()) {
+                if (formattedLines.len() && formattedLines.last() != emptyLine) {
+                    formattedLines.append(emptyLine);
+                }
+                for (var line in lines.throws) {
+                    var formattedLine = indent & ' ' & line[1];
+                    formattedLine &= repeatString(' ', lines.maxThrowLen - line[1].len());
+                    formattedLine &= line[2];
+                    formattedLines.append(formattedLine)
+                }
+            }
+
+            var formatted = docComment.listFirst(chr(10)) & chr(10);
+            formatted &= formattedLines.toList('');
+            formatted &= docComment.listLast(chr(10));
+            replacements.append({start: range.start, end: range.end, docComment: formatted});
         }
 
-        replacements.sort(function(a, b) {
-            if (a.start > b.start) return 1;
-            if (a.start < b.start) return -1;
-            return 0;
-        });
-
         for (var replacement in replacements.reverse()) {
-            src = src.substring(0, replacement.start) & replacement.line & src.substring(replacement.end);
+            src = src.substring(0, replacement.start) & replacement.docComment & src.substring(replacement.end);
         }
 
         return src;
@@ -279,26 +339,6 @@ component accessors="true" {
             longestValues.append(longest);
         }
         return longestValues;
-    }
-
-    private function parseDocParamGroup(group) {
-        var longestName = getLongestDocParamName(group);
-        var output = [];
-        for (var match in group) {
-            var line = match.group(2);
-            line &= repeatString(' ', longestName - line.len());
-            line &= ' ' & match.group(3).ltrim();
-            output.append({start: match.start(2), end: match.end(3), line: line.trim()});
-        }
-        return output;
-    }
-
-    private function getLongestDocParamName(group) {
-        var longest = 0;
-        for (var m in group) {
-            longest = max(longest, m.end(2) - m.start(2));
-        }
-        return longest;
     }
 
     private function inStringRange(idx, strRanges) {
