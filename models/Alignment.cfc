@@ -39,13 +39,12 @@ component accessors="true" {
     ];
     variables.docLineRegex = [
         '^([ \t]*\*)', // leading indentation and *
-        '[ \t]*', // any whitespace
+        '(?:[ \t]*',
         '(',
-        '(?:@throws #identifier#)', // throws
+        '@throws #identifier#', // throws
         '|',
         docParam, // param or return
-        ')?', // this is optional
-        '[ \t]*', // any whitespace
+        '))?', // this is optional
         '([^\r\n]*\r?\n)' // rest of the line
     ];
 
@@ -184,6 +183,7 @@ component accessors="true" {
             var index = 0;
             var indent = '';
             var emptyLine = '';
+            var restOfLine = '';
 
             var lines = {
                 docs: [],
@@ -198,10 +198,7 @@ component accessors="true" {
                 index = matcher.end();
                 indent = matcher.group(1);
                 emptyLine = indent & lf;
-                var restOfLine = (matcher.group(3) ?: '');
-                if (restOfLine.trim().len()) {
-                    restOfLine = ' ' & restOfLine;
-                }
+                restOfLine = (matcher.group(3) ?: '');
 
                 if (isNull(matcher.group(2))) {
                     // this is a regular line
@@ -214,6 +211,10 @@ component accessors="true" {
                     }
                 } else {
                     var tag = matcher.group(2);
+
+                    if (restOfLine.trim().len()) {
+                        restOfLine = ' ' & restOfLine.ltrim();
+                    }
 
                     if (tag == '@return' || tag == '@returns') {
                         lines.return.append(indent & ' @return' & restOfLine);

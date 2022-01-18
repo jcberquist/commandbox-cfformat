@@ -2,10 +2,14 @@
 component {
 
     /**
+     * <pre>
      * Try's to get a jwt token from the authorization header or the custom header
-     * defined in the configuration or passed in by you. If it is a valid token and it decodes we will then
-     * continue to validate the subject it represents.  Once those are satisfied, then it will
-     * store it in the `prc` as `prc.jwt_token` and the payload as `prc.jwt_payload`.
+     * defined in the configuration or passed in by you.
+     *
+     * if (true) {
+     *   doSomething();
+     * }
+     * </pre>
      *
      * @token The token to parse and validate, if not passed we call the discoverToken() method for you.
      * @storeInContext By default, the token will be stored in the request context
