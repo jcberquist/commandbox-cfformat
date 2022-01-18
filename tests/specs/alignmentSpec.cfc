@@ -32,6 +32,9 @@ component extends=tests.FormatBaseSpec {
             it('aligns doc comment param and throws descriptions', function() {
                 runTests(loadData('alignDocComments'));
             });
+            it('ignores doc comments where not every line starts with an asterisk', function() {
+                runTests(loadData('alignDocCommentsIgnore'));
+            });
         });
     }
 

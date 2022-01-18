@@ -178,6 +178,15 @@ component accessors="true" {
                 continue;
             }
 
+            var lines = docComment.listToArray(chr(10));
+            if (lines.len() < 3) {
+                continue;
+            }
+
+            if (arrayFind(lines.slice(2, lines.len() - 1), (l) => !l.ltrim().startswith('*'))) {
+                continue;
+            }
+
             var lf = docComment.find(chr(13)) ? chr(13) & chr(10) : chr(10);
             var matcher = docLinePattern.matcher(docComment);
             var index = 0;
