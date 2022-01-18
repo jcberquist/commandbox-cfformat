@@ -10,6 +10,7 @@ component {
      * @token The token to parse and validate, if not passed we call the discoverToken() method for you.
      * @storeInContext By default, the token will be stored in the request context
      * @authenticate By default, the token will be authenticated, you can disable it and do manual authentication.
+     * @mxunit:expectedException InvalidException
      *
      * @throws TokenExpiredException If the token has expired or no longer in the storage (invalidated)
      * @throws TokenInvalidException If the token doesn't verify decoding

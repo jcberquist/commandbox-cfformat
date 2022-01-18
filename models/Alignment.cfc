@@ -1,6 +1,7 @@
 component accessors="true" {
 
     variables.identifier = '[A-Za-z0-9$._]+';
+    variables.docParam = '@[A-Za-z0-9$._:]+';
 
     variables.assignmentRegex = [
         '^([ \t,]*)', // leading indentation
@@ -42,7 +43,7 @@ component accessors="true" {
         '(',
         '(?:@throws #identifier#)', // throws
         '|',
-        '@#identifier#', // param or return
+        docParam, // param or return
         ')?', // this is optional
         '[ \t]*', // any whitespace
         '([^\r\n]*\r?\n)' // rest of the line
