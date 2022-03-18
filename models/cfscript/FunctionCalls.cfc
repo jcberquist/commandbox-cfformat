@@ -59,6 +59,13 @@ component {
 
         var element = cftokens.next(false);
 
+        var startsWithNewline = (
+            element.delimited_elements[1].len() &&
+            isArray(element.delimited_elements[1][1]) &&
+            element.delimited_elements[1][1].len() &&
+            element.delimited_elements[1][1][1].endswith(chr(10))
+        );
+
         var printedElements = cfformat.delimited.printElements(element, settings, indent);
         var spacer = settings['function_call.padding'] ? ' ' : '';
         var delimiter = ', ';
@@ -86,11 +93,26 @@ component {
                 })
                 .toList();
 
+            var stringArg = tokenArrays
+                .map((_cftokens) => {
+                    var token = _cftokens.peek(true);
+                    return (
+                        !isNull(token) &&
+                        isStruct(token) &&
+                        ['string-single', 'string-double'].find(token.type)
+                    );
+                })
+                .toList();
+
             var inlineElements = [];
             var inlinePrint = false;
 
             // special case anonymous function arguments and single struct or array params
-            if (anonFuncs == 'true' || structOrArray == 'true') {
+            if (
+                anonFuncs == 'true' ||
+                structOrArray == 'true' ||
+                (!startsWithNewline && stringArg == 'true')
+            ) {
                 inlineElements.append(cfformat.cfscript.print(tokenArrays[1], settings, indent).trim());
                 inlinePrint = true;
             } else if (anonFuncs == 'true,false') {

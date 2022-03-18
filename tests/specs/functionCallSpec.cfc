@@ -11,6 +11,9 @@ component extends=tests.FormatBaseSpec {
             it('special cases single struct or array parameters', function() {
                 runTests(loadData('functionCallStructOrArray'));
             });
+            it('special cases single string parameters', function() {
+                runTests(loadData('functionCallSingleString'));
+            });
             it('preserves line comments', function() {
                 runTests(loadData('functionCallWithComments'));
                 runTests(loadData('functionCallCommentsLeadingComma'));
