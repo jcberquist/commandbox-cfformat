@@ -1,7 +1,7 @@
 component accessors="true" {
 
     variables.identifier = '[A-Za-z0-9$._]+';
-    variables.docParam = '@[A-Za-z0-9$._:]+';
+    variables.docParam = '@[A-Za-z0-9$._:-]+';
 
     variables.assignmentRegex = [
         '^([ \t,]*)', // leading indentation
