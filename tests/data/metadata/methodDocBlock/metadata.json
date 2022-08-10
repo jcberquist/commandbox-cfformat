@@ -1,0 +1,18 @@
+{
+    "functions": [
+        {
+            "hint": "checks for the default image and default shell",
+            "name": "test",
+            "parameters": [
+                {
+                    "def": "random",
+                    "hint": "is a parameter",
+                    "name": "abc",
+                    "required": "true",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "properties": []
+}

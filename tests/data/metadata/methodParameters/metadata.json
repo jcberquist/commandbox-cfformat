@@ -1,0 +1,17 @@
+{
+    "functions": [
+        {
+            "name": "abc",
+            "parameters": [
+                {
+                    "default": 7,
+                    "description": "my cool function",
+                    "name": "def",
+                    "required": true,
+                    "type": "numeric"
+                }
+            ]
+        }
+    ],
+    "properties": []
+}

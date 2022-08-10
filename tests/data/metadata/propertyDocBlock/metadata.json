@@ -1,0 +1,10 @@
+{
+    "functions": [],
+    "properties": [
+        {
+            "prop": "test test test",
+            "hint": "test hint",
+            "name": "test"
+        }
+    ]
+}

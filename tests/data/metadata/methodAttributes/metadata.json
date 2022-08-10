@@ -1,0 +1,11 @@
+{
+    "functions": [
+        {
+            "a": "b",
+            "description": "test description",
+            "name": "test",
+            "parameters": []
+        }
+    ],
+    "properties": []
+}

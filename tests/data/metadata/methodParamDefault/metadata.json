@@ -1,0 +1,14 @@
+{
+    "functions": [
+        {
+            "name": "test",
+            "parameters": [
+                {
+                    "default": "{}",
+                    "name": "a",
+                }
+            ]
+        }
+    ],
+    "properties": []
+}

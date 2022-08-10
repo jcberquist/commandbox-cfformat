@@ -1,0 +1,9 @@
+{
+    "functions": [
+        {
+            "name": "test",
+            "parameters": []
+        }
+    ],
+    "properties": []
+}

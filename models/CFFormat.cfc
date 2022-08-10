@@ -24,6 +24,7 @@ component accessors="true" {
         this.alignment = new Alignment();
         this.tagcheck = new TagCheck(this, lf);
         this.stats = new Stats(this, lf);
+        this.metadata = new Metadata(this);
         this.cfscript.construct();
         this.cftags.construct();
         return this;
@@ -137,11 +138,12 @@ component accessors="true" {
 
                 if (fileExists(target & '.json')) {
                     var tokenJSON = fileRead(target & '.json', 'utf-8');
-                    if (!isJSON(tokenJSON)) {
+                    try {
+                        var tokens = deserializeJSON(tokenJSON);
+                    } catch (any e) {
                         // file exists, but hasn't had JSON written out to it yet
                         return;
                     }
-                    var tokens = deserializeJSON(tokenJSON);
                     try {
                         formatted = format(tokens, mergedSettings(settingsMap[src]));
                     } catch (any e) {
@@ -228,10 +230,11 @@ component accessors="true" {
         var bufferedReader = createObject('java', 'java.io.BufferedReader').init(inputStreamReader);
         var collector = createObject('java', 'java.util.stream.Collectors').joining(variables.lf);
         var tokens = bufferedReader.lines().collect(collector);
-        if (!isJSON(tokens)) {
+        try {
+            return deserializeJSON(tokens);
+        } catch (any e) {
             throw(tokens);
         }
-        return deserializeJSON(tokens);
     }
 
     function cftokensDirectory(cmd, fullSrcPath, fullTempPath) {

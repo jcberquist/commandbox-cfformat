@@ -1,0 +1,17 @@
+{
+    "functions": [
+        {
+            "access": "public",
+            "name": "test",
+            "parameters": [],
+            "returntype": "string",
+            "static": true
+        },
+        {
+            "name": "getMyComponent",
+            "parameters": [],
+            "returntype": "MyComponent"
+        }
+    ],
+    "properties": []
+}

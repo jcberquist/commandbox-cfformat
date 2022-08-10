@@ -1,8 +1,5 @@
 component extends=testbox.system.BaseSpec {
 
-    function run() {
-    }
-
     function runTests(data, debugFormat = false) {
         var cfformat = new models.CFFormat('', expandPath('/'));
         data.settings.each(function(settings, index) {
@@ -21,8 +18,8 @@ component extends=testbox.system.BaseSpec {
     }
 
     function loadData(testKey) {
-        var testPath = expandPath('/tests/data/').replace('\', '/', 'all');
-        var tokenPath = expandPath('/tests/json/').replace('\', '/', 'all');
+        var testPath = expandPath('/tests/data/format/').replace('\', '/', 'all');
+        var tokenPath = expandPath('/tests/json/format/').replace('\', '/', 'all');
         var data = {
             'tokens': deserializeJSON(fileRead(tokenPath & '#testKey#/source.json', 'utf-8')),
             'settings': deserializeJSON(fileRead(testPath & '#testKey#/settings.json', 'utf-8')),
@@ -37,7 +34,7 @@ component extends=testbox.system.BaseSpec {
     }
 
     function loadExprTokens(testKey) {
-        var tokenPath = expandPath('/tests/json/exprTests/').replace('\', '/', 'all');
+        var tokenPath = expandPath('/tests/json/format/exprTests/').replace('\', '/', 'all');
         var tokens = deserializeJSON(fileRead(tokenPath & '#testKey#.json', 'utf-8'));
         var cfformat = new models.CFFormat('', expandPath('/'));
         var cftokens = cfformat.cftokens(tokens.elements.slice(3)); // ignore leading `//`

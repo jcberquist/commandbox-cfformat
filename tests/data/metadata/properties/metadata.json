@@ -1,0 +1,16 @@
+{
+    "functions": [],
+    "properties": [
+        {
+            "name": "a",
+            "type": "string"
+        },
+        {
+            "name": "b",
+            "type": "string"
+        },
+        {
+            "name": "c"
+        }
+    ]
+}
