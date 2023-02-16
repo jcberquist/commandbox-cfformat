@@ -11,6 +11,9 @@ component extends=tests.FormatBaseSpec {
             it('handles interfaces', function() {
                 runTests(loadData('interface'));
             });
+            it('handles the abstract keyword correctly', function() {
+                runTests(loadData('componentAbstract'));
+            });
         });
     }
 

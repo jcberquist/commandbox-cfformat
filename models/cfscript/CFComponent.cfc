@@ -27,7 +27,10 @@ component {
 
         var tokens = [];
         do {
-            tokens.append(cftokens.next()[1]);
+            var nextToken = cftokens.next()[1];
+            if (nextToken.trim().len()) {
+                tokens.append(nextToken);
+            }
         } while (tokens.last() != 'component' && tokens.last() != 'interface');
 
         var formattedText = tokens.toList(' ');
