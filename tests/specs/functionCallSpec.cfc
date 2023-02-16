@@ -19,7 +19,7 @@ component extends=tests.FormatBaseSpec {
                 runTests(loadData('functionCallCommentsLeadingComma'));
             });
             it('formats the casing of built in function calls', function() {
-                runTests(loadData('functionCallBuiltinCasing'));
+                runTests(loadData('functionCallBuiltInCasing'));
             });
             it('can format the casing of user defined function calls', function() {
                 runTests(loadData('functionCallUdCasing'));
