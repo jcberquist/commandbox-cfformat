@@ -22,14 +22,25 @@ component accessors="true" aliases="fmt" {
      * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
      * @cfm format cfm files as well as cfc - use with caution, preferably on pure CFML cfm files
+     * @staged Flag to run against staged files in git only. Overwrites `path` when used. Changes will also be staged.
      */
     function run(
         string path = '',
         string settingsPath = '',
         boolean overwrite = false,
         boolean timeit = false,
-        boolean cfm = false
+        boolean cfm = false,
+        boolean staged = false
     ) {
+        if (arguments.staged) {
+            arguments.path = getStagedFiles();
+            if (!arguments.path.len()) {
+                print.yellowLine('No staged files to format.');
+                return;
+            }
+            arguments.overwrite = true;
+        }
+
         var pathData = cfformatUtils.resolveFormatPath(path, cfm);
 
         if (path.len() && !pathData.filePaths.len()) {
@@ -53,6 +64,10 @@ component accessors="true" aliases="fmt" {
                 overwrite,
                 timeit
             );
+        }
+
+        if (arguments.staged) {
+            commitFormattedStagedFiles(listToArray(arguments.path));
         }
     }
 
@@ -166,6 +181,44 @@ component accessors="true" aliases="fmt" {
             }
             print.aquaLine('Formatting completed in ' & totalTime);
         }
+    }
+
+    function getGitApi() {
+        if (!structKeyExists(variables, 'gitApi')) {
+            var CWD = cfformatUtils.resolvePath('');
+            var repoPath = CWD & '.git';
+
+            var builder = createObject('java', 'org.eclipse.jgit.storage.file.FileRepositoryBuilder').init();
+            var gitDir = createObject('java', 'java.io.File').init(repoPath);
+
+            var repository = builder
+                .setGitDir(gitDir)
+                .setMustExist(true)
+                .readEnvironment() // scan environment GIT_* variables
+                .findGitDir() // scan up the file system tree
+                .build();
+            variables.gitApi = createObject('java', 'org.eclipse.jgit.api.Git').init(repository);
+        }
+
+        return variables.gitApi;
+    }
+
+    string function getStagedFiles() {
+        var status = getGitApi().status().call();
+
+        var filesToFormat = [];
+        filesToFormat.append(status.getAdded().toArray(), true);
+        filesToFormat.append(status.getChanged().toArray(), true);
+
+        return arrayToList(filesToFormat);
+    }
+
+    void function commitFormattedStagedFiles(required array files) {
+        var addCommand = getGitApi().add();
+        for (var file in arguments.files) {
+            addCommand.addFilepattern(file);
+        }
+        addCommand.call();
     }
 
 }
