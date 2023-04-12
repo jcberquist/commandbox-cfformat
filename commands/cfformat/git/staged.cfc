@@ -1,15 +1,12 @@
 /**
- * Formats script and tag components
+ * Formats script and tag components that are staged for commit in Git
  *
  * {code:bash}
- * cfformat run path/to/MyComponent.cfc
- * cfformat run path/to/mycomponents/
+ * cfformat git staged
+ * cfformat git staged path/to/git/directory
  * {code}
- *
- * Globs may be used when passing paths to cfformat.
- *
  */
-component accessors="true" aliases="fmt" {
+component accessors="true" aliases="fmt-staged" {
 
     property cfformat inject="CFFormat@commandbox-cfformat";
     property cfformatUtils inject="cfformatutils@commandbox-cfformat";
@@ -17,20 +14,25 @@ component accessors="true" aliases="fmt" {
     property tempDir inject="tempDir@constants";
 
     /**
-     * @path component or directory path
+     * @directory git directory path to format staged files and add the files with any changes to the working directory
      * @settingsPath path to a JSON settings file
-     * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
      * @cfm format cfm files as well as cfc - use with caution, preferably on pure CFML cfm files
-     * @staged Flag to run against staged files in git only. Overwrites `path` when used. Changes will also be staged.
      */
     function run(
-        string path = '',
+        string directory = '',
         string settingsPath = '',
-        boolean overwrite = false,
         boolean timeit = false,
         boolean cfm = false
     ) {
+        var gitApi = buildGitApi(arguments.directory);
+        var path = getStagedFiles(gitApi);
+
+        if (!path.len()) {
+            print.yellowLine('No staged files to format.');
+            return;
+        }
+
         var pathData = cfformatUtils.resolveFormatPath(path, cfm);
 
         if (path.len() && !pathData.filePaths.len()) {
@@ -42,35 +44,27 @@ component accessors="true" aliases="fmt" {
 
         if (pathData.pathType == 'file') {
             formatFile(
-                pathData.filePaths[1],
-                userSettings.paths[pathData.filePaths[1]],
-                overwrite,
-                timeit
+                fullPath = pathData.filePaths[1],
+                settings = userSettings.paths[pathData.filePaths[1]],
+                timeit = timeit
             )
         } else {
             formatFiles(
-                pathData.filePaths,
-                userSettings.paths,
-                overwrite,
-                timeit
+                paths = pathData.filePaths,
+                settings = userSettings.paths,
+                timeit = timeit
             );
         }
 
-        if (arguments.staged) {
-            commitFormattedStagedFiles(listToArray(arguments.path));
-        }
+        commitFormattedStagedFiles(listToArray(path), gitApi);
     }
 
-    function formatFile(fullPath, settings, overwrite, timeit) {
+    function formatFile(fullPath, settings, timeit) {
         var start = getTickCount();
         var formatted = cfformat.formatFile(fullPath, settings);
         var timeTaken = getTickCount() - start;
 
-        if (overwrite) {
-            fileWrite(fullPath, formatted, 'utf-8');
-        } else {
-            print.line(formatted);
-        }
+        fileWrite(fullPath, formatted, 'utf-8');
 
         if (timeit) {
             print.line();
@@ -78,17 +72,7 @@ component accessors="true" aliases="fmt" {
         }
     }
 
-    function formatFiles(paths, settings, overwrite, timeit) {
-        if (!overwrite) {
-            overwrite = confirm(
-                'Running `cfformat` on multiple files will overwrite your components in place. Are you sure? [y/n]'
-            );
-            if (!overwrite) {
-                print.line('Aborting...');
-                return;
-            }
-        }
-
+    function formatFiles(paths, settings, timeit) {
         var interactive = shell.isTerminalInteractive();
         var fullTempPath = resolvePath(tempDir & '/' & createUUID().lcase() & '/');
         var result = {count: 0, failures: []};
@@ -171,6 +155,44 @@ component accessors="true" aliases="fmt" {
             }
             print.aquaLine('Formatting completed in ' & totalTime);
         }
+    }
+
+    function buildGitApi(string directory = '') {
+        var resolvedDirectory = cfformatUtils.resolvePath(arguments.directory);
+        var repoPath = resolvedDirectory & '.git';
+
+        if (!directoryExists(repoPath)) {
+            error( "[#resolvedDirectory#] is not a git project." );
+        }
+
+        var builder = createObject('java', 'org.eclipse.jgit.storage.file.FileRepositoryBuilder').init();
+        var gitDir = createObject('java', 'java.io.File').init(repoPath);
+
+        var repository = builder
+            .setGitDir(gitDir)
+            .setMustExist(true)
+            .readEnvironment() // scan environment GIT_* variables
+            .findGitDir() // scan up the file system tree
+            .build();
+        return createObject('java', 'org.eclipse.jgit.api.Git').init(repository);
+    }
+
+    string function getStagedFiles(required gitApi) {
+        var status = arguments.gitApi.status().call();
+
+        var filesToFormat = [];
+        filesToFormat.append(status.getAdded().toArray(), true);
+        filesToFormat.append(status.getChanged().toArray(), true);
+
+        return arrayToList(filesToFormat);
+    }
+
+    void function commitFormattedStagedFiles(required array files, required gitApi) {
+        var addCommand = arguments.gitApi.add();
+        for (var file in arguments.files) {
+            addCommand.addFilepattern(file);
+        }
+        addCommand.call();
     }
 
 }
