@@ -22,7 +22,6 @@ component accessors="true" aliases="fmt" {
      * @overwrite overwrite file in place
      * @timeit print the time formatting took to the console
      * @cfm format cfm files as well as cfc - use with caution, preferably on pure CFML cfm files
-     * @staged Flag to run against staged files in git only. Overwrites `path` when used. Changes will also be staged.
      */
     function run(
         string path = '',
@@ -54,10 +53,6 @@ component accessors="true" aliases="fmt" {
                 overwrite,
                 timeit
             );
-        }
-
-        if (arguments.staged) {
-            commitFormattedStagedFiles(listToArray(arguments.path));
         }
     }
 
