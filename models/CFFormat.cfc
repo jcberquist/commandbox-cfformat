@@ -79,6 +79,11 @@ component accessors="true" {
         return merged;
     }
 
+    function formatText(sourceText, settings = {}) {
+        var tokens = cftokensText('parse', sourceText);
+        return format(tokens, mergedSettings(settings));
+    }
+
     function formatFile(fullFilePath, settings = {}) {
         var tokens = cftokensFile('parse', fullFilePath);
         return format(tokens, mergedSettings(settings));
@@ -220,6 +225,29 @@ component accessors="true" {
             if (isStruct(token) && token.type.startswith('cftag')) return 'cftags';
         }
         return 'cftags';
+    }
+
+    function cftokensText(cmd, sourceText) {
+        var p = createObject('java', 'java.lang.ProcessBuilder').init([executable, cmd, '-']).start();
+
+        try {
+            var stdin = p.getOutputStream();
+            stdin.write(sourceText.getBytes());
+            stdin.flush();
+        } finally {
+            if (!isNull(stdin)) {
+                stdin.close();
+            }
+        }
+
+        var inputStreamReader = createObject('java', 'java.io.InputStreamReader').init(p.getInputStream(), 'utf-8');
+        var bufferedReader = createObject('java', 'java.io.BufferedReader').init(inputStreamReader);
+        var collector = createObject('java', 'java.util.stream.Collectors').joining(variables.lf);
+        var tokens = bufferedReader.lines().collect(collector);
+        if (!isJSON(tokens)) {
+            throw(tokens);
+        }
+        return deserializeJSON(tokens);
     }
 
     function cftokensFile(cmd, fullFilePath) {
