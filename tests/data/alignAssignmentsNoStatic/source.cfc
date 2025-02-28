@@ -1,0 +1,3 @@
+//
+Service::get("SampleService");
+API::assertUserLoggedIn();

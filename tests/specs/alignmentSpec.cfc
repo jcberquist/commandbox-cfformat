@@ -11,6 +11,9 @@ component extends=tests.FormatBaseSpec {
             it('correctly ignores the contents of cfquery tags', function() {
                 runTests(loadData('alignAssignmentsNoSQL'));
             });
+            it('correctly ignores static method calls', function() {
+                runTests(loadData('alignAssignmentsNoStatic'));
+            });
             it('aligns assignments with brackets', function() {
                 runTests(loadData('alignAssignmentsWithBrackets'));
             });
