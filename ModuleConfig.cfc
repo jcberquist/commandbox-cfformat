@@ -4,10 +4,7 @@ component {
     this.autoMapModels = false;
 
     function configure() {
-        settings = {
-            downloadURL: 'https://github.com/jcberquist/cftokens/releases/download/{version}/',
-            executable: ''
-        };
+        settings = {downloadURL: 'https://github.com/jcberquist/cftokens/releases/download/{version}/', executable: ''};
     }
 
     function onLoad() {

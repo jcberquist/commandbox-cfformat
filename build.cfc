@@ -129,10 +129,7 @@ component accessors="true" {
         var executableName = executable.find('_') ? 'cftokens' : 'cftokens.exe';
         var downloadURL = 'https://github.com/jcberquist/cftokens/releases/download/#cftokensVersion#/';
 
-        cftokens.ensureExecutableExists(
-            binFolder & executableName,
-            downloadURL & executable
-        );
+        cftokens.ensureExecutableExists(binFolder & executableName, downloadURL & executable);
     }
 
     function tokens(string path) {

@@ -49,11 +49,7 @@ component accessors="true" aliases="fmt-staged" {
                 timeit = timeit
             )
         } else {
-            formatFiles(
-                paths = pathData.filePaths,
-                settings = userSettings.paths,
-                timeit = timeit
-            );
+            formatFiles(paths = pathData.filePaths, settings = userSettings.paths, timeit = timeit);
         }
 
         commitFormattedStagedFiles(listToArray(path), gitApi);
@@ -162,7 +158,7 @@ component accessors="true" aliases="fmt-staged" {
         var repoPath = resolvedDirectory & '.git';
 
         if (!directoryExists(repoPath)) {
-            error( "[#resolvedDirectory#] is not a git project." );
+            error('[#resolvedDirectory#] is not a git project.');
         }
 
         var builder = createObject('java', 'org.eclipse.jgit.storage.file.FileRepositoryBuilder').init();
