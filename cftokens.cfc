@@ -59,7 +59,17 @@ component {
             var bufferedReader = createObject('java', 'java.io.BufferedReader').init(inputStreamReader);
             var collector = createObject('java', 'java.util.stream.Collectors').joining(chr(10));
             var output = bufferedReader.lines().collect(collector);
-            return output.findNoCase('musl') ? 'cftokens_linux_musl' : 'cftokens_linux';
+            var firstLine = output.listToArray(chr(10))[1];
+
+            if (!find('musl', firstLine) && reFind('\s\d\.\d+$', firstLine)) {
+                var semanticVersion = wirebox.getInstance('semanticVersion@semver');
+                var version = firstLine.listToArray(' ').last();
+                if (semanticVersion.compare(version, '2.35') > -1) {
+                    return 'cftokens_linux';
+                }
+            }
+
+            return 'cftokens_linux_musl';
         }
     }
 
