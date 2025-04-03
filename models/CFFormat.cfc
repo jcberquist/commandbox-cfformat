@@ -169,7 +169,7 @@ component accessors="true" {
                     fileCount - fileMap.count(),
                     fileCount
                 );
-            });
+            }, true /* parallel */);
         }
     }
 
