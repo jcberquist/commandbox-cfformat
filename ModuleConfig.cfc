@@ -2,6 +2,7 @@ component {
 
     this.cfmapping = 'cfformat';
     this.autoMapModels = false;
+    this.dependencies = ['semver'];
 
     function configure() {
         settings = {downloadURL: 'https://github.com/jcberquist/cftokens/releases/download/{version}/', executable: ''};
