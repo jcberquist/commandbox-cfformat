@@ -1,0 +1,7 @@
+{
+    "name":"cfformat-server",
+    "profile":"development",
+    "web":{
+        "host":"localhost"
+    }
+}
