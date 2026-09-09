@@ -3,7 +3,7 @@ component {
     property cfformat;
 
     variables.functionStart = ['meta.function.declaration.cfml', '*'];
-    variables.attrEnd = {scopes: [['punctuation.terminator.statement.cfml']], elements: ['block']};
+    variables.attrEnd = {scopes: [['punctuation.terminator.statement.']], elements: ['block']};
 
     function init(cfformat) {
         variables.cfformat = cfformat;
@@ -69,7 +69,7 @@ component {
 
             cftokens.consumeWhitespace(true);
 
-            if (cftokens.peekScopes(['punctuation.terminator.statement.cfml'])) {
+            if (cftokens.peekScopes(['punctuation.terminator.statement.'])) {
                 return formattedText;
             }
 
@@ -90,10 +90,7 @@ component {
 
         if (
             cftokens.peekElement('function-parameters') ||
-            (
-                cftokens.peekScopes(functionStart) &&
-                cftokens.peekScopeStartsWith('variable.parameter.function.cfml')
-            )
+            isSingleParamArrow(cftokens)
         ) {
             var parametersElement = cftokens.next(false);
             var arrowToken = cftokens.next(false);
@@ -121,17 +118,16 @@ component {
                 var blockTxt = cfformat.cfscript.blocks.print(cftokens, settings, indent);
                 formattedText &= blockTxt;
             } else {
-                var baseScopes = arrowToken[2]
-                    .slice(1, arrowToken[2].len() - 2)
-                    .append('meta.function.body.cfml')
-                    .toList();
                 var tokens = [];
                 while (cftokens.hasNext()) {
                     if (!cftokens.nextIsElement()) {
                         var nextToken = cftokens.peek();
-                        if (!isNull(nextToken)) {
-                            var peekTokenScopes = cftokens.peek()[2].toList();
-                            if (!peekTokenScopes.startsWith(baseScopes)) break;
+                        if (
+                            !isNull(nextToken) &&
+                            isArray(nextToken) &&
+                            !nextToken[2].find('meta.function.body.cfml')
+                        ) {
+                            break;
                         }
                     }
                     tokens.append(cftokens.next());
@@ -191,6 +187,24 @@ component {
         );
         formattedText &= settings.lf & cfformat.indentTo(indent, settings) & ')';
         return formattedText;
+    }
+
+    function isSingleParamArrow(cftokens) {
+        if (!cftokens.peekScopeStartsWith('variable.parameter.function.cfml')) {
+            return false;
+        }
+        var tokens = cftokens.getTokens();
+        var start = cftokens.getIndex();
+        for (var i = start + 1; i <= tokens.len(); i++) {
+            if (!isArray(tokens[i])) {
+                return false;
+            }
+            if (!tokens[i][1].trim().len()) {
+                continue;
+            }
+            return tokens[i][2].last().startswith('storage.type.function.arrow');
+        }
+        return false;
     }
 
 }

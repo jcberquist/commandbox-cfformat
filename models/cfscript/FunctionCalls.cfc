@@ -4,7 +4,6 @@ component {
     property name="builtins";
 
     variables.anonFuncScopes = [
-        'meta.function.anonymous.cfml',
         'meta.function.declaration.cfml',
         'storage.type.function.cfml'
     ];

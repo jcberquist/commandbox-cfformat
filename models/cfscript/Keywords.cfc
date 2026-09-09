@@ -2,18 +2,18 @@ component {
 
     property cfformat;
 
-    variables.forSemicolon = ['meta.for.cfml', 'meta.group.cfml', 'punctuation.terminator.statement.cfml'];
+    variables.forSemicolon = ['meta.for.cfml', 'meta.group.cfml', 'punctuation.separator.expression.cfml'];
     variables.keywordScopes = [
-        'keyword.control.loop.cfml',
-        'keyword.control.conditional.cfml',
-        'keyword.control.trycatch.cfml',
-        'keyword.control.switch.cfml'
+        'keyword.control.loop.',
+        'keyword.control.conditional.',
+        'keyword.control.exception.'
     ];
 
     function init(cfformat) {
         variables.cfformat = cfformat;
         cfformat.cfscript.register('keyword.control.', this);
         cfformat.cfscript.register('punctuation.terminator.', this);
+        cfformat.cfscript.register('punctuation.separator.expression.', this);
         return this;
     }
 
@@ -32,10 +32,9 @@ component {
 
         if (!cftokens.peekScopeStartsWith('keyword.control.')) return;
 
-        // check for switch
         if (
-            cftokens.peekScopeStartsWith('keyword.control.switch.') &&
-            !cftokens.peekText('switch')
+            cftokens.peekScopeStartsWith('keyword.control.conditional.case') ||
+            cftokens.peekScopeStartsWith('keyword.control.conditional.default')
         ) {
             return printSwitchCase(
                 cftokens,
@@ -152,7 +151,7 @@ component {
                     formatted &= settings.lf & cfformat.indentTo(indent, settings);
                 }
                 formatted &= blockFormatted;
-            } else if (!cftokens.tokenMatches(keywordToken, ['meta.do-while.cfml', 'keyword.control.loop.cfml'])) {
+            } else if (!cftokens.tokenMatches(keywordToken, ['meta.do-while.cfml', 'keyword.control.loop.'])) {
                 cftokens.consumeWhitespace(true);
                 var tokens = cftokens.collectExpr();
                 var statement = cfformat.cfscript.print(tokens, settings, indent + 1);
@@ -263,7 +262,10 @@ component {
                     settings,
                     indent + 1,
                     (indent + 1) * settings.indent_size,
-                    ['meta.switch.cfml', 'meta.block.cfml', 'keyword.control.switch']
+                    [
+                        ['meta.switch.cfml', 'meta.block.cfml', 'keyword.control.conditional.case'],
+                        ['meta.switch.cfml', 'meta.block.cfml', 'keyword.control.conditional.default']
+                    ]
                 )
                 .trim();
 

@@ -3,8 +3,7 @@ component {
     property cfformat;
 
     variables.binaryOperators = [
-        'keyword.operator.assignment.binary.cfml',
-        'keyword.operator.assignment.augmented.binary.cfml',
+        'keyword.operator.assignment.',
         'keyword.operator.arithmetic.binary.cfml',
         'keyword.operator.relational.binary.cfml',
         'keyword.operator.decision.binary.cfml',
@@ -75,8 +74,8 @@ component {
         }
 
         if (
-            cftokens.peekScopeStartsWith('keyword.operator.arithmetic.prefix.') ||
-            cftokens.peekScopeStartsWith('keyword.operator.logical.prefix.')
+            cftokens.peekScopeStartsWith('keyword.operator.arithmetic.cfml') ||
+            cftokens.peekScopeStartsWith('keyword.operator.logical.cfml')
         ) {
             var token = cftokens.next(whitespace = false);
             cftokens.consumeWhiteSpace(true);

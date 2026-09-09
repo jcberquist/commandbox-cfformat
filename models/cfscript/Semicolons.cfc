@@ -2,7 +2,7 @@ component {
 
     property cfformat;
 
-    variables.terminator = ['punctuation.terminator.statement.cfml'];
+    variables.terminator = ['punctuation.terminator.statement.'];
 
     function init(cfformat) {
         variables.cfformat = cfformat;
