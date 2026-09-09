@@ -3,11 +3,7 @@ component {
     property cfformat;
 
     variables.forSemicolon = ['meta.for.cfml', 'meta.group.cfml', 'punctuation.separator.expression.cfml'];
-    variables.keywordScopes = [
-        'keyword.control.loop.',
-        'keyword.control.conditional.',
-        'keyword.control.exception.'
-    ];
+    variables.keywordScopes = ['keyword.control.loop.', 'keyword.control.conditional.', 'keyword.control.exception.'];
 
     function init(cfformat) {
         variables.cfformat = cfformat;

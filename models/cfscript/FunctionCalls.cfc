@@ -3,10 +3,7 @@ component {
     property cfformat;
     property name="builtins";
 
-    variables.anonFuncScopes = [
-        'meta.function.declaration.cfml',
-        'storage.type.function.cfml'
-    ];
+    variables.anonFuncScopes = ['meta.function.declaration.cfml', 'storage.type.function.cfml'];
 
     function init(cfformat) {
         variables.cfformat = cfformat;
