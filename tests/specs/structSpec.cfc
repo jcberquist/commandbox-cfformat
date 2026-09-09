@@ -27,6 +27,9 @@ component extends=tests.FormatBaseSpec {
             it('can quote struct keys', function() {
                 runTests(loadData('structQuoteKeys'));
             });
+            it('can format ordered structs', function() {
+                runTests(loadData('structOrdered'));
+            });
         });
     }
 

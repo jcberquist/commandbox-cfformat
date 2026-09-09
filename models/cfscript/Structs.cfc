@@ -4,8 +4,14 @@ component {
 
     variables.structKey = 'meta.struct-literal.key.cfml';
     variables.structKeyValue = ['meta.struct-literal.cfml', 'punctuation.separator.key-value.cfml'];
+    variables.orderedStructKeyValue = ['meta.mapping.cfml', 'punctuation.separator.key-value.cfml'];
     variables.functionStructKeyValue = [
         'meta.struct-literal.cfml',
+        'meta.function.declaration.cfml',
+        'punctuation.separator.key-value.cfml'
+    ];
+    variables.orderedFunctionStructKeyValue = [
+        'meta.mapping.cfml',
         'meta.function.declaration.cfml',
         'punctuation.separator.key-value.cfml'
     ];
@@ -33,7 +39,12 @@ component {
             return token[1];
         }
 
-        if (cftokens.peekScopes(structKeyValue) || cftokens.peekScopes(functionStructKeyValue)) {
+        if (
+            cftokens.peekScopes(structKeyValue) ||
+            cftokens.peekScopes(orderedStructKeyValue) ||
+            cftokens.peekScopes(functionStructKeyValue) ||
+            cftokens.peekScopes(orderedFunctionStructKeyValue)
+        ) {
             var token = cftokens.next(whitespace = false);
             cftokens.consumeWhiteSpace(true);
             return settings['struct.separator'];
@@ -41,17 +52,25 @@ component {
 
         if (!cftokens.peekElement('struct')) return;
 
-        var printedElements = cfformat.delimited.printElements(cftokens.next(false), settings, indent);
+        var element = cftokens.next(false);
+        var printedElements = cfformat.delimited.printElements(element, settings, indent);
+
+        var openBracket = '{';
+        var closeBracket = '}';
+        if (isOrdered(element)) {
+            openBracket = '[';
+            closeBracket = ']';
+        }
 
         if (!printedElements.printed.len()) {
-            return settings['struct.empty_padding'] ? '{ }' : '{}';
+            return settings['struct.empty_padding'] ? openBracket & ' ' & closeBracket : openBracket & closeBracket;
         }
 
         var spacer = settings['struct.padding'] ? ' ' : '';
         var delimiter = ', ';
 
         if (printedElements.endingComments.isEmpty() && printedElements.afterCommaComments.isEmpty()) {
-            var formatted = '{' & spacer & printedElements.printed.tolist(delimiter) & spacer & '}';
+            var formatted = openBracket & spacer & printedElements.printed.tolist(delimiter) & spacer & closeBracket;
             if (
                 (
                     printedElements.printed.len() < settings['struct.multiline.element_count'] ||
@@ -64,15 +83,24 @@ component {
             }
         }
 
-        var formattedText = '{';
+        var formattedText = openBracket;
         formattedText &= cfformat.delimited.joinElements(
             'struct',
             printedElements,
             settings,
             indent
         );
-        formattedText &= settings.lf & cfformat.indentTo(indent, settings) & '}';
+        formattedText &= settings.lf & cfformat.indentTo(indent, settings) & closeBracket;
         return formattedText;
+    }
+
+    private boolean function isOrdered(element) {
+        for (var group in element.delimited_elements) {
+            for (var token in group) {
+                if (isArray(token) && token[2].find('meta.mapping.cfml')) return true;
+            }
+        }
+        return false;
     }
 
 }
