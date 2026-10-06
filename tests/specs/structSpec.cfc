@@ -12,6 +12,9 @@ component extends=tests.FormatBaseSpec {
                 runTests(loadData('structSeparator'));
                 runTests(loadData('structFunction'));
             });
+            it('keeps a spaced struct separator stable when the input is already formatted', function() {
+                runTests(loadData('structSeparatorStable'));
+            });
             it('splits structs onto multiple lines', function() {
                 runTests(loadData('structMultiline'));
             });

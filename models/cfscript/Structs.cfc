@@ -32,11 +32,14 @@ component {
     ) {
         if (cftokens.peekScopeStartsWith(structKey)) {
             var token = cftokens.next(whitespace = false);
+            // with the cftokens syntax updates the struct key scope includes
+            // whitespace after the key and before ':' or '='
+            var key = token[1].trim();
             if (settings['struct.quote_keys']) {
                 var quote = settings['strings.quote'] == 'double' ? '"' : '''';
-                return quote & token[1] & quote;
+                return quote & key & quote;
             }
-            return token[1];
+            return key;
         }
 
         if (
