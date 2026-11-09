@@ -100,7 +100,17 @@ component {
     private boolean function isOrdered(element) {
         for (var group in element.delimited_elements) {
             for (var token in group) {
-                if (isArray(token) && token[2].find('meta.mapping.cfml')) return true;
+                if (!isArray(token)) {
+                    continue;
+                }
+                for (var i = token[2].len(); i > 0; i--) {
+                    if (token[2][i] == 'meta.struct-literal.cfml') {
+                        return false;
+                    }
+                    if (token[2][i] == 'meta.mapping.cfml') {
+                        return true;
+                    }
+                }
             }
         }
         return false;
